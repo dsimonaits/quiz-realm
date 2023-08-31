@@ -8,7 +8,7 @@ Welcome to QuizRealm, your ultimate destination for mastering JavaScript and exp
 
 QuizRealm is a feature-packed quiz platform designed to help you enhance your JavaScript skills and delve into related tech topics. With a wide range of quizzes and questions, you can expect:
 
-- **JavaScript Mastery**: Our core focus is JavaScript, providing you with in-depth quizzes to strengthen your coding skills.
+- **JavaScript Mastery**: core focus is JavaScript, providing you with in-depth quizzes to strengthen your coding skills.
 
 - **Beyond JavaScript**: Explore related technologies, frameworks, and languages to broaden your tech horizons.
 
@@ -22,7 +22,7 @@ QuizRealm is a feature-packed quiz platform designed to help you enhance your Ja
 
 - **Progress Tracking**: Monitor your progress and see how far you've come in your learning journey.
 
-- **Interactive UI**: Our user-friendly interface makes learning enjoyable and accessible.
+- **Interactive UI**: user-friendly interface makes learning enjoyable and accessible.
 
 ## Getting Started
 
@@ -40,7 +40,7 @@ QuizRealm is a feature-packed quiz platform designed to help you enhance your Ja
 
 ## Feedback
 
-Have suggestions, questions, or feedback? Reach out to us at [dsimonaits@gmail.com](mailto:dsimonaits@gmail.com).
+Have suggestions, questions, or feedback? Reach out to me at [dsimonaits@gmail.com](mailto:dsimonaits@gmail.com).
 
 ---
 
