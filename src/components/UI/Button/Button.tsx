@@ -3,10 +3,11 @@ import React, { ButtonHTMLAttributes, FC, ReactNode } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
+  onClickHandler: () => void;
   styles?: String;
 }
 
-const QuizButton: FC<ButtonProps> = ({ children }) => {
+const QuizButton: FC<ButtonProps> = ({ children, onClickHandler }) => {
   return (
     <Box
       as="button"
@@ -15,19 +16,22 @@ const QuizButton: FC<ButtonProps> = ({ children }) => {
       px="20px"
       borderRadius="none"
       bg="transparent"
-      border="1px solid #FCC822"
-      color="#FCC822"
-      _hover={{ bg: "#FCC822", color: "white" }}
-      _active={{
-        bg: "#FCC822",
+      border="1px solid"
+      borderColor="quizMain.100"
+      color="quizMain.100"
+      _hover={{
+        bg: "quizMain.100",
         color: "white",
-        transform: "scale(0.98)",
+      }}
+      _active={{
+        bg: "quizMain.100",
+        color: "white",
       }}
       _focus={{
-        boxShadow:
-          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+        boxShadow: "0 0 1px 2px quizMain.100",
       }}
       transition="var(--transition)"
+      onClick={() => onClickHandler()}
     >
       {children}
     </Box>

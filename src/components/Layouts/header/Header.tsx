@@ -14,6 +14,7 @@ import {
   MenuList,
   IconButton,
   StackProps,
+  textDecoration,
 } from "@chakra-ui/react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { NavLink as ReactRouterLink } from "react-router-dom";
@@ -37,8 +38,8 @@ const Header = () => {
         as={ReactRouterLink}
         to={link.path}
         key={link.path}
-        _activeLink={{ color: "quizYellow.100", fontWeight: "bold" }}
-        onClick={() => setAriaExpended(0)}
+        _activeLink={{ color: "quizMain.100", fontWeight: "bold" }}
+        _hover={{ color: "quizMain.100" }}
       >
         {link.name}
       </ChakraLink>
@@ -46,6 +47,7 @@ const Header = () => {
   };
 
   const Links = [
+    { name: "Home", path: "/" },
     { name: "How it works", path: "how-it-works" },
     { name: "Features", path: "features" },
     { name: "About", path: "about" },
@@ -62,9 +64,16 @@ const Header = () => {
         m="auto"
       >
         <Flex justifyContent="space-between" alignItems="center">
-          <ChakraLink as={ReactRouterLink} to={"/"}>
+          <ChakraLink
+            as={ReactRouterLink}
+            to={"/"}
+            _hover={{
+              textDecorationColor: "none",
+              textDecorationStyle: "none",
+            }}
+          >
             <Heading fontWeight="bold" fontSize="20">
-              QuizRealm |<Text color="quizYellow.500"> JS and Beyond</Text>
+              QuizRealm |<Text color="quizMain.100"> JS and Beyond</Text>
             </Heading>
           </ChakraLink>{" "}
           <Hide breakpoint="(max-width: 768px)">
