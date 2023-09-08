@@ -1,0 +1,87 @@
+.overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.wrapper {
+  top: 10%;
+  position: relative;
+  width: 100px;
+  height: 300px;
+}
+
+.close {
+  top: -15px;
+  right: -15px;
+  position: absolute;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.backdrop {
+  position: absolute;
+  margin: 10% auto 0;
+
+  width: auto;
+  border-radius: 10px;
+  background: linear-gradient(0deg, black, rgb(107, 106, 106));
+  padding: 10px;
+  cursor: pointer;
+}
+
+.glow::after {
+  content: "";
+  position: absolute;
+  left: -3px;
+  top: -3px;
+  background: linear-gradient(
+    45deg,
+    var(--secondaryColor),
+    var(--reactColor),
+    var(--nodeColor)
+  );
+  background-size: 400%;
+  width: calc(100% + 5px);
+  height: calc(100% + 5px);
+  z-index: -1;
+  animation: animate 5s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    background-position: 0 0;
+    scale: 1;
+  }
+  50% {
+    background-position: 50% 0;
+    scale: 2;
+  }
+  100% {
+    background-position: 100% 0;
+    scale: 0.5;
+  }
+}
+
+.glow::after {
+  filter: blur(20px);
+}
+
+.backdrop:hover .button {
+  color: white;
+}
+
+.button {
+  color: var(--secondaryColor);
+}
