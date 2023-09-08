@@ -1,16 +1,9 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import QuizButton from "../components/UI/Button/Button";
+import React, { useEffect, useState } from "react";
 
-const QuizPage = () => {
-  const categoryParams = useParams();
-  const navigate = useNavigate();
-  return (
-    <>
-      <QuizButton onClickHandler={() => navigate(-1)}>Go back</QuizButton>
-      <div>This is a "{categoryParams.id}" Quiz Page</div>;
-    </>
-  );
-};
+import { observer } from "mobx-react-lite";
+
+const QuizPage = observer(() => {
+  return <div></div>;
+});
 
 export default QuizPage;
