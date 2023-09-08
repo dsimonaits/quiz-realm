@@ -6,30 +6,24 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { FC, ReactNode } from "react";
-import QuizButton from "../Button/Button";
 
 interface ModalProps {
   children: ReactNode;
   modalTitle: string;
-  buttonName: string;
   disclosure: any;
   styles?: String;
 }
 
-const QuizModal: FC<ModalProps> = ({
-  children,
-  modalTitle,
-  buttonName,
-  disclosure,
-}) => {
+const QuizModal: FC<ModalProps> = ({ children, modalTitle, disclosure }) => {
   return (
     <>
-      <QuizButton onClickHandler={disclosure.onOpen}>{buttonName}</QuizButton>
-
-      <Modal isOpen={disclosure.isOpen} onClose={disclosure.onClose}>
+      <Modal
+        isOpen={disclosure.isOpen}
+        onClose={disclosure.onClose}
+        size={["lg", "lg", "2xl"]}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{modalTitle}</ModalHeader>

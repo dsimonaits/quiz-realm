@@ -4,14 +4,13 @@ import React, { ButtonHTMLAttributes, FC, ReactNode } from "react";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   onClickHandler: () => void;
-  styles?: String;
 }
 
 const QuizButton: FC<ButtonProps> = ({ children, onClickHandler }) => {
   return (
     <Box
       as="button"
-      //   w="78px"
+      maxWidth="200px"
       h="32px"
       px="20px"
       borderRadius="none"
