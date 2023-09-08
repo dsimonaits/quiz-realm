@@ -1,24 +1,25 @@
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./components/Layouts/MainLayout/MainLayout";
-import HowItWorks from "./Pages/HowItWorks";
-import Features from "./Pages/Features";
-import About from "./Pages/About";
-import Welcome from "./Pages/Welcome";
+import HowItWorks from "./Pages/HowItWorksPage";
+import Features from "./Pages/FeaturesPage";
+import About from "./Pages/AboutPage";
 import { ChakraProvider } from "@chakra-ui/react";
 import { MainTheme } from "./styles/theme/styles";
 import QuizPage from "./Pages/QuizPage";
+import HomePage from "./Pages/HomePage";
+import StartLearning from "./components/Layouts/StartLearning/StartLearning";
 
 function App() {
   return (
     <ChakraProvider theme={MainTheme}>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Welcome />} />
+          <Route index element={<HomePage />} />
           <Route path="how-it-works" element={<HowItWorks />} />
           <Route path="features" element={<Features />} />
           <Route path="about" element={<About />} />
-          <Route path="category/:id" element={<QuizPage />} />
-          <Route path="*" element={<Welcome />} />
+          <Route path="quiz-page" element={<StartLearning />} />
+          <Route path="*" element={<HomePage />} />
         </Route>
       </Routes>
     </ChakraProvider>
