@@ -1,51 +1,24 @@
 import React, { ElementType, FC, useState } from "react";
+import { NavLink as ReactRouterLink } from "react-router-dom";
 import {
   Box,
   Flex,
   HStack,
-  Heading,
-  Text,
   Divider,
   Show,
   Hide,
   Menu,
   MenuButton,
-  MenuItem,
   MenuList,
   IconButton,
-  StackProps,
-  textDecoration,
 } from "@chakra-ui/react";
-import { Link as ChakraLink } from "@chakra-ui/react";
-import { NavLink as ReactRouterLink } from "react-router-dom";
-import QuizButton from "../../UI/Button/Button";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import Navigation from "../../UI/Navigation/Navigation";
+import QuizButton from "../../UI/Button/Button";
 
-interface NavProps {
-  links: ILink[];
-}
+import Logo from "../../Logo/Logo";
 
-interface ILink {
-  name: string;
-  path: string;
-}
 const Header = () => {
-  const [ariaExpended, setAriaExpended] = useState(1);
-
-  const Nav: FC<NavProps> = ({ links }) => {
-    return links.map((link: ILink) => (
-      <ChakraLink
-        as={ReactRouterLink}
-        to={link.path}
-        key={link.path}
-        _activeLink={{ color: "quizMain.100", fontWeight: "bold" }}
-        _hover={{ color: "quizMain.100" }}
-      >
-        {link.name}
-      </ChakraLink>
-    ));
-  };
-
   const Links = [
     { name: "Home", path: "/" },
     { name: "How it works", path: "how-it-works" },
@@ -64,23 +37,14 @@ const Header = () => {
         m="auto"
       >
         <Flex justifyContent="space-between" alignItems="center">
-          <ChakraLink
-            as={ReactRouterLink}
-            to={"/"}
-            _hover={{
-              textDecorationColor: "none",
-              textDecorationStyle: "none",
-            }}
-          >
-            <Heading fontWeight="bold" fontSize="20">
-              QuizRealm |<Text color="quizMain.100"> JS and Beyond</Text>
-            </Heading>
-          </ChakraLink>{" "}
+          <Logo />
           <Hide breakpoint="(max-width: 768px)">
-            <HStack spacing="60px">
-              <Nav links={Links} />
+            <HStack spacing="30px">
+              <Navigation links={Links} />
             </HStack>
-            <QuizButton>Login</QuizButton>
+            <QuizButton onClickHandler={() => console.log("I am login button")}>
+              Login
+            </QuizButton>
           </Hide>
           <Show breakpoint="(max-width: 768px)">
             <Menu>
@@ -95,11 +59,8 @@ const Header = () => {
                 p="20px"
                 flexDirection="column"
                 alignItems="center"
-                opacity={ariaExpended === 0 ? "0" : "1"}
-                visibility={ariaExpended === 0 ? "hidden" : "visible"}
-                transform={ariaExpended === 0 ? "translateZ(0px)" : "none"}
               >
-                <Nav links={Links} />
+                <Navigation links={Links} />
               </MenuList>
             </Menu>
           </Show>

@@ -21,13 +21,6 @@ const HomePage: FC = () => {
       px={["20px", "20px", "40px"]}
       py={["20px", "20px", "40px"]}
     >
-      <Box
-        position="absolute"
-        left="20px"
-        bottom="20px"
-        display="flex"
-        justifyContent="center"
-      ></Box>
       <Welcome>
         <StartLearning />
       </Welcome>

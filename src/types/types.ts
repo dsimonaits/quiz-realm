@@ -1,3 +1,8 @@
+export interface ILink {
+  name: string;
+  path: string;
+}
+
 export interface IQuiz {
   id: number;
   category: string;

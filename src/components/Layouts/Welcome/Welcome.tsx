@@ -8,16 +8,16 @@ interface IWelcome {
 const Welcome: FC<IWelcome> = ({ children }) => {
   return (
     <Flex
-      // position="relative"
+      display="flex"
+      position="relative"
       flexDirection={["column", "column", "row"]}
-      justifyContent="center"
       align="center"
       pl={["0", "0", "45"]}
       pt={["10", "10", "0"]}
     >
       <Stack
         gap="20px"
-        // flex="1"
+        flex="1"
         alignItems={["center", "center", "flex-start"]}
         justifyContent="center"
       >
@@ -30,16 +30,16 @@ const Welcome: FC<IWelcome> = ({ children }) => {
         src="hero.png"
         alt="people with question marks"
         srcSet="hero.png 1x, hero(x2).png 2x"
-        // flex="1"
-        width="50%"
+        flex="1"
+        width="400px"
       />
-      <Image
+      {/* <Image
         position="absolute"
         bottom="0"
         left="0"
         src="curvedLine.png"
         alt="Curved line"
-      />
+      /> */}
     </Flex>
   );
 };

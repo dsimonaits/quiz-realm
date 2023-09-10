@@ -19,16 +19,25 @@ class Store {
   constructor() {
     makeAutoObservable(this, {
       QuizzesData: observable,
-      selectedTopics: observable,
-      selectedCategory: observable,
       StartQuizData: observable,
+      selectedCategory: observable,
+      selectedTopics: observable,
+      setCategory: action,
+      getAllCategories: action,
       setTopic: action,
       getAllTopics: action,
-      getAllCategories: action,
-      setCategory: action,
       getQuestionsByCategoryAndTopics: action,
       resetStore: action,
     });
+  }
+
+  getAllCategories() {
+    const categories = [...new Set(QuizData.map((quiz) => quiz.category))];
+    return categories;
+  }
+
+  setCategory(category: string) {
+    this.selectedCategory = category;
   }
 
   getAllTopics(categoryName: string) {
@@ -40,17 +49,8 @@ class Store {
     return uniqueTopics;
   }
 
-  getAllCategories() {
-    const categories = [...new Set(QuizData.map((quiz) => quiz.category))];
-    return categories;
-  }
-
   setTopic(topic: string[]) {
     this.selectedTopics = [...topic];
-  }
-
-  setCategory(category: string) {
-    this.selectedCategory = category;
   }
 
   getQuestionsByCategoryAndTopics() {
