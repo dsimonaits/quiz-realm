@@ -15,7 +15,6 @@ const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onSubmit }) => {
     if (checked.includes(topic)) {
       setChecked(checked.filter((r) => r !== topic));
     } else {
-      // If the role is not in the array, add it
       setChecked([...checked, topic]);
     }
   };
@@ -85,6 +84,9 @@ const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onSubmit }) => {
       </Flex>
       <QuizButton
         onClickHandler={() => {
+          if (checked.length === 0) {
+            return alert("Please choose option");
+          }
           onSubmit(checked);
         }}
       >

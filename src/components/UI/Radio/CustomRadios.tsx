@@ -17,7 +17,7 @@ const CustomRadios: FC<RadioProps> = ({ options, onChange }) => {
       onChange={setOption}
       gap="20px"
     >
-      <Stack justify="space-around" direction="row">
+      <Stack justify="space-around" direction="column">
         {options.map((option: string) => {
           return (
             <Radio key={option} value={option}>

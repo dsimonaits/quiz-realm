@@ -23,20 +23,21 @@ const StartLearning = observer(() => {
 
   useEffect(() => {
     if (startLearning) {
+      quizStoreInstance.resetStore();
+      setAllTopics([]);
       quizPageModalDisclosure.onOpen();
     }
     if (!quizPageModalDisclosure.isOpen) {
       setStartLearning(false);
     }
-    setAllTopics([]);
-    quizStoreInstance.resetStore;
   }, [startLearning, quizPageModalDisclosure.isOpen]);
 
   useEffect(() => {
-    if (selectedCategory) {
-      const topics = quizStoreInstance.getAllTopics(selectedCategory);
-      setAllTopics(topics);
+    if (!selectedCategory) {
+      return;
     }
+    const topics = quizStoreInstance.getAllTopics(selectedCategory);
+    setAllTopics(topics);
   }, [selectedCategory]);
 
   const handleCheckboxChange = (topic: string[]) => {
@@ -45,6 +46,8 @@ const StartLearning = observer(() => {
   };
 
   const handleRadioChange = (value: string) => {
+    if (selectedCategory !== "") {
+    }
     quizStoreInstance.setCategory(value);
   };
 
@@ -63,7 +66,6 @@ const StartLearning = observer(() => {
       <QuizButton
         onClickHandler={() => {
           setStartLearning(true);
-          console.log(selectedTopics, selectedCategory);
         }}
       >
         Start Learning
