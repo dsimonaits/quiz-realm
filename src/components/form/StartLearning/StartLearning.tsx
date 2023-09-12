@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { VStack, useDisclosure } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import QuizStore from "../../../store/QuizStore";
@@ -15,10 +14,12 @@ const StartLearning = observer(() => {
   const quizStoreInstance = QuizStore;
 
   const allCategories = quizStoreInstance.getAllCategories();
-  const selectedCategory: string = quizStoreInstance.selectedCategory;
+  const selectedCategory = quizStoreInstance.selectedCategory;
   const selectedTopics = quizStoreInstance.selectedTopics;
 
   const quizPageModalDisclosure = useDisclosure();
+
+  const linkPath = "/quiz-page";
 
   useEffect(() => {
     if (startLearning) {
@@ -50,6 +51,7 @@ const StartLearning = observer(() => {
   const handleStartQuiz = async () => {
     const questions = quizStoreInstance.getQuestionsByCategoryAndTopics();
     quizStoreInstance.setStartQuizData(questions);
+    quizStoreInstance.resetStore();
   };
 
   const handleEndQuiz = () => {
@@ -92,6 +94,7 @@ const StartLearning = observer(() => {
         <StartQuizBtn
           onBtnClick={handleStartQuiz}
           onCloseClick={handleEndQuiz}
+          linkPath={linkPath}
         />
       )}
     </>

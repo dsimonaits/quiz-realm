@@ -13,7 +13,7 @@
 }
 
 .wrapper {
-  top: 10%;
+  top: 30%;
   position: relative;
   width: 100px;
   height: 300px;
@@ -30,7 +30,7 @@
   }
 }
 
-.backdrop {
+.StartQuizBtn {
   position: absolute;
   margin: 10% auto 0;
 
@@ -76,12 +76,4 @@
 
 .glow::after {
   filter: blur(20px);
-}
-
-.backdrop:hover .button {
-  color: white;
-}
-
-.button {
-  color: var(--secondaryColor);
 }

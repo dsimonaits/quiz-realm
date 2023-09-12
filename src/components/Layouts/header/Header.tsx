@@ -1,7 +1,5 @@
-import React, { ElementType, FC, useState } from "react";
-import { NavLink as ReactRouterLink } from "react-router-dom";
+import React from "react";
 import {
-  Box,
   Flex,
   HStack,
   Divider,
@@ -16,7 +14,9 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import Navigation from "../../UI/Navigation/Navigation";
 import QuizButton from "../../UI/Button/Button";
 
-import Logo from "../../Logo/Logo";
+import Logo from "../../UI/Logo/Logo";
+import Section from "../Section/Section";
+import MainContainer from "../Container/Container";
 
 const Header = () => {
   const Links = [
@@ -28,45 +28,42 @@ const Header = () => {
 
   return (
     <>
-      <Box
-        as="section"
-        maxWidth="1200px"
-        height="80px"
-        pt="30px"
-        px={["20px", "20px", "60px"]}
-        m="auto"
-      >
-        <Flex justifyContent="space-between" alignItems="center">
-          <Logo />
-          <Hide breakpoint="(max-width: 768px)">
-            <HStack spacing="30px">
-              <Navigation links={Links} />
-            </HStack>
-            <QuizButton onClickHandler={() => console.log("I am login button")}>
-              Login
-            </QuizButton>
-          </Hide>
-          <Show breakpoint="(max-width: 768px)">
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label="Options"
-                icon={<HamburgerIcon w="40px" h="40px" />}
-                variant="unstyled"
-              />
-              <MenuList
-                display="flex"
-                p="20px"
-                flexDirection="column"
-                alignItems="center"
-              >
+      <Section>
+        <MainContainer>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Logo />
+            <Hide breakpoint="(max-width: 768px)">
+              <HStack spacing="30px">
                 <Navigation links={Links} />
-              </MenuList>
-            </Menu>
-          </Show>
-        </Flex>
-      </Box>
-      <Divider mt="6px" />
+              </HStack>
+              <QuizButton
+                onClickHandler={() => console.log("I am login button")}
+              >
+                Login
+              </QuizButton>
+            </Hide>
+            <Show breakpoint="(max-width: 768px)">
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={<HamburgerIcon w="40px" h="40px" />}
+                  variant="unstyled"
+                />
+                <MenuList
+                  display="flex"
+                  p="20px"
+                  flexDirection="column"
+                  alignItems="center"
+                >
+                  <Navigation links={Links} />
+                </MenuList>
+              </Menu>
+            </Show>
+          </Flex>
+          <Divider mt="6px" />
+        </MainContainer>
+      </Section>
     </>
   );
 };

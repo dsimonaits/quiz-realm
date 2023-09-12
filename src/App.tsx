@@ -5,9 +5,8 @@ import Features from "./Pages/FeaturesPage";
 import About from "./Pages/AboutPage";
 import { ChakraProvider } from "@chakra-ui/react";
 import { MainTheme } from "./styles/theme/styles";
-import QuizPage from "./Pages/QuizPage";
+import { QuizPage } from "./Pages/QuizPage";
 import HomePage from "./Pages/HomePage";
-import StartLearning from "./components/Layouts/StartLearning/StartLearning";
 
 function App() {
   return (
@@ -18,7 +17,7 @@ function App() {
           <Route path="how-it-works" element={<HowItWorks />} />
           <Route path="features" element={<Features />} />
           <Route path="about" element={<About />} />
-          <Route path="quiz-page" element={<StartLearning />} />
+          <Route path="quiz-page" element={<QuizPage />} />
           <Route path="*" element={<HomePage />} />
         </Route>
       </Routes>

@@ -64,13 +64,11 @@ class Store {
 
   setStartQuizData(questions: IQuiz[]) {
     this.StartQuizData = [...questions];
-    console.log(this.StartQuizData);
   }
 
   resetStore() {
     this.selectedTopics = [];
     this.selectedCategory = "";
-    this.StartQuizData = [];
   }
 }
 
