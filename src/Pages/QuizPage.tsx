@@ -102,7 +102,6 @@ export const QuizPage = observer(() => {
               options={shuffledAnswers}
               onChange={handleSetAnswer}
             />
-            <QuizButton onClickHandler={() => {}}>Previous</QuizButton>
             <QuizButton onClickHandler={handleOnNext}>Next</QuizButton>
           </>
         )}
