@@ -7,7 +7,7 @@ const HomePage: FC = () => {
   return (
     <Section>
       <Welcome>
-        <StartLearning />
+        <StartLearning>Start Learning</StartLearning>
       </Welcome>
     </Section>
   );

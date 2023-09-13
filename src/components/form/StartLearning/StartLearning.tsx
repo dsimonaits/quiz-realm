@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, ReactNode, useEffect, useState } from "react";
 import { VStack, useDisclosure } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import QuizStore from "../../../store/QuizStore";
@@ -8,7 +8,11 @@ import QuizModal from "../../UI/Modal/Modal";
 import CustomRadios from "../../UI/Radio/CustomRadios";
 import StartQuizBtn from "../../UI/StartQuizBtn/StartQuizBtn";
 
-const StartLearning = observer(() => {
+type Learning = {
+  children: ReactNode;
+};
+
+const StartLearning: FC<Learning> = observer(({ children }) => {
   const [allTopics, setAllTopics] = useState<string[]>([]);
   const [startLearning, setStartLearning] = useState(false);
   const quizStoreInstance = QuizStore;
@@ -68,7 +72,7 @@ const StartLearning = observer(() => {
           setStartLearning(true);
         }}
       >
-        Start Learning
+        {children}
       </QuizButton>
       <QuizModal
         disclosure={quizPageModalDisclosure}

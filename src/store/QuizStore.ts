@@ -80,6 +80,8 @@ class Store {
   resetStore() {
     this.selectedTopics = [];
     this.selectedCategory = "";
+    this.selectedAnswer = "";
+    this.userResult = { good: 0, fault: 0 };
   }
 
   setAnswer(answer: string) {
@@ -88,7 +90,6 @@ class Store {
 
   setUserResult(result: boolean) {
     result ? (this.userResult.good += 1) : (this.userResult.fault += 1);
-    console.log(this.userResult.good);
   }
 }
 

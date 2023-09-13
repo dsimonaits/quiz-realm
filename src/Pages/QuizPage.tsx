@@ -1,6 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Box, HStack, List, ListItem, Text } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  List,
+  ListItem,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import Section from "../components/Layouts/Section/Section";
 import QuizStore from "../store/QuizStore";
 import MainContainer from "../components/Layouts/Container/Container";
@@ -9,24 +16,41 @@ import { IQuiz } from "../types/types";
 import shuffleArray from "../utils/arrayUtils";
 import CustomRadios2 from "../components/UI/Radio/CustomRadios2";
 import QuizButton from "../components/UI/Button/Button";
+import StartLearning from "../components/form/StartLearning/StartLearning";
+import QuizModal from "../components/UI/Modal/Modal";
 
 export const QuizPage = observer(() => {
   const [quizNumber, setQuizNumber] = useState(0);
   const [currentQuiz, setCurrentQuiz] = useState<IQuiz | null>(null);
+  const [showResult, setShowResult] = useState(false);
 
   const quizStoreInstance = QuizStore;
   const quizzes = quizStoreInstance.StartQuizData;
   const navigate = useNavigate();
 
+  const resultModalDisclosure = useDisclosure();
+
+  const handleComplete = () => {
+    resultModalDisclosure.onClose();
+    quizStoreInstance.resetStore();
+    navigate("/");
+  };
+
   useEffect(() => {
     if (quizzes.length === 0) navigate("/");
     if (quizzes.length < quizNumber + 1) {
+      setShowResult(true);
+      resultModalDisclosure.onOpen();
+
       return;
     }
     setCurrentQuiz(quizzes[quizNumber]);
-    console.log(quizNumber);
-    console.log(quizzes.length);
   }, [quizNumber]);
+
+  useEffect(() => {
+    if (showResult && !resultModalDisclosure.isOpen)
+      resultModalDisclosure.onOpen();
+  }, [showResult, resultModalDisclosure]);
 
   if (currentQuiz === null) {
     return null;
@@ -34,7 +58,6 @@ export const QuizPage = observer(() => {
 
   const handleSetAnswer = (value: string) => {
     quizStoreInstance.setAnswer(value);
-    console.log(quizStoreInstance.selectedAnswer);
   };
 
   const handleOnNext = () => {
@@ -43,17 +66,6 @@ export const QuizPage = observer(() => {
       : quizStoreInstance.setUserResult(false);
 
     setQuizNumber(quizNumber + 1);
-
-    console.log(
-      "selected",
-      quizStoreInstance.selectedAnswer,
-      "current",
-      currentQuiz.answers.answer
-    );
-
-    console.log(
-      quizStoreInstance.selectedAnswer === currentQuiz.answers.answer
-    );
   };
   const shuffledAnswers: string[] = shuffleArray(
     Object.values(currentQuiz.answers)
@@ -62,11 +74,16 @@ export const QuizPage = observer(() => {
   return (
     <Section>
       <MainContainer>
-        {quizzes.length < quizNumber + 1 ? (
-          <p>
-            Good: {quizStoreInstance.userResult.good} <br /> Fault:
-            {quizStoreInstance.userResult.fault}{" "}
-          </p>
+        {showResult ? (
+          <QuizModal modalTitle="Your Score" disclosure={resultModalDisclosure}>
+            <p>
+              Good: {quizStoreInstance.userResult.good} <br /> Fault:
+              {quizStoreInstance.userResult.fault}{" "}
+            </p>
+            <HStack justify="center" gap="20px">
+              <QuizButton onClickHandler={handleComplete}>Complete</QuizButton>
+            </HStack>
+          </QuizModal>
         ) : (
           <>
             <Box
