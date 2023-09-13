@@ -92,17 +92,21 @@ export const QuizPage = observer(() => {
               p="20px"
               fontSize="1.5rem"
               width="100%"
-              minH="30vh"
+              minH="5rem"
               bg="var(--secondaryColor)"
               color="white"
             >
               <Text>{currentQuiz?.question}</Text>
             </Box>
-            <CustomRadios2
-              options={shuffledAnswers}
-              onChange={handleSetAnswer}
-            />
-            <QuizButton onClickHandler={handleOnNext}>Next</QuizButton>
+            <Box py="20px">
+              <CustomRadios2
+                options={shuffledAnswers}
+                onChange={handleSetAnswer}
+              />
+              <QuizButton style={{ mt: "20px" }} onClickHandler={handleOnNext}>
+                Next
+              </QuizButton>
+            </Box>
           </>
         )}
       </MainContainer>

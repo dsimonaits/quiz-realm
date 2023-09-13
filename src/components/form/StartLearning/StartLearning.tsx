@@ -19,11 +19,8 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
 
   const allCategories = quizStoreInstance.getAllCategories();
   const selectedCategory = quizStoreInstance.selectedCategory;
-  const selectedTopics = quizStoreInstance.selectedTopics;
 
   const quizPageModalDisclosure = useDisclosure();
-
-  const linkPath = "/quiz-page";
 
   useEffect(() => {
     if (startLearning) {
@@ -53,16 +50,6 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
     if (selectedCategory !== "") {
     }
     quizStoreInstance.setCategory(value);
-  };
-
-  const handleStartQuiz = async () => {
-    const questions = quizStoreInstance.getQuestionsByCategoryAndTopics();
-    quizStoreInstance.setStartQuizData(questions);
-    quizStoreInstance.resetStore();
-  };
-
-  const handleEndQuiz = () => {
-    quizStoreInstance.resetStore();
   };
 
   return (
@@ -96,13 +83,6 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
           </VStack>
         )}
       </QuizModal>
-      {selectedTopics.length > 0 && selectedCategory.length > 0 && (
-        <StartQuizBtn
-          onBtnClick={handleStartQuiz}
-          onCloseClick={handleEndQuiz}
-          linkPath={linkPath}
-        />
-      )}
     </>
   );
 });

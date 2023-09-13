@@ -7,7 +7,12 @@ interface ICon {
 
 const MainContainer: FC<ICon> = ({ children }) => {
   return (
-    <Container mx="auto" px={["20px", "20px", "40px"]} maxWidth="1200px">
+    <Container
+      position="relative"
+      mx="auto"
+      px={["20px", "20px", "40px"]}
+      maxWidth="1200px"
+    >
       {children}
     </Container>
   );

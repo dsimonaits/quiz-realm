@@ -7,7 +7,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { MainTheme } from "./styles/theme/styles";
 import { QuizPage } from "./Pages/QuizPage";
 import HomePage from "./Pages/HomePage";
-import ResultPage from "./Pages/ResultPage";
 
 function App() {
   return (

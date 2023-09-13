@@ -1,12 +1,13 @@
-import { Box } from "@chakra-ui/react";
-import React, { ButtonHTMLAttributes, FC, ReactNode } from "react";
+import { Box, BoxProps } from "@chakra-ui/react";
+import React, { FC, ReactNode } from "react";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps {
   children: ReactNode;
   onClickHandler: () => void;
+  style?: BoxProps;
 }
 
-const QuizButton: FC<ButtonProps> = ({ children, onClickHandler }) => {
+const QuizButton: FC<ButtonProps> = ({ children, onClickHandler, style }) => {
   return (
     <Box
       as="button"
@@ -31,6 +32,7 @@ const QuizButton: FC<ButtonProps> = ({ children, onClickHandler }) => {
       }}
       transition="var(--transition)"
       onClick={() => onClickHandler()}
+      {...style}
     >
       {children}
     </Box>
