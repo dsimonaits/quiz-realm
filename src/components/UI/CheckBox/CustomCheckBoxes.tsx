@@ -2,14 +2,13 @@ import { Flex, Text, VStack, chakra, useCheckbox } from "@chakra-ui/react";
 import { HiX } from "react-icons/hi";
 import React, { FC, useState } from "react";
 import { observer } from "mobx-react-lite";
-import QuizButton from "../Button/Button";
 
 interface ICheckbox {
   allTopics: string[];
-  onSubmit: (value: any) => void;
+  onChange: (value: any) => void;
 }
 
-const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onSubmit }) => {
+const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onChange }) => {
   const [checked, setChecked] = useState<string[]>([]);
   const handleCheckboxChange = (topic: string) => {
     if (checked.includes(topic)) {
@@ -35,6 +34,7 @@ const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onSubmit }) => {
               key={topic}
               onChange={() => {
                 handleCheckboxChange(topic);
+                onChange(topic);
               }}
               position="relative"
               display="flex"
@@ -82,16 +82,6 @@ const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onSubmit }) => {
           );
         })}
       </Flex>
-      <QuizButton
-        onClickHandler={() => {
-          if (checked.length === 0) {
-            return alert("Please choose option");
-          }
-          onSubmit(checked);
-        }}
-      >
-        Got it!
-      </QuizButton>
     </VStack>
   );
 });

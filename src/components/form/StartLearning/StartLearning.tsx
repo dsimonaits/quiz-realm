@@ -6,6 +6,7 @@ import QuizButton from "../../UI/Button/Button";
 import CustomCheckboxes from "../../UI/CheckBox/CustomCheckBoxes";
 import QuizModal from "../../UI/Modal/Modal";
 import CustomRadios from "../../UI/Radio/CustomRadios";
+import CustomButton from "../../UI/Button/Button";
 
 type Learning = {
   children: ReactNode;
@@ -14,10 +15,13 @@ type Learning = {
 const StartLearning: FC<Learning> = observer(({ children }) => {
   const [allTopics, setAllTopics] = useState<string[]>([]);
   const [startLearning, setStartLearning] = useState(false);
+  const [learningStep, setLearningStep] = useState(false);
+
   const quizStoreInstance = QuizStore;
 
   const allCategories = quizStoreInstance.getAllCategories();
   const selectedCategory = quizStoreInstance.selectedCategory;
+  const selectedTopics = quizStoreInstance.selectedTopics;
 
   const quizPageModalDisclosure = useDisclosure();
 
@@ -29,6 +33,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
     }
     if (!quizPageModalDisclosure.isOpen) {
       setStartLearning(false);
+      setLearningStep(false);
     }
   }, [startLearning, quizPageModalDisclosure.isOpen]);
 
@@ -40,14 +45,28 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
     setAllTopics(topics);
   }, [selectedCategory]);
 
-  const handleCheckboxChange = (topic: string[]) => {
+  const handleOnNext = () => {
+    if (selectedCategory === "") {
+      return alert("Please select a category");
+    }
+
+    if (selectedTopics.length === 0 && learningStep) {
+      return alert("Please select at least one topic");
+    }
+
+    if (selectedCategory !== "" && selectedTopics.length > 0) {
+      quizStoreInstance.setStartQuiz();
+      quizPageModalDisclosure.onClose();
+    }
+
+    setLearningStep(true);
+  };
+
+  const handleCheckboxChange = (topic: string) => {
     quizStoreInstance.setTopic(topic);
-    quizPageModalDisclosure.onClose();
   };
 
   const handleRadioChange = (value: string) => {
-    if (selectedCategory !== "") {
-    }
     quizStoreInstance.setCategory(value);
   };
 
@@ -68,10 +87,10 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
             : "Choose your category"
         }
       >
-        {allTopics.length !== 0 ? (
+        {learningStep ? (
           <CustomCheckboxes
             allTopics={allTopics}
-            onSubmit={handleCheckboxChange}
+            onChange={handleCheckboxChange}
           />
         ) : (
           <VStack gap="20px">
@@ -81,6 +100,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
             />
           </VStack>
         )}
+        <CustomButton onClickHandler={handleOnNext}>Next</CustomButton>
       </QuizModal>
     </>
   );

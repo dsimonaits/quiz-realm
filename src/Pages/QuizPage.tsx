@@ -41,8 +41,7 @@ export const QuizPage = observer(() => {
   }, [quizNumber]);
 
   useEffect(() => {
-    if (showResult && !resultModalDisclosure.isOpen)
-      resultModalDisclosure.onOpen();
+    if (showResult && !resultModalDisclosure.isOpen) navigate("/");
   }, [showResult, resultModalDisclosure]);
 
   if (currentQuiz === null) {

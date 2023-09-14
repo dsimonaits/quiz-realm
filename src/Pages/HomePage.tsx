@@ -9,9 +9,7 @@ import { observer } from "mobx-react-lite";
 
 const HomePage: FC = observer(() => {
   const quizStoreInstance = QuizStore;
-
-  const selectedCategory = quizStoreInstance.selectedCategory;
-  const selectedTopics = quizStoreInstance.selectedTopics;
+  const startQuiz = quizStoreInstance.startQuiz;
 
   const linkPath = "/quiz-page";
 
@@ -19,10 +17,12 @@ const HomePage: FC = observer(() => {
     const questions = quizStoreInstance.getQuestionsByCategoryAndTopics();
     quizStoreInstance.setStartQuizData(questions);
     quizStoreInstance.resetStore();
+    quizStoreInstance.setStartQuiz();
   };
 
   const handleEndQuiz = () => {
     quizStoreInstance.resetStore();
+    quizStoreInstance.setStartQuiz();
   };
 
   return (
@@ -32,7 +32,7 @@ const HomePage: FC = observer(() => {
           <StartLearning>Start Learning</StartLearning>
         </Welcome>
       </MainContainer>
-      {selectedTopics.length > 0 && selectedCategory.length > 0 && (
+      {startQuiz && (
         <StartQuizBtn
           onBtnClick={handleStartQuiz}
           onCloseClick={handleEndQuiz}

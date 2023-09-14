@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import CustomRadios2 from "../Radio/CustomRadios2";
+import CustomRadios from "../Radio/CustomRadios";
 import { Box, Text } from "@chakra-ui/react";
 import CustomButton from "../Button/Button";
 
@@ -31,7 +31,7 @@ const QuizQuestion: FC<IQuizQuestion> = ({
         <Text>{question}</Text>
       </Box>
       <Box py="20px">
-        <CustomRadios2 options={answers} onChange={handleOnChange} />
+        <CustomRadios options={answers} onChange={handleOnChange} />
         <CustomButton style={{ mt: "20px" }} onClickHandler={handleOnNext}>
           Next
         </CustomButton>

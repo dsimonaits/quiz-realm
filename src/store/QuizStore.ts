@@ -19,6 +19,7 @@ class Store {
 
   QuizzesData: IQuiz[] = [...QuizData];
   StartQuizData: IQuiz[] = [];
+  startQuiz: true | false = false;
   selectedTopics: string[] = [];
   selectedCategory: string = "";
   selectedAnswer: string = "";
@@ -26,11 +27,13 @@ class Store {
   constructor() {
     makeAutoObservable(this, {
       QuizzesData: observable,
+      startQuiz: observable,
       StartQuizData: observable,
       selectedCategory: observable,
       selectedTopics: observable,
       selectedAnswer: observable,
       userResult: observable,
+      setStartQuiz: action,
       setCategory: action,
       getAllCategories: action,
       setTopic: action,
@@ -40,6 +43,10 @@ class Store {
       setAnswer: action,
       setUserResult: action,
     });
+  }
+
+  setStartQuiz() {
+    this.startQuiz = !this.startQuiz;
   }
 
   getAllCategories() {
@@ -60,8 +67,13 @@ class Store {
     return uniqueTopics;
   }
 
-  setTopic(topic: string[]) {
-    this.selectedTopics = [...topic];
+  setTopic(topic: string) {
+    console.log(topic);
+    if (this.selectedTopics.includes(topic)) {
+      this.selectedTopics = this.selectedTopics.filter((r) => r !== topic);
+    } else {
+      this.selectedTopics = [...this.selectedTopics, topic];
+    }
   }
 
   getQuestionsByCategoryAndTopics() {
