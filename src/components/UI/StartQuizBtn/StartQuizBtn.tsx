@@ -7,29 +7,33 @@ import { Button, Link } from "@chakra-ui/react";
 interface IStartQuizBtn {
   onBtnClick: () => void;
   onCloseClick: () => void;
+  linkPath: string;
 }
 
-const StartQuizBtn: FC<IStartQuizBtn> = ({ onBtnClick, onCloseClick }) => {
+const StartQuizBtn: FC<IStartQuizBtn> = ({
+  onBtnClick,
+  onCloseClick,
+  linkPath,
+}) => {
   return (
-    <>
-      <div className={cl.overlay} onClick={() => {}}>
-        <div className={cl.wrapper}>
-          <div className={cl.close} onClick={() => onCloseClick()}>
-            <HiX />
-          </div>
-          <Button
-            as={ReactRouterLink}
-            className={[cl.StartQuizBtn, cl.glow].join(" ")}
-            onClick={() => onBtnClick()}
-            color="var(--secondaryColor)"
-            bg="var(--mainColor)"
-            _hover={{ color: "white" }}
-          >
-            Start Quiz
-          </Button>
+    <div className={cl.overlay} onClick={() => {}}>
+      <div className={cl.wrapper}>
+        <div className={cl.close} onClick={() => onCloseClick()}>
+          <HiX />
         </div>
+        <Button
+          to={linkPath}
+          as={ReactRouterLink}
+          className={[cl.StartQuizBtn, cl.glow].join(" ")}
+          onClick={() => onBtnClick()}
+          color="var(--secondaryColor)"
+          bg="var(--mainColor)"
+          _hover={{ color: "white" }}
+        >
+          Start Quiz
+        </Button>
       </div>
-    </>
+    </div>
   );
 };
 

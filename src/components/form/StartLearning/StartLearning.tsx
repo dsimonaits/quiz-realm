@@ -6,7 +6,6 @@ import QuizButton from "../../UI/Button/Button";
 import CustomCheckboxes from "../../UI/CheckBox/CustomCheckBoxes";
 import QuizModal from "../../UI/Modal/Modal";
 import CustomRadios from "../../UI/Radio/CustomRadios";
-import StartQuizBtn from "../../UI/StartQuizBtn/StartQuizBtn";
 
 type Learning = {
   children: ReactNode;
