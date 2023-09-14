@@ -49,7 +49,7 @@ const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onChange }) => {
               py={1}
               pr="3rem"
               fontFamily="var(--secondaryFont)"
-              fontSize="1rem"
+              fontSize="1.1rem"
               fontWeight="medium"
               cursor="pointer"
               transition="var(--transition)"

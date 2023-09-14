@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import CustomRadios from "../Radio/CustomRadios";
 import { Box, Text } from "@chakra-ui/react";
 import CustomButton from "../Button/Button";
+import StyledCustomRadios from "../Radio/StyledCustomRadios";
 
 interface IQuizQuestion {
   question: string;
@@ -31,7 +32,11 @@ const QuizQuestion: FC<IQuizQuestion> = ({
         <Text>{question}</Text>
       </Box>
       <Box py="20px">
-        <CustomRadios options={answers} onChange={handleOnChange} />
+        <StyledCustomRadios
+          options={answers}
+          onChange={handleOnChange}
+          stackStyle={{ alignItems: "flex-start", flexDirection: "column" }}
+        />
         <CustomButton style={{ mt: "20px" }} onClickHandler={handleOnNext}>
           Next
         </CustomButton>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useDisclosure } from "@chakra-ui/react";
+import { useDisclosure, useToast } from "@chakra-ui/react";
+import Toast from "../components/UI/Toast/Toast";
 import Section from "../components/Layouts/Section/Section";
 import QuizStore from "../store/QuizStore";
 import MainContainer from "../components/Layouts/Container/Container";
@@ -21,6 +22,7 @@ export const QuizPage = observer(() => {
   const quizzes = quizStoreInstance.StartQuizData;
   const navigate = useNavigate();
 
+  const toast = useToast();
   const resultModalDisclosure = useDisclosure();
 
   const handleComplete = () => {
@@ -53,12 +55,32 @@ export const QuizPage = observer(() => {
   };
 
   const handleOnNext = () => {
-    if (quizStoreInstance.selectedAnswer === "") {
-      return alert("You forgot to answer!");
+    const isAnswerCorrect =
+      quizStoreInstance.selectedAnswer === currentQuiz?.answers.answer;
+
+    if (isAnswerCorrect) {
+      toast({
+        title: "Your answered correctly!",
+        position: "top",
+        status: "success",
+      });
+      quizStoreInstance.setUserResult(true);
+    } else {
+      toast({
+        title: "Your answered incorrectly!",
+        position: "top",
+        status: "error",
+      });
+      quizStoreInstance.setUserResult(false);
     }
-    quizStoreInstance.selectedAnswer === currentQuiz.answers.answer
-      ? quizStoreInstance.setUserResult(true)
-      : quizStoreInstance.setUserResult(false);
+    if (quizStoreInstance.selectedAnswer === "") {
+      return Toast({
+        toast,
+        title: "You forgot to answer!",
+        position: "top",
+      });
+    }
+
     quizStoreInstance.setAnswer("");
 
     setQuizNumber(quizNumber + 1);

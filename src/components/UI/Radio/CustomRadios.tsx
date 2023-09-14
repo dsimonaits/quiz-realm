@@ -1,25 +1,20 @@
-import { Radio, RadioGroup, Stack } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { BoxProps, Radio, RadioGroup, Stack } from "@chakra-ui/react";
+import { FC } from "react";
 
 interface RadioProps {
   options: string[];
   onChange: (value: string) => void;
+  stackStyle?: BoxProps;
 }
 
-const CustomRadios: FC<RadioProps> = ({ options, onChange }) => {
+const CustomRadios: FC<RadioProps> = ({ options, onChange, stackStyle }) => {
   const handleOptionChange = (value: string) => {
     onChange(value);
   };
 
   return (
-    <RadioGroup
-      display="flex"
-      alignItems="center"
-      flexDirection="column"
-      gap="20px"
-      onChange={handleOptionChange}
-    >
-      <Stack justify="space-around" direction="column">
+    <RadioGroup onChange={handleOptionChange}>
+      <Stack display="flex" {...stackStyle}>
         {options.map((option: string) => {
           return (
             <Radio key={option} value={option}>

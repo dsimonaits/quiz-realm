@@ -20,7 +20,7 @@ import MainContainer from "../Container/Container";
 
 const Header = () => {
   const Links = [
-    { name: "Home", path: "/" },
+    { name: "Quiz", path: "/" },
     { name: "How it works", path: "how-it-works" },
     { name: "About", path: "about" },
   ];

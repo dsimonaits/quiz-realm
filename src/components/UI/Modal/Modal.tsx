@@ -1,8 +1,10 @@
 import {
+  BoxProps,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalContentProps,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
@@ -13,10 +15,15 @@ interface ModalProps {
   children: ReactNode;
   modalTitle: string;
   disclosure: any;
-  styles?: String;
+  styles?: BoxProps;
 }
 
-const QuizModal: FC<ModalProps> = ({ children, modalTitle, disclosure }) => {
+const QuizModal: FC<ModalProps> = ({
+  children,
+  modalTitle,
+  disclosure,
+  styles,
+}) => {
   return (
     <>
       <Modal
@@ -28,7 +35,7 @@ const QuizModal: FC<ModalProps> = ({ children, modalTitle, disclosure }) => {
         <ModalContent>
           <ModalHeader>{modalTitle}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{children}</ModalBody>
+          <ModalBody {...styles}>{children}</ModalBody>
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>

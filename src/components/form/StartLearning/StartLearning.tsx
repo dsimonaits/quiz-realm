@@ -1,12 +1,13 @@
 import React, { FC, ReactNode, useEffect, useState } from "react";
-import { VStack, useDisclosure } from "@chakra-ui/react";
+import { VStack, useDisclosure, useToast } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import QuizStore from "../../../store/QuizStore";
 import QuizButton from "../../UI/Button/Button";
 import CustomCheckboxes from "../../UI/CheckBox/CustomCheckBoxes";
 import QuizModal from "../../UI/Modal/Modal";
-import CustomRadios from "../../UI/Radio/CustomRadios";
 import CustomButton from "../../UI/Button/Button";
+import StyledCustomRadios from "../../UI/Radio/StyledCustomRadios";
+import Toast from "../../UI/Toast/Toast";
 
 type Learning = {
   children: ReactNode;
@@ -18,6 +19,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
   const [learningStep, setLearningStep] = useState(false);
 
   const quizStoreInstance = QuizStore;
+  const toast = useToast();
 
   const allCategories = quizStoreInstance.getAllCategories();
   const selectedCategory = quizStoreInstance.selectedCategory;
@@ -47,11 +49,19 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
 
   const handleOnNext = () => {
     if (selectedCategory === "") {
-      return alert("Please select a category");
+      return Toast({
+        toast,
+        title: "Please select a category!",
+        position: "top",
+      });
     }
 
     if (selectedTopics.length === 0 && learningStep) {
-      return alert("Please select at least one topic");
+      return Toast({
+        toast,
+        title: "Please select at least one topic!",
+        position: "top",
+      });
     }
 
     if (selectedCategory !== "" && selectedTopics.length > 0) {
@@ -86,6 +96,12 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
             ? "Choose your favorite topics"
             : "Choose your category"
         }
+        styles={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "20px",
+        }}
       >
         {learningStep ? (
           <CustomCheckboxes
@@ -93,12 +109,13 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
             onChange={handleCheckboxChange}
           />
         ) : (
-          <VStack gap="20px">
-            <CustomRadios
-              options={allCategories}
-              onChange={handleRadioChange}
-            />
-          </VStack>
+          <StyledCustomRadios
+            options={allCategories}
+            onChange={handleRadioChange}
+            stackStyle={{
+              gap: "20px",
+            }}
+          />
         )}
         <CustomButton onClickHandler={handleOnNext}>Next</CustomButton>
       </QuizModal>
