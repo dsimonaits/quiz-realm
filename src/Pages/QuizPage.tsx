@@ -1,23 +1,16 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import {
-  Box,
-  HStack,
-  List,
-  ListItem,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import Section from "../components/Layouts/Section/Section";
 import QuizStore from "../store/QuizStore";
 import MainContainer from "../components/Layouts/Container/Container";
 import { useNavigate } from "react-router-dom";
 import { IQuiz } from "../types/types";
 import shuffleArray from "../utils/arrayUtils";
-import CustomRadios2 from "../components/UI/Radio/CustomRadios2";
-import QuizButton from "../components/UI/Button/Button";
-import StartLearning from "../components/form/StartLearning/StartLearning";
+
 import QuizModal from "../components/UI/Modal/Modal";
+import QuizResult from "../components/UI/QuizResult/QuizResult";
+import QuizQuestion from "../components/UI/QuizQuestion/QuizQuestion";
 
 export const QuizPage = observer(() => {
   const [quizNumber, setQuizNumber] = useState(0);
@@ -61,9 +54,13 @@ export const QuizPage = observer(() => {
   };
 
   const handleOnNext = () => {
+    if (quizStoreInstance.selectedAnswer === "") {
+      return alert("You forgot to answer!");
+    }
     quizStoreInstance.selectedAnswer === currentQuiz.answers.answer
       ? quizStoreInstance.setUserResult(true)
       : quizStoreInstance.setUserResult(false);
+    quizStoreInstance.setAnswer("");
 
     setQuizNumber(quizNumber + 1);
   };
@@ -76,37 +73,19 @@ export const QuizPage = observer(() => {
       <MainContainer>
         {showResult ? (
           <QuizModal modalTitle="Your Score" disclosure={resultModalDisclosure}>
-            <p>
-              Good: {quizStoreInstance.userResult.good} <br /> Fault:
-              {quizStoreInstance.userResult.fault}{" "}
-            </p>
-            <HStack justify="center" gap="20px">
-              <QuizButton onClickHandler={handleComplete}>Complete</QuizButton>
-            </HStack>
+            <QuizResult
+              result={quizStoreInstance.userResult}
+              btnHandle={handleComplete}
+            />
           </QuizModal>
         ) : (
           <>
-            <Box
-              display="flex"
-              alignItems="center"
-              p="20px"
-              fontSize="1.5rem"
-              width="100%"
-              minH="5rem"
-              bg="var(--secondaryColor)"
-              color="white"
-            >
-              <Text>{currentQuiz?.question}</Text>
-            </Box>
-            <Box py="20px">
-              <CustomRadios2
-                options={shuffledAnswers}
-                onChange={handleSetAnswer}
-              />
-              <QuizButton style={{ mt: "20px" }} onClickHandler={handleOnNext}>
-                Next
-              </QuizButton>
-            </Box>
+            <QuizQuestion
+              question={currentQuiz?.question}
+              answers={shuffledAnswers}
+              handleOnChange={handleSetAnswer}
+              handleOnNext={handleOnNext}
+            />
           </>
         )}
       </MainContainer>
