@@ -5,9 +5,15 @@ interface ButtonProps {
   children: ReactNode;
   onClickHandler: () => void;
   style?: BoxProps;
+  className?: string;
 }
 
-const QuizButton: FC<ButtonProps> = ({ children, onClickHandler, style }) => {
+const CustomButton: FC<ButtonProps> = ({
+  children,
+  onClickHandler,
+  style,
+  className,
+}) => {
   return (
     <Box
       as="button"
@@ -33,10 +39,11 @@ const QuizButton: FC<ButtonProps> = ({ children, onClickHandler, style }) => {
       transition="var(--transition)"
       onClick={() => onClickHandler()}
       {...style}
+      className={className}
     >
       {children}
     </Box>
   );
 };
 
-export default QuizButton;
+export default CustomButton;
