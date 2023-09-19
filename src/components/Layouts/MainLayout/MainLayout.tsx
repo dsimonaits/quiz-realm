@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Header from "../Header/Header";
+import Header from "../header/Header";
 import { Divider } from "@chakra-ui/react";
 
 const MainLayout = () => {
