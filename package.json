@@ -2,9 +2,7 @@
   "name": "quiz-realm",
   "private": true,
   "version": "0.0.0",
-  "repository": {
-    "url": "git+https://github.com/dsimonaits/quiz-realm.git"
-  },
+  "homepage": "https://dsimonaits.github.io/quiz-realm",
   "type": "module",
   "scripts": {
     "dev": "vite",
