@@ -1,11 +1,11 @@
 import { Flex, Text, VStack, chakra, useCheckbox } from "@chakra-ui/react";
 import { HiX } from "react-icons/hi";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { observer } from "mobx-react-lite";
 
 interface ICheckbox {
   allTopics: string[];
-  onChange: (value: any) => void;
+  onChange: (value: string) => void;
 }
 
 const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onChange }) => {

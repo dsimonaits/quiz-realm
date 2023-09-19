@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import Toast from "../components/UI/Toast/Toast";
@@ -40,11 +40,11 @@ export const QuizPage = observer(() => {
       return;
     }
     setCurrentQuiz(quizzes[quizNumber]);
-  }, [quizNumber]);
+  }, [quizNumber, navigate, quizzes, resultModalDisclosure]);
 
   useEffect(() => {
     if (showResult && !resultModalDisclosure.isOpen) navigate("/");
-  }, [showResult, resultModalDisclosure]);
+  }, [showResult, resultModalDisclosure, navigate]);
 
   if (currentQuiz === null) {
     return null;
@@ -57,7 +57,13 @@ export const QuizPage = observer(() => {
   const handleOnNext = () => {
     const isAnswerCorrect =
       quizStoreInstance.selectedAnswer === currentQuiz?.answers.answer;
-
+    if (quizStoreInstance.selectedAnswer === "") {
+      return Toast({
+        toast,
+        title: "You forgot to answer!",
+        position: "top",
+      });
+    }
     if (isAnswerCorrect) {
       toast({
         title: "Your answered correctly!",
@@ -72,13 +78,6 @@ export const QuizPage = observer(() => {
         status: "error",
       });
       quizStoreInstance.setUserResult(false);
-    }
-    if (quizStoreInstance.selectedAnswer === "") {
-      return Toast({
-        toast,
-        title: "You forgot to answer!",
-        position: "top",
-      });
     }
 
     quizStoreInstance.setAnswer("");

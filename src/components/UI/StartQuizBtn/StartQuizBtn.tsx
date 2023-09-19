@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import cl from "./StartQuizBtn.module.css";
 import { HiX } from "react-icons/hi";
 import { NavLink as ReactRouterLink } from "react-router-dom";
-import { Button, Link } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
 interface IStartQuizBtn {
   onBtnClick: () => void;

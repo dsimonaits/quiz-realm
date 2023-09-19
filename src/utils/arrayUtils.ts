@@ -1,4 +1,4 @@
-const shuffleArray = (array: any[]) => {
+const shuffleArray = <T>(array: T[]): T[] => {
   // Create a copy of the original array
   const shuffledArray = [...array];
   for (let i = shuffledArray.length - 1; i > 0; i--) {

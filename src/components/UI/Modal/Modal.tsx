@@ -4,17 +4,17 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalContentProps,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  UseDisclosureReturn,
 } from "@chakra-ui/react";
 import { FC, ReactNode } from "react";
 
 interface ModalProps {
   children: ReactNode;
   modalTitle: string;
-  disclosure: any;
+  disclosure: UseDisclosureReturn;
   styles?: BoxProps;
 }
 

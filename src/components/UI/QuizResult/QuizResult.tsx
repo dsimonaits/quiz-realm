@@ -1,6 +1,5 @@
 import { HStack } from "@chakra-ui/react";
-import React, { FC } from "react";
-import QuizModal from "../Modal/Modal";
+import { FC } from "react";
 import CustomButton from "../Button/Button";
 
 interface IResult {

@@ -1,11 +1,11 @@
-import { Box, ToastPosition, useToast } from "@chakra-ui/react";
-import React, { FC, useEffect } from "react";
+import { ToastId, ToastPosition, UseToastOptions } from "@chakra-ui/react";
+import { FC } from "react";
 
 interface IToast {
   title: string;
   position: ToastPosition;
-  status?: string;
-  toast: any;
+  status?: "info" | "warning" | "success" | "error" | "loading" | undefined;
+  toast: (options: UseToastOptions) => ToastId | undefined;
 }
 
 const Toast: FC<IToast> = ({ toast, title, position, status = "info" }) => {

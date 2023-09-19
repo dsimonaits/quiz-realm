@@ -1,5 +1,5 @@
 import { Box, BoxProps } from "@chakra-ui/react";
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 
 interface ButtonProps {
   children: ReactNode;

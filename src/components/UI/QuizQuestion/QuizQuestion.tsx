@@ -1,5 +1,4 @@
-import React, { FC } from "react";
-import CustomRadios from "../Radio/CustomRadios";
+import { FC } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import CustomButton from "../Button/Button";
 import StyledCustomRadios from "../Radio/StyledCustomRadios";

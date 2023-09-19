@@ -1,5 +1,5 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
-import { VStack, useDisclosure, useToast } from "@chakra-ui/react";
+import { FC, ReactNode, useEffect, useState } from "react";
+import { useDisclosure, useToast } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import QuizStore from "../../../store/QuizStore";
 import QuizButton from "../../UI/Button/Button";
@@ -37,7 +37,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
       setStartLearning(false);
       setLearningStep(false);
     }
-  }, [startLearning, quizPageModalDisclosure.isOpen]);
+  }, [startLearning, quizPageModalDisclosure, quizStoreInstance]);
 
   useEffect(() => {
     if (!selectedCategory) {
@@ -45,7 +45,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
     }
     const topics = quizStoreInstance.getAllTopics(selectedCategory);
     setAllTopics(topics);
-  }, [selectedCategory]);
+  }, [selectedCategory, quizStoreInstance]);
 
   const handleOnNext = () => {
     if (selectedCategory === "") {

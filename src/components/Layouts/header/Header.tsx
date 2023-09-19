@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Flex,
   HStack,
@@ -12,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import Navigation from "../../UI/Navigation/Navigation";
-import QuizButton from "../../UI/Button/Button";
 
 import Logo from "../../UI/Logo/Logo";
 import Section from "../Section/Section";
@@ -35,11 +33,6 @@ const Header = () => {
               <HStack spacing="30px">
                 <Navigation links={Links} />
               </HStack>
-              <QuizButton
-                onClickHandler={() => console.log("I am login button")}
-              >
-                Login
-              </QuizButton>
             </Hide>
             <Show breakpoint="(max-width: 768px)">
               <Menu>
