@@ -31,22 +31,22 @@ const HomePage: FC = observer(() => {
   };
 
   return (
-    <Suspense fallback={<Loader />}>
-      <Section>
-        <MainContainer>
-          <Welcome>
+    <Section>
+      <MainContainer>
+        <Welcome>
+          <Suspense fallback={<Loader />}>
             <StartLearning>Start Learning</StartLearning>
-          </Welcome>
-        </MainContainer>
-        {startQuiz && (
-          <StartQuizBtn
-            onBtnClick={handleStartQuiz}
-            onCloseClick={handleEndQuiz}
-            linkPath={linkPath}
-          />
-        )}
-      </Section>
-    </Suspense>
+          </Suspense>
+        </Welcome>
+      </MainContainer>
+      {startQuiz && (
+        <StartQuizBtn
+          onBtnClick={handleStartQuiz}
+          onCloseClick={handleEndQuiz}
+          linkPath={linkPath}
+        />
+      )}
+    </Section>
   );
 });
 
