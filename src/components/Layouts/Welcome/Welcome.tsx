@@ -1,5 +1,8 @@
 import { Heading, Image, Text, Flex, Stack } from "@chakra-ui/react";
 import { FC } from "react";
+import HeroPng from "../../../images/hero.png";
+import HeroPngX2 from "../../../images/hero(x2).png";
+import CurvedLine from "../../../images/curvedLine.png";
 
 interface IWelcome {
   children: React.ReactNode;
@@ -27,7 +30,7 @@ const Welcome: FC<IWelcome> = ({ children }) => {
       <Image
         src="quiz-realm/hero.png"
         alt="people with question marks"
-        srcSet="hero.png 1x, hero(x2).png 2x"
+        srcSet={`${HeroPng} 1x, ${HeroPngX2} 2x`}
         flex="1"
         width="400px"
       />
@@ -35,7 +38,7 @@ const Welcome: FC<IWelcome> = ({ children }) => {
         position="absolute"
         bottom="0"
         left="0"
-        src="quiz-realm/curvedLine.png"
+        src={CurvedLine}
         alt="Curved line"
       />
     </Flex>
