@@ -26,7 +26,7 @@ QuizRealm is a feature-packed quiz platform designed to help you enhance your Ja
 
 ## Getting Started
 
-1. Visit [QuizRealm](url is coming soon...) to get started.
+1. Visit [QuizRealm](https://dsimonaits.github.io/quiz-realm/) to get started.
 
 2. Create an account or log in to track your progress and continue learning.
 
