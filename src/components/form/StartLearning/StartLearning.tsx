@@ -29,7 +29,6 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
 
   useEffect(() => {
     if (startLearning) {
-      quizStoreInstance.resetStore();
       setAllTopics([]);
       quizPageModalDisclosure.onOpen();
     }
@@ -37,15 +36,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
       setStartLearning(false);
       setLearningStep(false);
     }
-  }, [startLearning, quizPageModalDisclosure, quizStoreInstance]);
-
-  useEffect(() => {
-    if (!selectedCategory) {
-      return;
-    }
-    const topics = quizStoreInstance.getAllTopics(selectedCategory);
-    setAllTopics(topics);
-  }, [selectedCategory, quizStoreInstance]);
+  }, [startLearning, quizPageModalDisclosure]);
 
   const handleOnNext = () => {
     if (selectedCategory === "") {
@@ -54,6 +45,9 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
         title: "Please select a category!",
         position: "top",
       });
+    } else {
+      const topics = quizStoreInstance.getAllTopics(selectedCategory);
+      setAllTopics(topics);
     }
 
     if (selectedTopics.length === 0 && learningStep) {
@@ -114,6 +108,8 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
             onChange={handleRadioChange}
             stackStyle={{
               gap: "20px",
+              flexWrap: "wrap",
+              justifyContent: "center",
             }}
           />
         )}
