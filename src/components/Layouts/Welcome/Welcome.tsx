@@ -25,7 +25,7 @@ const Welcome: FC<IWelcome> = ({ children }) => {
         <Text>Achieve Your Goals with Us</Text>;{children}
       </Stack>
       <Image
-        src="hero.png"
+        src="quiz-realm/hero.png"
         alt="people with question marks"
         srcSet="hero.png 1x, hero(x2).png 2x"
         flex="1"
@@ -35,7 +35,7 @@ const Welcome: FC<IWelcome> = ({ children }) => {
         position="absolute"
         bottom="0"
         left="0"
-        src="curvedLine.png"
+        src="quiz-realm/curvedLine.png"
         alt="Curved line"
       />
     </Flex>
