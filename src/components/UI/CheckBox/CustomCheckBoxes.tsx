@@ -20,7 +20,7 @@ const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onChange }) => {
 
   return (
     <VStack>
-      <Flex gap="10px" wrap="wrap">
+      <Flex gap="10px" flexWrap="wrap">
         {allTopics.map((topic) => {
           const {
             state,
