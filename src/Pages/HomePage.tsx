@@ -1,11 +1,16 @@
+import { lazy, Suspense } from "react";
 import { FC } from "react";
+import { observer } from "mobx-react-lite";
+import QuizStore from "../store/QuizStore";
 import Welcome from "../components/Layouts/Welcome/Welcome";
-import StartLearning from "../components/form/StartLearning/StartLearning";
 import Section from "../components/Layouts/Section/Section";
 import MainContainer from "../components/Layouts/Container/Container";
-import QuizStore from "../store/QuizStore";
 import StartQuizBtn from "../components/UI/StartQuizBtn/StartQuizBtn";
-import { observer } from "mobx-react-lite";
+import Loader from "../components/UI/Loader/Loader";
+
+const StartLearning = lazy(
+  () => import("../components/form/StartLearning/StartLearning")
+);
 
 const HomePage: FC = observer(() => {
   const quizStoreInstance = QuizStore;
@@ -26,20 +31,22 @@ const HomePage: FC = observer(() => {
   };
 
   return (
-    <Section>
-      <MainContainer>
-        <Welcome>
-          <StartLearning>Start Learning</StartLearning>
-        </Welcome>
-      </MainContainer>
-      {startQuiz && (
-        <StartQuizBtn
-          onBtnClick={handleStartQuiz}
-          onCloseClick={handleEndQuiz}
-          linkPath={linkPath}
-        />
-      )}
-    </Section>
+    <Suspense fallback={<Loader />}>
+      <Section>
+        <MainContainer>
+          <Welcome>
+            <StartLearning>Start Learning</StartLearning>
+          </Welcome>
+        </MainContainer>
+        {startQuiz && (
+          <StartQuizBtn
+            onBtnClick={handleStartQuiz}
+            onCloseClick={handleEndQuiz}
+            linkPath={linkPath}
+          />
+        )}
+      </Section>
+    </Suspense>
   );
 });
 
