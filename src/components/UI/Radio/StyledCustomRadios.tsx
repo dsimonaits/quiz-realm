@@ -28,6 +28,7 @@ const RadioCard: FC<RadioCardProps> = (props) => {
     <Box as="label">
       <input {...input} />
       <Box
+        data-answer={props.children}
         {...checkbox}
         cursor="pointer"
         borderWidth="1px"
