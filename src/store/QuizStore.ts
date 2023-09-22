@@ -36,7 +36,7 @@ class Store {
       setStartQuiz: action,
       setCategory: action,
       getAllCategories: action,
-      setTopic: action,
+      setTopics: action,
       getAllTopics: action,
       getQuestionsByCategoryAndTopics: action,
       resetStore: action,
@@ -67,13 +67,8 @@ class Store {
     return uniqueTopics;
   }
 
-  setTopic(topic: string) {
-    console.log(topic);
-    if (this.selectedTopics.includes(topic)) {
-      this.selectedTopics = this.selectedTopics.filter((r) => r !== topic);
-    } else {
-      this.selectedTopics = [...this.selectedTopics, topic];
-    }
+  setTopics(topics: string[]) {
+    this.selectedTopics = [...topics];
   }
 
   getQuestionsByCategoryAndTopics() {
