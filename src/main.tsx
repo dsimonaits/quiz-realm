@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter basename="quiz-realm">
+    <BrowserRouter basename="/quiz-realm">
       <App />
     </BrowserRouter>
   </React.StrictMode>
