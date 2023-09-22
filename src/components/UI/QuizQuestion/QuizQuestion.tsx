@@ -6,6 +6,8 @@ import StyledCustomRadios from "../Radio/StyledCustomRadios";
 interface IQuizQuestion {
   question: string;
   answers: string[];
+  userAnswer?: string;
+  buttonText: string;
   handleOnChange: (value: string) => void;
   handleOnNext: () => void;
 }
@@ -13,6 +15,7 @@ interface IQuizQuestion {
 const QuizQuestion: FC<IQuizQuestion> = ({
   question,
   answers,
+  buttonText,
   handleOnChange,
   handleOnNext,
 }) => {
@@ -37,7 +40,7 @@ const QuizQuestion: FC<IQuizQuestion> = ({
           stackStyle={{ alignItems: "flex-start", flexDirection: "column" }}
         />
         <CustomButton style={{ mt: "20px" }} onClickHandler={handleOnNext}>
-          Next
+          {buttonText}
         </CustomButton>
       </Box>
     </>
