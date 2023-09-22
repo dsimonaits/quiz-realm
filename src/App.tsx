@@ -21,8 +21,8 @@ function App() {
             <Route path="how-it-works" element={<HowItWorks />} />
             <Route path="about" element={<About />} />
             <Route path="quiz-page" element={<QuizPage />} />
-            <Route path="*" element={<HomePage />} />
           </Route>
+          <Route path="*" element={<HomePage />} />
         </Routes>
       </Suspense>
     </ChakraProvider>
