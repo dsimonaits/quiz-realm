@@ -14,43 +14,79 @@ type Learning = {
 };
 
 const StartLearning: FC<Learning> = observer(({ children }) => {
-  const [allTopics, setAllTopics] = useState<string[]>([]);
-  const [startLearning, setStartLearning] = useState(false);
-  const [learningStep, setLearningStep] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
 
   const quizStoreInstance = QuizStore;
   const toast = useToast();
 
-  const allCategories = quizStoreInstance.getAllCategories();
-  const selectedCategory = quizStoreInstance.selectedCategory;
-  const selectedTopics = quizStoreInstance.selectedTopics;
+  const steps = [
+    {
+      title: "Choose your category",
+      component: (
+        <StyledCustomRadios
+          options={quizStoreInstance.getAllCategories()}
+          onChange={(value) => {
+            setSelectedCategory(value);
+          }}
+          stackStyle={{
+            gap: "20px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        />
+      ),
+    },
+    {
+      title: "Choose your favorite topics",
+      component: (
+        <CustomCheckboxes
+          allTopics={quizStoreInstance.getAllTopics(selectedCategory)}
+          onChange={(topic) => {
+            if (selectedTopics.includes(topic)) {
+              setSelectedTopics(selectedTopics.filter((r) => r !== topic));
+            } else {
+              setSelectedTopics([...selectedTopics, topic]);
+            }
+          }}
+        />
+      ),
+    },
+    // Add more steps as needed
+  ];
+
+  const currentStepData = steps[currentStep];
+  const isLastStep = currentStep === steps.length - 1;
 
   const quizPageModalDisclosure = useDisclosure();
 
   useEffect(() => {
-    if (startLearning) {
-      setAllTopics([]);
-      quizPageModalDisclosure.onOpen();
+    if (currentStep === 0) {
+      setSelectedCategory(""); // Reset selected category when going back to the first step
     }
-    if (!quizPageModalDisclosure.isOpen) {
-      setStartLearning(false);
-      setLearningStep(false);
-    }
-  }, [startLearning, quizPageModalDisclosure]);
+  }, [currentStep]);
 
   const handleOnNext = () => {
-    if (selectedCategory === "") {
+    if (currentStepData.component === undefined) {
+      return;
+    }
+
+    if (
+      currentStepData.title === "Choose your category" &&
+      selectedCategory === ""
+    ) {
       return Toast({
         toast,
         title: "Please select a category!",
         position: "top",
       });
-    } else {
-      const topics = quizStoreInstance.getAllTopics(selectedCategory);
-      setAllTopics(topics);
     }
 
-    if (selectedTopics.length === 0 && learningStep) {
+    if (
+      currentStepData.title === "Choose your favorite topics" &&
+      selectedTopics.length === 0
+    ) {
       return Toast({
         toast,
         title: "Please select at least one topic!",
@@ -58,38 +94,31 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
       });
     }
 
-    if (selectedCategory !== "" && selectedTopics.length > 0) {
+    if (isLastStep) {
+      quizStoreInstance.setCategory(selectedCategory);
+      quizStoreInstance.setTopics(selectedTopics);
       quizStoreInstance.setStartQuiz();
       quizPageModalDisclosure.onClose();
+    } else {
+      setCurrentStep(currentStep + 1);
     }
-
-    setLearningStep(true);
-  };
-
-  const handleCheckboxChange = (topic: string) => {
-    quizStoreInstance.setTopic(topic);
-  };
-
-  const handleRadioChange = (value: string) => {
-    quizStoreInstance.setCategory(value);
   };
 
   return (
     <>
       <QuizButton
         onClickHandler={() => {
-          setStartLearning(true);
+          setCurrentStep(0); // Reset to the first step when starting learning
+          setSelectedCategory("");
+          setSelectedTopics([]);
+          quizPageModalDisclosure.onOpen();
         }}
       >
         {children}
       </QuizButton>
       <QuizModal
         disclosure={quizPageModalDisclosure}
-        modalTitle={
-          selectedCategory
-            ? "Choose your favorite topics"
-            : "Choose your category"
-        }
+        modalTitle={currentStepData.title}
         styles={{
           display: "flex",
           flexDirection: "column",
@@ -97,23 +126,10 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
           gap: "20px",
         }}
       >
-        {learningStep ? (
-          <CustomCheckboxes
-            allTopics={allTopics}
-            onChange={handleCheckboxChange}
-          />
-        ) : (
-          <StyledCustomRadios
-            options={allCategories}
-            onChange={handleRadioChange}
-            stackStyle={{
-              gap: "20px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          />
-        )}
-        <CustomButton onClickHandler={handleOnNext}>Next</CustomButton>
+        {currentStepData.component}
+        <CustomButton onClickHandler={handleOnNext}>
+          {isLastStep ? "Start Learning" : "Next"}
+        </CustomButton>
       </QuizModal>
     </>
   );
