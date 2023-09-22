@@ -63,7 +63,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
 
   useEffect(() => {
     if (currentStep === 0) {
-      setSelectedCategory(""); // Reset selected category when going back to the first step
+      setSelectedCategory("");
     }
   }, [currentStep]);
 
@@ -108,7 +108,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
     <>
       <QuizButton
         onClickHandler={() => {
-          setCurrentStep(0); // Reset to the first step when starting learning
+          setCurrentStep(0);
           setSelectedCategory("");
           setSelectedTopics([]);
           quizPageModalDisclosure.onOpen();
