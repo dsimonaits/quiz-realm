@@ -4,12 +4,12 @@ import { useDisclosure, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { IQuiz } from "../types/types";
 import QuizStore from "../store/QuizStore";
-import Toast from "../components/UI/Toast/Toast";
 import Section from "../components/Layouts/Section/Section";
 import MainContainer from "../components/Layouts/Container/Container";
 import Loader from "../components/UI/Loader/Loader";
 import shuffleArray from "../utils/arrayUtils";
 import { lazy, Suspense } from "react";
+import useElementFinder from "../utils/useElementFinder";
 
 const QuizModal = lazy(() => import("../components/UI/Modal/Modal"));
 const QuizResult = lazy(() => import("../components/UI/QuizResult/QuizResult"));
@@ -21,6 +21,11 @@ const QuizPage = observer(() => {
   const [quizNumber, setQuizNumber] = useState(0);
   const [currentQuiz, setCurrentQuiz] = useState<IQuiz | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [answerCorrect, setAnswerCorrect] = useState<"idle" | true | false>(
+    "idle"
+  );
+  const [buttonText, setButtonText] = useState("Select");
+  const [shuffledAnswers, setShuffledAnswers] = useState<string[]>([]);
 
   const quizStoreInstance = QuizStore;
   const quizzes = quizStoreInstance.StartQuizData;
@@ -43,54 +48,76 @@ const QuizPage = observer(() => {
 
       return;
     }
-    setCurrentQuiz(quizzes[quizNumber]);
+    if (quizzes.length !== 0) setCurrentQuiz(quizzes[quizNumber]);
   }, [quizNumber, navigate, quizzes, resultModalDisclosure]);
 
   useEffect(() => {
     if (showResult && !resultModalDisclosure.isOpen) navigate("/");
   }, [showResult, resultModalDisclosure, navigate]);
 
-  if (currentQuiz === null) {
-    return null;
-  }
+  useEffect(() => {
+    if (currentQuiz) {
+      setShuffledAnswers(shuffleArray(Object.values(currentQuiz.answers)));
+    }
+  }, [currentQuiz]);
+
+  const AnswersInputRef = useElementFinder({
+    dataSetName: "data-answer",
+    dependencies: shuffledAnswers,
+  });
+  const answers = AnswersInputRef.current;
+
+  useEffect(() => {
+    if (answerCorrect !== "idle" && answers !== null) {
+      answers.map((answer) => {
+        const dataAnswerValue = answer.getAttribute("data-answer");
+        if (
+          dataAnswerValue !== currentQuiz?.answers.answer &&
+          dataAnswerValue === quizStoreInstance.selectedAnswer
+        ) {
+          answer.style.backgroundColor = "red";
+        } else if (dataAnswerValue === quizStoreInstance.selectedAnswer) {
+          answer.style.backgroundColor = "green";
+        } else if (dataAnswerValue === currentQuiz?.answers.answer) {
+          answer.style.backgroundColor = "green";
+          answer.style.color = "white";
+        }
+      });
+    }
+  }, [buttonText, answerCorrect, toast]);
 
   const handleSetAnswer = (value: string) => {
     quizStoreInstance.setAnswer(value);
   };
 
   const handleOnNext = () => {
-    const isAnswerCorrect =
-      quizStoreInstance.selectedAnswer === currentQuiz?.answers.answer;
     if (quizStoreInstance.selectedAnswer === "") {
-      return Toast({
-        toast,
+      return toast({
         title: "You forgot to answer!",
         position: "top",
       });
     }
-    if (isAnswerCorrect) {
-      toast({
-        title: "Your answered correctly!",
-        position: "top",
-        status: "success",
-      });
-      quizStoreInstance.setUserResult(true);
-    } else {
-      toast({
-        title: "Your answered incorrectly!",
-        position: "top",
-        status: "error",
-      });
-      quizStoreInstance.setUserResult(false);
+
+    if (buttonText !== "Next") {
+      const isAnswerCorrect =
+        quizStoreInstance.selectedAnswer === currentQuiz?.answers.answer;
+      setAnswerCorrect(isAnswerCorrect);
+      setButtonText("Next");
+
+      if (isAnswerCorrect) {
+        quizStoreInstance.setUserResult(true);
+      } else {
+        quizStoreInstance.setUserResult(false);
+      }
+
+      return;
     }
 
     quizStoreInstance.setAnswer("");
-
     setQuizNumber(quizNumber + 1);
+    setButtonText("Select");
+    setAnswerCorrect("idle");
   };
-  const shuffledAnswers: string[] = shuffleArray(
-    Object.values(currentQuiz.answers)
-  );
 
   return (
     <Suspense fallback={<Loader />}>
@@ -108,12 +135,17 @@ const QuizPage = observer(() => {
             </QuizModal>
           ) : (
             <>
-              <QuizQuestion
-                question={currentQuiz?.question}
-                answers={shuffledAnswers}
-                handleOnChange={handleSetAnswer}
-                handleOnNext={handleOnNext}
-              />
+              {currentQuiz ? (
+                <QuizQuestion
+                  question={currentQuiz.question}
+                  answers={shuffledAnswers}
+                  buttonText={buttonText}
+                  handleOnChange={handleSetAnswer}
+                  handleOnNext={handleOnNext}
+                />
+              ) : (
+                <Loader />
+              )}
             </>
           )}
         </MainContainer>
