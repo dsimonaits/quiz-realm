@@ -6,6 +6,7 @@ import ViteCompressionPlugin from "vite-plugin-compression";
 export default defineConfig({
   base: "/quiz-realm",
   plugins: [react(), ViteCompressionPlugin()],
+
   build: {
     outDir: "build",
   },
