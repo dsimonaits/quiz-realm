@@ -75,11 +75,11 @@ const QuizPage = observer(() => {
           dataAnswerValue !== currentQuiz?.answers.answer &&
           dataAnswerValue === quizStoreInstance.selectedAnswer
         ) {
-          answer.style.backgroundColor = "red";
+          answer.style.backgroundColor = "var(--wrongColor)";
         } else if (dataAnswerValue === quizStoreInstance.selectedAnswer) {
-          answer.style.backgroundColor = "green";
+          answer.style.backgroundColor = "var(--correctColor)";
         } else if (dataAnswerValue === currentQuiz?.answers.answer) {
-          answer.style.backgroundColor = "green";
+          answer.style.backgroundColor = "var(--correctColor)";
           answer.style.color = "white";
         }
       });
