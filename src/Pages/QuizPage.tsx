@@ -29,9 +29,11 @@ const QuizPage = observer(() => {
 
   const quizStoreInstance = QuizStore;
   const quizzes = quizStoreInstance.StartQuizData;
+
   const navigate = useNavigate();
 
   const toast = useToast();
+
   const resultModalDisclosure = useDisclosure();
 
   const handleComplete = () => {
