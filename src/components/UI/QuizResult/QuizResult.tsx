@@ -16,8 +16,7 @@ const QuizResult: FC<IQuizResult> = ({ result, btnHandle }) => {
   return (
     <>
       <p>
-        Good: {result.good} <br /> Fault:
-        {result.fault}{" "}
+        Good: {result.good} <br /> Fault: {result.fault}
       </p>
       <HStack justify="center" gap="20px">
         <CustomButton onClickHandler={btnHandle}>Complete</CustomButton>
