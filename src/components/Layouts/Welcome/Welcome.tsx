@@ -37,7 +37,7 @@ const Welcome: FC<IWelcome> = ({ children }) => {
       <Image
         position="absolute"
         bottom="0"
-        left="0"
+        left="40px"
         src={CurvedLine}
         alt="Curved line"
       />
