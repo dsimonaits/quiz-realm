@@ -34,6 +34,7 @@ const RadioCard: FC<RadioCardProps> = (props) => {
         borderWidth="1px"
         borderRadius="md"
         boxShadow="md"
+        transition="var(--transition)"
         _checked={{
           bg: "quizMain.600",
           color: "white",

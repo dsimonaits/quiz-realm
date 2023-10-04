@@ -7,6 +7,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  ScaleFade,
   UseDisclosureReturn,
 } from "@chakra-ui/react";
 import { FC, ReactNode } from "react";
@@ -32,10 +33,17 @@ const QuizModal: FC<ModalProps> = ({
         size={["lg", "lg", "2xl"]}
       >
         <ModalOverlay />
+
         <ModalContent>
           <ModalHeader>{modalTitle}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody {...styles}>{children}</ModalBody>
+          <ScaleFade
+            in={true}
+            style={{ position: "relative" }}
+            transition={{ exit: { delay: 1 }, enter: { duration: 0.5 } }}
+          >
+            <ModalBody {...styles}>{children}</ModalBody>
+          </ScaleFade>
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>

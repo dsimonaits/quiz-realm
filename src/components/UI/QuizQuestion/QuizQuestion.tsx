@@ -50,12 +50,19 @@ const QuizQuestion: FC<IQuizQuestion> = ({
         dataAnswerValue === selectedAnswer.answer
       ) {
         answer.style.backgroundColor = "var(--wrongColor)";
+        answer.style.color = "white";
       } else if (dataAnswerValue === selectedAnswer.answer) {
         answer.style.backgroundColor = "var(--correctColor)";
+        answer.style.color = "white";
       } else if (dataAnswerValue === answers.answer) {
         answer.style.backgroundColor = "var(--correctColor)";
-        answer.style.color = "white";
+      } else if (
+        dataAnswerValue !== answers.answer &&
+        dataAnswerValue !== selectedAnswer.answer
+      ) {
+        answer.classList.add("fade-out");
       }
+      answer.style.color = "white";
     });
   }
 
@@ -67,11 +74,12 @@ const QuizQuestion: FC<IQuizQuestion> = ({
   };
 
   const handelSelectQuestion = (value: string) => {
-    setSelectedAnswer({ ...selectedAnswer, answer: value });
+    !selectedAnswer.selected &&
+      setSelectedAnswer({ ...selectedAnswer, answer: value });
   };
 
   const handelOnBtnClick = (answer: string) => {
-    if (selectedAnswer.answer && buttonText === "Select") {
+    if (selectedAnswer.answer && selectedAnswer.selected === false) {
       return setSelectedAnswer({ ...selectedAnswer, selected: true });
     }
 

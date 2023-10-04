@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ScaleFade } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import { IQuiz } from "../types/types";
@@ -50,24 +51,32 @@ const QuizPage = observer(() => {
     <Suspense fallback={<Loader />}>
       <Section>
         <MainContainer>
-          {showResult ? (
-            <QuizResult
-              result={QuizStore.userResult}
-              btnHandle={handleComplete}
-            />
-          ) : (
-            <>
-              {currentQuiz ? (
-                <QuizQuestion
-                  question={currentQuiz.question}
-                  answers={currentQuiz.answers}
-                  onClickHandler={handleOnNext}
+          <ScaleFade in={true} style={{ position: "relative" }}>
+            {showResult ? (
+              <ScaleFade
+                in={true}
+                style={{ position: "relative" }}
+                transition={{ exit: { delay: 1 }, enter: { duration: 0.5 } }}
+              >
+                <QuizResult
+                  result={QuizStore.userResult}
+                  btnHandle={handleComplete}
                 />
-              ) : (
-                <Loader />
-              )}
-            </>
-          )}
+              </ScaleFade>
+            ) : (
+              <>
+                {currentQuiz ? (
+                  <QuizQuestion
+                    question={currentQuiz.question}
+                    answers={currentQuiz.answers}
+                    onClickHandler={handleOnNext}
+                  />
+                ) : (
+                  <Loader />
+                )}
+              </>
+            )}
+          </ScaleFade>
         </MainContainer>
       </Section>
     </Suspense>
