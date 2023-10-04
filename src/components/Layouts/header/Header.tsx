@@ -1,7 +1,6 @@
 import {
   Flex,
   HStack,
-  Divider,
   Show,
   Hide,
   Menu,
@@ -53,7 +52,6 @@ const Header = () => {
               </Menu>
             </Show>
           </Flex>
-          <Divider mt="6px" />
         </MainContainer>
       </Section>
     </>
