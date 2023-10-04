@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <>
-      <Section>
+      <Section style={{ pb: ["0px", "0px", "0px"] }}>
         <MainContainer>
           <Flex justifyContent="space-between" alignItems="center">
             <Logo />
