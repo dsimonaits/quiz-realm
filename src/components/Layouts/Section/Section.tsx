@@ -7,7 +7,7 @@ interface ISection {
 
 const Section: FC<ISection> = ({ children }) => {
   return (
-    <Box as="section" pt={["20px", "20px", "20px"]}>
+    <Box as="section" py={["20px", "20px", "20px"]}>
       {children}
     </Box>
   );
