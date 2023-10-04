@@ -51,7 +51,7 @@ const QuizPage = observer(() => {
     <Suspense fallback={<Loader />}>
       <Section>
         <MainContainer>
-          <ScaleFade in={true} style={{ position: "relative" }}>
+          <ScaleFade in={!!currentQuiz} style={{ position: "relative" }}>
             {showResult ? (
               <ScaleFade
                 in={true}
