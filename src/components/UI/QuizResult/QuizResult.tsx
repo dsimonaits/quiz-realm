@@ -15,21 +15,16 @@ interface IQuizResult {
 
 const QuizResult: FC<IQuizResult> = ({ result, btnHandle }) => {
   return (
-    <MainContainer
-      style={{
-        minHeight: "400px",
-        p: "50px",
-      }}
-    >
-      <VStack align="center">
+    <>
+      <VStack justify="center" minHeight="400px" p="50px">
         <p>
           Good: {result.good} <br /> Fault: {result.fault}
         </p>
-        <HStack justify="center" gap="20px">
+        <HStack justify="center" mt="20px">
           <CustomButton onClickHandler={btnHandle}>Complete</CustomButton>
         </HStack>
       </VStack>
-    </MainContainer>
+    </>
   );
 };
 
