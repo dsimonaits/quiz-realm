@@ -51,18 +51,16 @@ const QuizPage = observer(() => {
     <Suspense fallback={<Loader />}>
       <Section>
         <MainContainer>
-          <ScaleFade in={!!currentQuiz} style={{ position: "relative" }}>
+          <ScaleFade
+            in={!!currentQuiz || showResult}
+            style={{ position: "relative" }}
+            transition={{ exit: { delay: 1 }, enter: { duration: 0.5 } }}
+          >
             {showResult ? (
-              <ScaleFade
-                in={true}
-                style={{ position: "relative" }}
-                transition={{ exit: { delay: 1 }, enter: { duration: 0.5 } }}
-              >
-                <QuizResult
-                  result={QuizStore.userResult}
-                  btnHandle={handleComplete}
-                />
-              </ScaleFade>
+              <QuizResult
+                result={QuizStore.userResult}
+                btnHandle={handleComplete}
+              />
             ) : (
               <>
                 {currentQuiz ? (
