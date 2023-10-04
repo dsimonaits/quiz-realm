@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
-import { Divider } from "@chakra-ui/react";
 
 const MainLayout = () => {
   return (
@@ -9,7 +8,6 @@ const MainLayout = () => {
       <main>
         <Outlet />
       </main>
-      <Divider mt="10px" />
     </>
   );
 };
