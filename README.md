@@ -1,4 +1,4 @@
-# IN PROGRESS...
+# IN PROGRESS... Live DEMO [Quiz Realm Demo](https://your-demo-link-here.com)
 
 Quiz Realm is an ongoing project aimed at providing an interactive and engaging quiz platform. Here's what you can expect in the future:
 
@@ -66,7 +66,7 @@ QuizRealm is a feature-packed quiz platform designed to help you enhance your Ja
 
 ## Getting Started
 
-1. Visit [QuizRealm](https://dsimonaits.github.io/quiz-realm/) to get started.
+1. Visit DEMO [QuizRealm](https://dsimonaits.github.io/quiz-realm/) to get started.
 
 2. Browse our extensive quiz library and choose a quiz that interests you.
 
