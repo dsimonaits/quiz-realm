@@ -1,7 +1,6 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import { FC } from "react";
 import CustomButton from "../Button/Button";
-import MainContainer from "../../Layouts/Container/Container";
 
 interface IResult {
   good: number;
