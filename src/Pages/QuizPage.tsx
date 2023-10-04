@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScaleFade } from "@chakra-ui/react";
+import { Box, ScaleFade, Text } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import { IQuiz } from "../types/types";
@@ -64,11 +64,18 @@ const QuizPage = observer(() => {
             ) : (
               <>
                 {currentQuiz ? (
-                  <QuizQuestion
-                    question={currentQuiz.question}
-                    answers={currentQuiz.answers}
-                    onClickHandler={handleOnNext}
-                  />
+                  <>
+                    <Box p="10px">
+                      <Text fontSize="md">
+                        Question {quizNumber + 1} of {quizzes.length}
+                      </Text>
+                    </Box>
+                    <QuizQuestion
+                      question={currentQuiz.question}
+                      answers={currentQuiz.answers}
+                      onClickHandler={handleOnNext}
+                    />
+                  </>
                 ) : (
                   <Loader />
                 )}
