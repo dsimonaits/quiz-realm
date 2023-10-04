@@ -1,24 +1,91 @@
-import { FC } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { FC, useMemo, useState } from "react";
+import { Box, Text, useToast } from "@chakra-ui/react";
 import CustomButton from "../Button/Button";
 import StyledCustomRadios from "../Radio/StyledCustomRadios";
+import useElementFinder from "../../../utils/useElementFinder";
+import { IAnswer } from "../../../types/types";
+import shuffleArray from "../../../utils/arrayUtils";
 
 interface IQuizQuestion {
   question: string;
-  answers: string[];
-  userAnswer?: string;
-  buttonText: string;
-  handleOnChange: (value: string) => void;
-  handleOnNext: () => void;
+  answers: IAnswer;
+  onClickHandler: (value: string) => void;
+}
+
+interface ISelectedAnswer {
+  answer: string;
+  selected: boolean;
 }
 
 const QuizQuestion: FC<IQuizQuestion> = ({
   question,
   answers,
-  buttonText,
-  handleOnChange,
-  handleOnNext,
+  onClickHandler,
 }) => {
+  const [selectedAnswer, setSelectedAnswer] = useState<ISelectedAnswer>({
+    answer: "",
+    selected: false,
+  });
+
+  const buttonText = selectedAnswer.selected === false ? "Select" : "Next";
+
+  const toast = useToast();
+
+  const shuffledAnswers: string[] = useMemo<string[]>(
+    () => shuffleArray(Object.values(answers)),
+    [answers]
+  );
+
+  const answersInputs = useElementFinder({
+    dataSetName: "data-answer",
+    dependencies: answers,
+  });
+
+  if (selectedAnswer.selected && answersInputs !== null) {
+    answersInputs.map((answer) => {
+      const dataAnswerValue = answer.getAttribute("data-answer");
+
+      if (
+        dataAnswerValue !== answers.answer &&
+        dataAnswerValue === selectedAnswer.answer
+      ) {
+        answer.style.backgroundColor = "var(--wrongColor)";
+      } else if (dataAnswerValue === selectedAnswer.answer) {
+        answer.style.backgroundColor = "var(--correctColor)";
+      } else if (dataAnswerValue === answers.answer) {
+        answer.style.backgroundColor = "var(--correctColor)";
+        answer.style.color = "white";
+      }
+    });
+  }
+
+  const resetAnswer = () => {
+    setSelectedAnswer({
+      answer: "",
+      selected: false,
+    });
+  };
+
+  const handelSelectQuestion = (value: string) => {
+    setSelectedAnswer({ ...selectedAnswer, answer: value });
+  };
+
+  const handelOnBtnClick = (answer: string) => {
+    if (selectedAnswer.answer && buttonText === "Select") {
+      return setSelectedAnswer({ ...selectedAnswer, selected: true });
+    }
+
+    if (selectedAnswer.answer === "") {
+      return toast({
+        title: "You forgot to answer!",
+        position: "top",
+      });
+    }
+
+    onClickHandler(answer);
+    resetAnswer();
+  };
+
   return (
     <>
       <Box
@@ -35,11 +102,14 @@ const QuizQuestion: FC<IQuizQuestion> = ({
       </Box>
       <Box py="20px">
         <StyledCustomRadios
-          options={answers}
-          onChange={handleOnChange}
+          options={shuffledAnswers}
+          onChange={(e) => handelSelectQuestion(e)}
           stackStyle={{ alignItems: "flex-start", flexDirection: "column" }}
         />
-        <CustomButton style={{ mt: "20px" }} onClickHandler={handleOnNext}>
+        <CustomButton
+          style={{ mt: "20px" }}
+          onClickHandler={() => handelOnBtnClick(selectedAnswer.answer)}
+        >
           {buttonText}
         </CustomButton>
       </Box>
