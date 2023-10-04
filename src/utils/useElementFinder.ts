@@ -1,23 +1,23 @@
-import { useEffect, useRef, RefObject } from "react";
+import { useEffect, useRef } from "react";
 
 function useElementFinder({
   dataSetName,
   dependencies: dependencies,
 }: {
   dataSetName: string;
-  dependencies: string[];
-}): RefObject<HTMLElement[] | null> {
+  dependencies: unknown;
+}): HTMLElement[] | null {
   const foundElementRef = useRef<HTMLElement[] | null>(null);
 
+  const htmlElements = document.querySelectorAll<HTMLElement>(
+    `div[${dataSetName}]`
+  );
+
   useEffect(() => {
-    const htmlElements = document.querySelectorAll<HTMLElement>(
-      `div[${dataSetName}]`
-    );
-
     foundElementRef.current = Array.from(htmlElements);
-  }, [dependencies]);
+  }, [dependencies, htmlElements]);
 
-  return foundElementRef;
+  return foundElementRef.current;
 }
 
 export default useElementFinder;
