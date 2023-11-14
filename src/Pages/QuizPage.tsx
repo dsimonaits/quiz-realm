@@ -67,7 +67,11 @@ const QuizPage = observer(() => {
                   <>
                     <Box p="10px">
                       <Text fontSize="md">
-                        Question {quizNumber + 1} of {quizzes.length}
+                        Question{" "}
+                        {quizNumber < quizzes.length
+                          ? quizNumber + 1
+                          : quizzes.length}{" "}
+                        of {quizzes.length}
                       </Text>
                     </Box>
                     <QuizQuestion
