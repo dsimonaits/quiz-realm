@@ -11,8 +11,8 @@ Quiz Realm is an ongoing project aimed at providing an interactive and engaging 
 ### Content Management System (CMS)
 - Adding a user-friendly CMS for effortless quiz management.
 
-### MongoDB Database
-- Utilizing MongoDB for robust data storage and security.
+### MySQL Database
+- Utilizing MySQL for robust data storage and security.
 
 ### RESTful API
 - Developing a RESTful API for CRUD operations, facilitating quiz and user progress management.
@@ -26,17 +26,8 @@ Quiz Realm is an ongoing project aimed at providing an interactive and engaging 
 ### Scalability and Future-Proofing
 - Preparing for future growth and scalability to accommodate more users and features.
 
-### Detailed Documentation
-- Providing clear documentation to assist users and developers.
-
 ### Enhanced UI/UX
 - Improving the user interface and experience for seamless navigation.
-
-### Seamless Deployment
-- Ensuring smooth and reliable deployment processes.
-
-### Effective Version Control and Collaboration
-- Maintaining code quality through collaboration and code reviews.
 
 ## Stay Tuned!
 We're committed to making Quiz Realm an even better platform for quizzing and learning. Keep an eye out for these exciting updates!
