@@ -1,6 +1,6 @@
 import { makeAutoObservable, observable, action } from "mobx";
 import { IQuiz } from "../types/types";
-import { QuizData } from "../FakeQuizData";
+import { QuizData } from "../MockQuizData";
 
 interface IUserResult {
   good: number;
