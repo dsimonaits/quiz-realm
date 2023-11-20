@@ -2,11 +2,6 @@ import { makeAutoObservable, observable, action } from "mobx";
 import { IQuiz } from "../types/types";
 import { QuizData } from "../MockQuizData";
 
-interface IUserResult {
-  good: number;
-  fault: number;
-}
-
 class Store {
   static instance: Store | null = null;
 
@@ -23,7 +18,6 @@ class Store {
   selectedTopics: string[] = [];
   selectedCategory: string = "";
   selectedAnswer: string = "";
-  userResult: IUserResult = { good: 0, fault: 0 };
   constructor() {
     makeAutoObservable(this, {
       QuizzesData: observable,
@@ -32,7 +26,6 @@ class Store {
       selectedCategory: observable,
       selectedTopics: observable,
       selectedAnswer: observable,
-      userResult: observable,
       setStartQuiz: action,
       setCategory: action,
       getAllCategories: action,
@@ -41,7 +34,6 @@ class Store {
       getQuestionsByCategoryAndTopics: action,
       resetStore: action,
       setAnswer: action,
-      setUserResult: action,
     });
   }
 
@@ -88,15 +80,10 @@ class Store {
     this.selectedTopics = [];
     this.selectedCategory = "";
     this.selectedAnswer = "";
-    this.userResult = { good: 0, fault: 0 };
   }
 
   setAnswer(answer: string) {
     this.selectedAnswer = answer;
-  }
-
-  setUserResult(result: boolean) {
-    result ? (this.userResult.good += 1) : (this.userResult.fault += 1);
   }
 }
 
