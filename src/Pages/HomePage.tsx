@@ -45,13 +45,13 @@ const HomePage: FC = observer(() => {
             </Suspense>
           </Welcome>
         </MainContainer>
-        {startQuiz && (
+        {startQuiz ? (
           <StartQuizBtn
             onBtnClick={handleStartQuiz}
             onCloseClick={handleEndQuiz}
             linkPath={linkPath}
           />
-        )}
+        ) : null}
       </Section>
     </ScaleFade>
   );
