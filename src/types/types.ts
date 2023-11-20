@@ -17,3 +17,8 @@ export interface IQuiz {
   question: string;
   answers: IAnswer;
 }
+
+export interface IResult {
+  good: number;
+  fault: number;
+}
