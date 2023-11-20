@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Box, ScaleFade, Text } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
-import { IQuiz } from "../types/types";
+import { IQuiz, IResult } from "../types/types";
 import QuizStore from "../store/QuizStore";
+import UserStore from "../store/UserStore";
 import Section from "../components/Layouts/Section/Section";
 import MainContainer from "../components/Layouts/Container/Container";
 import Loader from "../components/UI/Loader/Loader";
@@ -17,6 +18,7 @@ const QuizQuestion = lazy(
 const QuizPage = observer(() => {
   const [quizNumber, setQuizNumber] = useState(0);
   const [currentQuiz, setCurrentQuiz] = useState<IQuiz | null>(null);
+  const [result, setResult] = useState<IResult>({ good: 0, fault: 0 });
   const [showResult, setShowResult] = useState(false);
 
   const quizzes = QuizStore.StartQuizData;
@@ -36,13 +38,17 @@ const QuizPage = observer(() => {
     const isAnswerCorrect = selectedAnswer === currentQuiz?.answers.answer;
 
     isAnswerCorrect
-      ? QuizStore.setUserResult(true)
-      : QuizStore.setUserResult(false);
+      ? setResult((prevState) => ({ ...prevState, good: prevState.good + 1 }))
+      : setResult((prevState) => ({
+          ...prevState,
+          fault: prevState.fault + 1,
+        }));
 
     setQuizNumber((prev) => prev + 1);
   };
 
   const handleComplete = () => {
+    UserStore.setUserResult(result);
     QuizStore.resetStore();
     navigate("/");
   };
@@ -57,10 +63,7 @@ const QuizPage = observer(() => {
             transition={{ exit: { delay: 1 }, enter: { duration: 0.5 } }}
           >
             {showResult ? (
-              <QuizResult
-                result={QuizStore.userResult}
-                btnHandle={handleComplete}
-              />
+              <QuizResult result={result} btnHandle={handleComplete} />
             ) : (
               <>
                 {currentQuiz ? (
