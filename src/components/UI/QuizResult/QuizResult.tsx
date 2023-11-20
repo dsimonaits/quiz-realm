@@ -1,11 +1,7 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import { FC } from "react";
 import CustomButton from "../Button/Button";
-
-interface IResult {
-  good: number;
-  fault: number;
-}
+import { IResult } from "../../../types/types";
 
 interface IQuizResult {
   result: IResult;
