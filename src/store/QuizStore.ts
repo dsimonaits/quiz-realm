@@ -82,7 +82,6 @@ class Store {
     this.selectedTopics = [];
     this.selectedCategory = "JavaScript";
     this.selectedAnswer = "";
-    console.log(this.selectedCategory);
   }
 
   setAnswer(answer: string) {
