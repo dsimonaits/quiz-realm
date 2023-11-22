@@ -4,6 +4,9 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Themes from "./styles/theme/styles";
 import Loader from "./components/UI/Loader/Loader";
 import { useTheme } from "./hooks/useTheme";
+import PrivateRoute from "./routes/PrivateRoute";
+import AuthPage from "./Pages/AuthPage";
+import PublicRoute from "./routes/PublicRoute";
 const MainLayout = lazy(
   () => import("./components/Layouts/MainLayout/MainLayout")
 );
@@ -19,14 +22,29 @@ function App() {
     <ChakraProvider theme={Themes[theme]}>
       <Suspense fallback={<Loader />}>
         <Routes>
-          <Route path="/" element={<MainLayout />}>
+          <Route
+            path="/auth"
+            element={
+              <PublicRoute redirectTo="/">
+                <AuthPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute redirectTo="/auth">
+                <MainLayout />
+              </PrivateRoute>
+            }
+          >
             <Route index element={<HomePage />} />
             <Route path="how-it-works" element={<HowItWorks />} />
             <Route path="about" element={<About />} />
 
             <Route path="*" element={<HomePage />} />
           </Route>
-          <Route path="quiz-page" element={<QuizPage />} />
+          <Route path="/quiz-page" element={<QuizPage />} />
         </Routes>
       </Suspense>
     </ChakraProvider>
