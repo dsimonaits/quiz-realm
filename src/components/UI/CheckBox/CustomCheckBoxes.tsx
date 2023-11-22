@@ -42,9 +42,9 @@ const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onChange }) => {
               alignItems="center"
               gridColumnGap={2}
               maxW="auto"
-              bg={state.isChecked ? "var(--secondaryColor)" : "var(--bg)"}
+              bg={state.isChecked ? "accent" : "background"}
               border="1px solid"
-              borderColor="var(--bg)"
+              borderColor="background"
               px={3}
               py={1}
               pr="3rem"
@@ -56,7 +56,7 @@ const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onChange }) => {
               {...htmlProps}
             >
               <input {...getInputProps()} hidden />
-              <Text color="gray.700" {...getLabelProps()}>
+              <Text color="primary" {...getLabelProps()}>
                 {topic}
               </Text>
               <Flex
@@ -68,7 +68,7 @@ const CustomCheckboxes: FC<ICheckbox> = observer(({ allTopics, onChange }) => {
                 justifyContent="center"
                 borderColor="var(--mainColor)"
                 bg="var(--mainColor)"
-                color="white"
+                color="secondary"
                 w="2rem"
                 h="100%"
                 transition="var(--transition)"

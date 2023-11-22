@@ -1,6 +1,5 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import { useDisclosure, useToast } from "@chakra-ui/react";
-import { observer } from "mobx-react-lite";
 import QuizStore from "../../../store/QuizStore";
 import QuizButton from "../../UI/Button/Button";
 import CustomCheckboxes from "../../UI/CheckBox/CustomCheckBoxes";
@@ -8,14 +7,16 @@ import QuizModal from "../../UI/Modal/Modal";
 import CustomButton from "../../UI/Button/Button";
 import StyledCustomRadios from "../../UI/Radio/StyledCustomRadios";
 import Toast from "../../UI/Toast/Toast";
+import { Categories } from "../../../types/types";
 
 type Learning = {
   children: ReactNode;
 };
 
-const StartLearning: FC<Learning> = observer(({ children }) => {
+const StartLearning: FC<Learning> = ({ children }) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] =
+    useState<Categories>("JavaScript");
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
 
   const quizStoreInstance = QuizStore;
@@ -27,6 +28,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
       component: (
         <StyledCustomRadios
           options={quizStoreInstance.getAllCategories()}
+          defaultValue={selectedCategory}
           onChange={(value) => {
             setSelectedCategory(value);
           }}
@@ -61,26 +63,9 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
 
   const quizPageModalDisclosure = useDisclosure();
 
-  useEffect(() => {
-    if (currentStep === 0) {
-      setSelectedCategory("");
-    }
-  }, [currentStep]);
-
   const handleOnNext = () => {
     if (currentStepData.component === undefined) {
       return;
-    }
-
-    if (
-      currentStepData.title === "Choose your category" &&
-      selectedCategory === ""
-    ) {
-      return Toast({
-        toast,
-        title: "Please select a category!",
-        position: "top",
-      });
     }
 
     if (
@@ -109,7 +94,7 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
       <QuizButton
         onClickHandler={() => {
           setCurrentStep(0);
-          setSelectedCategory("");
+          setSelectedCategory("JavaScript");
           setSelectedTopics([]);
           quizPageModalDisclosure.onOpen();
         }}
@@ -133,6 +118,6 @@ const StartLearning: FC<Learning> = observer(({ children }) => {
       </QuizModal>
     </>
   );
-});
+};
 
 export default StartLearning;

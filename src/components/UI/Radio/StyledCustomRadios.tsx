@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   useRadio,
   HStack,
@@ -7,10 +8,12 @@ import {
   UseRadioProps,
 } from "@chakra-ui/react";
 import { FC } from "react";
+import { Categories } from "../../../types/types";
 
-interface StyledCustomRadiosProps {
-  options: string[];
-  onChange: (value: string) => void;
+interface StyledCustomRadiosProps<T> {
+  options: T[];
+  onChange: (value: T) => void;
+  defaultValue?: T;
   stackStyle?: BoxProps;
 }
 
@@ -36,9 +39,9 @@ const RadioCard: FC<RadioCardProps> = (props) => {
         boxShadow="md"
         transition="var(--transition)"
         _checked={{
-          bg: "quizMain.600",
-          color: "white",
-          borderColor: "teal.600",
+          bg: "accent",
+          color: "secondary",
+          borderColor: "background",
         }}
         _focus={{
           boxShadow: "outline",
@@ -52,21 +55,23 @@ const RadioCard: FC<RadioCardProps> = (props) => {
   );
 };
 
-const StyledCustomRadios: FC<StyledCustomRadiosProps> = ({
+const StyledCustomRadios: FC<StyledCustomRadiosProps<any>> = ({
   options,
   onChange,
+  defaultValue,
   stackStyle,
 }) => {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "quizRealm",
     onChange: onChange,
+    defaultValue: defaultValue,
   });
 
   const group = getRootProps();
 
   return (
     <HStack {...group} {...stackStyle}>
-      {options.map((value: string) => {
+      {options.map((value: Categories | string) => {
         const radio = getRadioProps({ value });
         return (
           <RadioCard key={value} {...radio}>

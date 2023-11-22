@@ -12,7 +12,7 @@ export interface IAnswer {
 
 export interface IQuiz {
   id: number;
-  category: string;
+  category: Categories;
   topic: string;
   question: string;
   answers: IAnswer;
@@ -22,3 +22,10 @@ export interface IResult {
   good: number;
   fault: number;
 }
+
+export type Categories =
+  | "JavaScript"
+  | "React"
+  | "NodeJS"
+  | "MongoDB"
+  | "Mongoose";

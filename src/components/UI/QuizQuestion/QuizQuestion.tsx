@@ -103,8 +103,8 @@ const QuizQuestion: FC<IQuizQuestion> = ({
         fontSize="1.5rem"
         width="100%"
         minH="5rem"
-        bg="var(--secondaryColor)"
-        color="white"
+        bg="accent"
+        color="secondary"
       >
         <Text>{question}</Text>
       </Box>

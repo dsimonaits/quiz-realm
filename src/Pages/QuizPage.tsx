@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, ScaleFade, Text } from "@chakra-ui/react";
+import { HStack, ScaleFade, Text } from "@chakra-ui/react";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import { IQuiz, IResult } from "../types/types";
@@ -9,6 +9,7 @@ import Section from "../components/Layouts/Section/Section";
 import MainContainer from "../components/Layouts/Container/Container";
 import Loader from "../components/UI/Loader/Loader";
 import { lazy, Suspense } from "react";
+import CustomButton from "../components/UI/Button/Button";
 
 const QuizResult = lazy(() => import("../components/UI/QuizResult/QuizResult"));
 const QuizQuestion = lazy(
@@ -21,9 +22,9 @@ const QuizPage = observer(() => {
   const [result, setResult] = useState<IResult>({ good: 0, fault: 0 });
   const [showResult, setShowResult] = useState(false);
 
-  const quizzes = QuizStore.StartQuizData;
-
   const navigate = useNavigate();
+
+  const quizzes = QuizStore.StartQuizData;
 
   useEffect(() => {
     quizzes.length === 0 ? navigate("/") : setCurrentQuiz(quizzes[quizNumber]);
@@ -53,6 +54,11 @@ const QuizPage = observer(() => {
     navigate("/");
   };
 
+  const handleExitQuiz = () => {
+    QuizStore.resetStore();
+    navigate("/");
+  };
+
   return (
     <Suspense fallback={<Loader />}>
       <Section>
@@ -68,7 +74,7 @@ const QuizPage = observer(() => {
               <>
                 {currentQuiz ? (
                   <>
-                    <Box p="10px">
+                    <HStack p="10px" justify="space-between">
                       <Text fontSize="md">
                         Question{" "}
                         {quizNumber < quizzes.length
@@ -76,7 +82,10 @@ const QuizPage = observer(() => {
                           : quizzes.length}{" "}
                         of {quizzes.length}
                       </Text>
-                    </Box>
+                      <CustomButton onClickHandler={handleExitQuiz}>
+                        Exit
+                      </CustomButton>
+                    </HStack>
                     <QuizQuestion
                       question={currentQuiz.question}
                       answers={currentQuiz.answers}

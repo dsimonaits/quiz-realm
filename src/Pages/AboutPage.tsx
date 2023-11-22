@@ -29,7 +29,7 @@ const About = () => {
                 px: "1",
                 py: "1",
                 color: "white",
-                bg: "quizMain.100",
+                bg: "accent",
                 rounded: "full",
               }}
             >

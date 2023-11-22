@@ -26,8 +26,8 @@ const StartQuizBtn: FC<IStartQuizBtn> = ({
           as={ReactRouterLink}
           className={[cl.StartQuizBtn, cl.glow].join(" ")}
           onClick={() => onBtnClick()}
-          color="var(--secondaryColor)"
-          bg="var(--mainColor)"
+          color="accent"
+          bg="primary"
           _hover={{ color: "white" }}
         >
           Start Quiz

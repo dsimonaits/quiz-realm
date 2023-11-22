@@ -13,8 +13,8 @@ const Navigation: FC<NavProps> = ({ links }) => {
       as={ReactRouterLink}
       to={link.path}
       key={link.path}
-      _activeLink={{ color: "quizMain.100", fontWeight: "bold" }}
-      _hover={{ color: "quizMain.100" }}
+      _activeLink={{ color: "accent", fontWeight: "bold" }}
+      _hover={{ color: "accent" }}
     >
       {link.name}
     </ChakraLink>

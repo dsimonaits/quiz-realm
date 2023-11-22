@@ -4,13 +4,9 @@
   --mainFont: "Poppins", sans-serif;
   --secondaryFont: "Roboto", sans-serif;
   --chakra-fontSizes-lg: "18px";
-  --chakra-colors-gray-100: "#fafafa";
-  --chakra-colors-gray-200: "#f7f7f7";
   --transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  --mainColor: #000000;
   --secondaryColor: #fcc822;
-  --bg: #d1d1d1;
   --reactColor: #61dafb;
   --nodeColor: #68a063;
   --wrongColor: #dc143c;

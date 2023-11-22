@@ -1,5 +1,5 @@
 import { makeAutoObservable, observable, action } from "mobx";
-import { IQuiz } from "../types/types";
+import { IQuiz, Categories } from "../types/types";
 import { QuizData } from "../MockQuizData";
 
 class Store {
@@ -16,7 +16,7 @@ class Store {
   StartQuizData: IQuiz[] = [];
   startQuiz: true | false = false;
   selectedTopics: string[] = [];
-  selectedCategory: string = "";
+  selectedCategory: Categories | "" = "";
   selectedAnswer: string = "";
   constructor() {
     makeAutoObservable(this, {
@@ -42,11 +42,13 @@ class Store {
   }
 
   getAllCategories() {
-    const categories = [...new Set(QuizData.map((quiz) => quiz.category))];
+    const categories: Categories[] = [
+      ...new Set(QuizData.map((quiz) => quiz.category)),
+    ];
     return categories;
   }
 
-  setCategory(category: string) {
+  setCategory(category: Categories) {
     this.selectedCategory = category;
   }
 
@@ -72,14 +74,15 @@ class Store {
     });
   }
 
-  setStartQuizData(questions: IQuiz[]) {
+  setNewQuizQuestions(questions: IQuiz[]) {
     this.StartQuizData = [...questions];
   }
 
   resetStore() {
     this.selectedTopics = [];
-    this.selectedCategory = "";
+    this.selectedCategory = "JavaScript";
     this.selectedAnswer = "";
+    console.log(this.selectedCategory);
   }
 
   setAnswer(answer: string) {

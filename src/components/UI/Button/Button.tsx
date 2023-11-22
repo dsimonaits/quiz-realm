@@ -23,18 +23,18 @@ const CustomButton: FC<ButtonProps> = ({
       borderRadius="none"
       bg="transparent"
       border="1px solid"
-      borderColor="quizMain.100"
-      color="quizMain.100"
+      borderColor="accent"
+      color="accent"
       _hover={{
-        bg: "quizMain.100",
-        color: "white",
+        bg: "accent",
+        color: "secondary",
       }}
       _active={{
-        bg: "quizMain.100",
-        color: "white",
+        bg: "accent",
+        color: "secondary",
       }}
       _focus={{
-        boxShadow: "0 0 1px 2px quizMain.100",
+        boxShadow: "0 0 1px 2px accent",
       }}
       transition="var(--transition)"
       onClick={() => onClickHandler()}

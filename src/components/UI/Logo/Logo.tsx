@@ -12,7 +12,7 @@ const Logo = () => {
       }}
     >
       <Heading fontWeight="bold" fontSize="20">
-        QuizRealm |<Text color="quizMain.100"> JS and Beyond</Text>
+        QuizRealm |<Text color="accent"> JS and Beyond</Text>
       </Heading>
     </ChakraLink>
   );
