@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import Themes from "./styles/theme/styles";
 import Loader from "./components/UI/Loader/Loader";
@@ -7,6 +7,7 @@ import { useTheme } from "./hooks/useTheme";
 import PrivateRoute from "./routes/PrivateRoute";
 import AuthPage from "./Pages/AuthPage";
 import PublicRoute from "./routes/PublicRoute";
+import UserStore from "./store/UserStore";
 const MainLayout = lazy(
   () => import("./components/Layouts/MainLayout/MainLayout")
 );
@@ -17,6 +18,12 @@ const About = lazy(() => import("./Pages/AboutPage"));
 
 function App() {
   const { theme } = useTheme();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      UserStore.currentUser();
+    }
+  });
 
   return (
     <ChakraProvider theme={Themes[theme]}>

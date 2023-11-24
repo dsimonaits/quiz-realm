@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
 import { makeAutoObservable, observable, action } from "mobx";
-
-interface IUser {
-  name: string;
-  email: string;
-}
+import api from "../service/api";
 
 interface Credentials {
   email: string;
@@ -16,6 +11,17 @@ interface Credentials {
 interface IResult {
   good: number;
   fault: number;
+}
+
+interface IUser {
+  age: number | null;
+  email: string | null;
+  first_name: string | null;
+  id: number | null;
+  last_name: string | null;
+  role: string | null;
+  token: string | null;
+  username: string | null;
 }
 
 interface AxiosError {
@@ -50,7 +56,16 @@ class UserStore {
     return this.instance;
   }
   isAuthenticated = false;
-  user: IUser = { name: "", email: "" };
+  user: IUser = {
+    age: null,
+    email: null,
+    first_name: null,
+    id: null,
+    last_name: null,
+    role: null,
+    token: null,
+    username: null,
+  };
 
   userProgress: IProgress = {
     totalGamesPlayed: 0,
@@ -77,29 +92,48 @@ class UserStore {
     this.isAuthenticated = status;
   }
 
-  async fetchUserProgress() {
+  async fetchUserProgress(id: number) {
     try {
-      const response = await axios.get("/api/user/progress"); // Adjust the API endpoint accordingly
-      const userProgressData = response.data;
+      const response = await api.get(`/api/v1/user-progress/id/${id}`); // Adjust the API endpoint accordingly
+      // const userProgressData = response.data;
       // Update the user progress in the store
-      this.userProgress = userProgressData;
+      console.log({ userProgress: response });
+      // this.userProgress = userProgressData;
     } catch (error: AxiosError | any) {
       // Handle errors, e.g., show an error message or redirect to the login page
       console.error("Error fetching user progress:", error.message);
     }
   }
 
-  async login(credentials: Credentials) {
+  async currentUser() {
     try {
-      const response = await axios.post("/api/login", credentials); // Adjust the API endpoint accordingly
+      const response = await api.get("/api/v1/users/whoami");
+
+      this.user = response.data;
+      this.setAuthenticated(true);
+      console.log(this.user);
+    } catch (error: AxiosError | any) {
+      console.error("Error during receiving current user:", error.message);
+    }
+  }
+
+  async login(body: Credentials) {
+    try {
+      const response = await api.post("/api/v1/users/login", body); // Adjust the API endpoint accordingly
       // Assuming the server returns a token upon successful login
+      console.log(response.data);
+
+      this.user = response.data;
+
+      console.log(this.user.id);
+
       const token = response.data.token;
+      localStorage.setItem("token", token);
       // Set the token in Axios headers for future requests
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       // Set the authentication status to true
       this.setAuthenticated(true);
       // Fetch user progress after successful login
-      this.fetchUserProgress();
+      // this.fetchUserProgress();
     } catch (error: AxiosError | any) {
       // Handle login errors, e.g., show an error message
       console.error("Error during login:", error.message);
@@ -108,9 +142,11 @@ class UserStore {
 
   logout() {
     // Remove the token from Axios headers
-    delete axios.defaults.headers.common["Authorization"];
+    delete api.defaults.headers.common["Authorization"];
     // Set the authentication status to false
     this.setAuthenticated(false);
+
+    localStorage.removeItem("token");
     // Reset user progress
     this.userProgress = {
       totalGamesPlayed: 0,

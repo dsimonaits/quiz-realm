@@ -39,9 +39,8 @@ const LoginForm: FC = () => {
         initialValues={{ email: "", password: "" }}
         onSubmit={(values, { setSubmitting }) => {
           setSubmitting(false);
-          alert(JSON.stringify(values));
-          UserStore.setAuthenticated(true);
-          console.log(UserStore.isAuthenticated);
+
+          UserStore.login(values);
         }}
       >
         {(props) => (
