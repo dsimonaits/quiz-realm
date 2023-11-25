@@ -10,6 +10,8 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
+import ScaleFadeComponent from "../../UI/ScaleFade/ScaleFade";
+import { InputStyles, FormControlStyles } from "./styles";
 
 interface FormValues {
   username: string;
@@ -49,162 +51,161 @@ const registrationSchema = Yup.object().shape({
 
 const RegistrationForm: FC = () => {
   return (
-    <Box
-      width={["280px", "400px", "400px"]}
-      p="20px"
-      border="2px solid"
-      borderColor="accent"
-    >
-      <Formik
-        validationSchema={registrationSchema}
-        initialValues={{
-          username: "",
-          first_name: "",
-          last_name: "",
-          age: undefined,
-          email: "",
-          password: "",
-          confirm_password: "",
-        }}
-        onSubmit={(values) => {
-          alert(JSON.stringify(values));
-        }}
-      >
-        {(props) => (
-          <Form>
-            <Field name="username">
-              {({ field, form }: FieldProps<string, FormValues>) => (
-                <FormControl
-                  _notLast={{ marginBottom: "10px" }}
-                  isInvalid={!!(form.errors.username && form.touched.username)}
-                >
-                  <FormLabel>Username</FormLabel>
-                  <Input
-                    focusBorderColor="accent"
-                    {...field}
-                    placeholder="username"
-                  />
-                  <FormErrorMessage>{form.errors.username}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="first_name">
-              {({ field, form }: FieldProps<string, FormValues>) => (
-                <FormControl
-                  isInvalid={
-                    !!(form.errors.first_name && form.touched.first_name)
-                  }
-                >
-                  <FormLabel>First Name</FormLabel>
-                  <Input
-                    focusBorderColor="accent"
-                    {...field}
-                    placeholder="first name"
-                  />
-                  <FormErrorMessage>{form.errors.first_name}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="last_name">
-              {({ field, form }: FieldProps<string, FormValues>) => (
-                <FormControl
-                  isInvalid={
-                    !!(form.errors.last_name && form.touched.last_name)
-                  }
-                >
-                  <FormLabel>Last Name</FormLabel>
-                  <Input
-                    focusBorderColor="accent"
-                    {...field}
-                    placeholder="last name"
-                  />
-                  <FormErrorMessage>{form.errors.last_name}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="age">
-              {({ field, form }: FieldProps<string, FormValues>) => (
-                <FormControl
-                  isInvalid={!!(form.errors.age && form.touched.age)}
-                >
-                  <FormLabel>Age</FormLabel>
-                  <Input
-                    focusBorderColor="accent"
-                    {...field}
-                    placeholder="age"
-                  />
-                  <FormErrorMessage>{form.errors.age}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="email">
-              {({ field, form }: FieldProps<string, FormValues>) => (
-                <FormControl
-                  isInvalid={!!(form.errors.email && form.touched.email)}
-                >
-                  <FormLabel>Email</FormLabel>
-                  <Input
-                    focusBorderColor="accent"
-                    {...field}
-                    placeholder="email"
-                  />
-                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="password">
-              {({ field, form }: FieldProps<string, FormValues>) => (
-                <FormControl
-                  isInvalid={!!(form.errors.password && form.touched.password)}
-                >
-                  <FormLabel>Password</FormLabel>
-                  <Input
-                    focusBorderColor="accent"
-                    {...field}
-                    placeholder="password"
-                  />
-                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="confirm_password">
-              {({ field, form }: FieldProps<string, FormValues>) => (
-                <FormControl
-                  isInvalid={
-                    !!(
-                      form.errors.confirm_password &&
-                      form.touched.confirm_password
-                    )
-                  }
-                >
-                  <FormLabel>Confirm Password</FormLabel>
-                  <Input
-                    focusBorderColor="accent"
-                    {...field}
-                    placeholder="confirm password"
-                  />
-                  <FormErrorMessage>
-                    {form.errors.confirm_password}
-                  </FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Button
-              mt={4}
-              mx="auto"
-              display="block"
-              color="primary"
-              bg="accent"
-              _hover={{ color: "secondary" }}
-              isLoading={props.isSubmitting}
-              type="submit"
-            >
-              Submit
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+    <ScaleFadeComponent>
+      <Box width={["280px", "400px", "400px"]} p="20px">
+        <Formik
+          validationSchema={registrationSchema}
+          initialValues={{
+            username: "",
+            first_name: "",
+            last_name: "",
+            age: undefined,
+            email: "",
+            password: "",
+            confirm_password: "",
+          }}
+          onSubmit={(values) => {
+            alert(JSON.stringify(values));
+          }}
+        >
+          {(props) => (
+            <Form>
+              <Field name="username">
+                {({ field, form }: FieldProps<string, FormValues>) => (
+                  <FormControl
+                    {...FormControlStyles}
+                    isInvalid={
+                      !!(form.errors.username && form.touched.username)
+                    }
+                  >
+                    <FormLabel>Username</FormLabel>
+                    <Input {...InputStyles} {...field} placeholder="username" />
+                    <FormErrorMessage>{form.errors.username}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="first_name">
+                {({ field, form }: FieldProps<string, FormValues>) => (
+                  <FormControl
+                    {...FormControlStyles}
+                    isInvalid={
+                      !!(form.errors.first_name && form.touched.first_name)
+                    }
+                  >
+                    <FormLabel>First Name</FormLabel>
+                    <Input
+                      {...InputStyles}
+                      {...field}
+                      placeholder="first name"
+                    />
+                    <FormErrorMessage>
+                      {form.errors.first_name}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="last_name">
+                {({ field, form }: FieldProps<string, FormValues>) => (
+                  <FormControl
+                    {...FormControlStyles}
+                    isInvalid={
+                      !!(form.errors.last_name && form.touched.last_name)
+                    }
+                  >
+                    <FormLabel>Last Name</FormLabel>
+                    <Input
+                      {...InputStyles}
+                      {...field}
+                      placeholder="last name"
+                    />
+                    <FormErrorMessage>{form.errors.last_name}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="age">
+                {({ field, form }: FieldProps<string, FormValues>) => (
+                  <FormControl
+                    {...FormControlStyles}
+                    isInvalid={!!(form.errors.age && form.touched.age)}
+                  >
+                    <FormLabel>Age</FormLabel>
+                    <Input {...InputStyles} {...field} placeholder="age" />
+                    <FormErrorMessage>{form.errors.age}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="email">
+                {({ field, form }: FieldProps<string, FormValues>) => (
+                  <FormControl
+                    {...FormControlStyles}
+                    isInvalid={!!(form.errors.email && form.touched.email)}
+                  >
+                    <FormLabel>Email</FormLabel>
+                    <Input {...InputStyles} {...field} placeholder="email" />
+                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="password">
+                {({ field, form }: FieldProps<string, FormValues>) => (
+                  <FormControl
+                    {...FormControlStyles}
+                    isInvalid={
+                      !!(form.errors.password && form.touched.password)
+                    }
+                  >
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                      type="password"
+                      {...InputStyles}
+                      {...field}
+                      placeholder="password"
+                    />
+                    <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="confirm_password">
+                {({ field, form }: FieldProps<string, FormValues>) => (
+                  <FormControl
+                    {...FormControlStyles}
+                    isInvalid={
+                      !!(
+                        form.errors.confirm_password &&
+                        form.touched.confirm_password
+                      )
+                    }
+                  >
+                    <FormLabel>Confirm Password</FormLabel>
+                    <Input
+                      type="password"
+                      {...InputStyles}
+                      {...field}
+                      placeholder="confirm password"
+                    />
+                    <FormErrorMessage>
+                      {form.errors.confirm_password}
+                    </FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Button
+                mt={4}
+                mx="auto"
+                display="block"
+                color="primary"
+                bg="accent"
+                _hover={{ color: "secondary" }}
+                isLoading={props.isSubmitting}
+                type="submit"
+              >
+                Register
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </ScaleFadeComponent>
   );
 };
 
