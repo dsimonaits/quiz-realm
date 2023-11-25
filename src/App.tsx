@@ -8,6 +8,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import AuthPage from "./Pages/AuthPage";
 import PublicRoute from "./routes/PublicRoute";
 import UserStore from "./store/UserStore";
+import { observer } from "mobx-react-lite";
 const MainLayout = lazy(
   () => import("./components/Layouts/MainLayout/MainLayout")
 );
@@ -16,46 +17,52 @@ const QuizPage = lazy(() => import("./Pages/QuizPage"));
 const HowItWorks = lazy(() => import("./Pages/HowItWorksPage"));
 const About = lazy(() => import("./Pages/AboutPage"));
 
-function App() {
+const App = observer(() => {
   const { theme } = useTheme();
+
+  const { isAuthenticated, isLoading } = UserStore;
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
       UserStore.currentUser();
     }
-  });
+  }, []);
 
   return (
     <ChakraProvider theme={Themes[theme]}>
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          <Route
-            path="/auth"
-            element={
-              <PublicRoute redirectTo="/">
-                <AuthPage />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute redirectTo="/auth">
-                <MainLayout />
-              </PrivateRoute>
-            }
-          >
-            <Route index element={<HomePage />} />
-            <Route path="how-it-works" element={<HowItWorks />} />
-            <Route path="about" element={<About />} />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route
+              path="/auth"
+              element={
+                <PublicRoute isAuth={isAuthenticated} redirectTo="/">
+                  <AuthPage />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute isAuth={isAuthenticated} redirectTo="/auth">
+                  <MainLayout />
+                </PrivateRoute>
+              }
+            >
+              <Route index element={<HomePage />} />
+              <Route path="how-it-works" element={<HowItWorks />} />
+              <Route path="about" element={<About />} />
 
-            <Route path="*" element={<HomePage />} />
-          </Route>
-          <Route path="/quiz-page" element={<QuizPage />} />
-        </Routes>
-      </Suspense>
+              <Route path="*" element={<HomePage />} />
+            </Route>
+            <Route path="/quiz-page" element={<QuizPage />} />
+          </Routes>
+        </Suspense>
+      )}
     </ChakraProvider>
   );
-}
+});
 
 export default App;
