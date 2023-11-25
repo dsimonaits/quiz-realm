@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { makeAutoObservable, observable, action } from "mobx";
 import api from "../service/api";
+import Toastify from "toastify-js";
 
 interface Credentials {
   email: string;
@@ -56,6 +57,8 @@ class UserStore {
     return this.instance;
   }
   isAuthenticated = false;
+  isLoading = false;
+
   user: IUser = {
     age: null,
     email: null,
@@ -81,11 +84,16 @@ class UserStore {
       user: observable,
       userProgress: observable,
       isAuthenticated: observable,
+      setIsLoading: action,
       setAuthenticated: action,
       setPlayedGames: action,
       setUserResult: action,
       fetchUserProgress: action,
     });
+  }
+
+  setIsLoading(status: boolean) {
+    this.isLoading = status;
   }
 
   setAuthenticated(status: boolean) {
@@ -94,49 +102,64 @@ class UserStore {
 
   async fetchUserProgress(id: number) {
     try {
-      const response = await api.get(`/api/v1/user-progress/id/${id}`); // Adjust the API endpoint accordingly
-      // const userProgressData = response.data;
-      // Update the user progress in the store
-      console.log({ userProgress: response });
-      // this.userProgress = userProgressData;
+      this.setIsLoading(true);
+      const response = await api.get(`/api/v1/user-progress/id/${id}`);
     } catch (error: AxiosError | any) {
-      // Handle errors, e.g., show an error message or redirect to the login page
       console.error("Error fetching user progress:", error.message);
+    } finally {
+      this.setIsLoading(false);
     }
   }
 
   async currentUser() {
     try {
+      this.setIsLoading(true);
       const response = await api.get("/api/v1/users/whoami");
 
       this.user = response.data;
       this.setAuthenticated(true);
-      console.log(this.user);
     } catch (error: AxiosError | any) {
       console.error("Error during receiving current user:", error.message);
+    } finally {
+      this.setIsLoading(false);
     }
   }
 
   async login(body: Credentials) {
     try {
-      const response = await api.post("/api/v1/users/login", body); // Adjust the API endpoint accordingly
-      // Assuming the server returns a token upon successful login
-      console.log(response.data);
+      this.setIsLoading(true);
+      const response = await api.post("/api/v1/users/login", body);
 
       this.user = response.data;
 
-      console.log(this.user.id);
-
       const token = response.data.token;
       localStorage.setItem("token", token);
-      // Set the token in Axios headers for future requests
-      // Set the authentication status to true
       this.setAuthenticated(true);
-      // Fetch user progress after successful login
-      // this.fetchUserProgress();
     } catch (error: AxiosError | any) {
-      // Handle login errors, e.g., show an error message
+      Toastify({
+        text: "Login failed, wrong email or password",
+        className: "info",
+        duration: 3000,
+        destination: "https://github.com/apvarun/toastify-js",
+
+        gravity: "top", // `top` or `bottom`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+
+        style: {
+          zIndex: "999",
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          width: "250px",
+          padding: "10px",
+          borderRadius: "5px",
+          color: "white",
+          background: "var(--secondaryColor)",
+        },
+      }).showToast();
       console.error("Error during login:", error.message);
+    } finally {
+      this.setIsLoading(false);
     }
   }
 
