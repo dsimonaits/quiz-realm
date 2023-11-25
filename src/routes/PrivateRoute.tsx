@@ -1,18 +1,18 @@
 import React, { FC } from "react";
 import { Navigate } from "react-router-dom";
-import UserStore from "../store/UserStore";
-import { observer } from "mobx-react-lite";
 
 interface IPrivateRoute {
   children: React.ReactNode;
   redirectTo: string;
+  isAuth: boolean;
 }
 
-export const PrivateRoute: FC<IPrivateRoute> = observer(
-  ({ children, redirectTo }) => {
-    const isAuthenticated = UserStore.isAuthenticated;
-    return isAuthenticated ? children : <Navigate to={redirectTo} />;
-  }
-);
+export const PrivateRoute: FC<IPrivateRoute> = ({
+  children,
+  redirectTo,
+  isAuth,
+}) => {
+  return isAuth ? children : <Navigate to={redirectTo} />;
+};
 
 export default PrivateRoute;
