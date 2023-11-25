@@ -14,13 +14,20 @@ import Navigation from "../../UI/Navigation/Navigation";
 import Logo from "../../UI/Logo/Logo";
 import Section from "../Section/Section";
 import MainContainer from "../Container/Container";
+import UserStore from "../../../store/UserStore";
+import CustomButton from "../../UI/Button/Button";
 
 const Header = () => {
   const Links = [
     { name: "Quiz", path: "/" },
     { name: "How it works", path: "how-it-works" },
     { name: "About", path: "about" },
+    { name: "My Dashboard", path: "dashboard" },
   ];
+
+  const handleLogout = () => {
+    UserStore.logout();
+  };
 
   return (
     <>
@@ -31,6 +38,9 @@ const Header = () => {
             <Hide breakpoint="(max-width: 768px)">
               <HStack spacing="30px">
                 <Navigation links={Links} />
+                <CustomButton onClickHandler={handleLogout}>
+                  Logout
+                </CustomButton>
               </HStack>
             </Hide>
             <Show breakpoint="(max-width: 768px)">
@@ -47,7 +57,13 @@ const Header = () => {
                   flexDirection="column"
                   alignItems="center"
                 >
-                  <Navigation links={Links} />
+                  <Navigation links={Links} isMenu={true} />
+                  <CustomButton
+                    style={{ mt: "10px" }}
+                    onClickHandler={handleLogout}
+                  >
+                    LogOut
+                  </CustomButton>
                 </MenuList>
               </Menu>
             </Show>
