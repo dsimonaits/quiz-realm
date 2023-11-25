@@ -1,5 +1,5 @@
 import { NavLink as ReactRouterLink } from "react-router-dom";
-import { Link as ChakraLink, Heading, Text } from "@chakra-ui/react";
+import { Box, Link as ChakraLink, Heading } from "@chakra-ui/react";
 
 const Logo = () => {
   return (
@@ -12,7 +12,11 @@ const Logo = () => {
       }}
     >
       <Heading fontWeight="bold" fontSize="20">
-        QuizRealm |<Text color="accent"> JS and Beyond</Text>
+        QuizRealm |
+        <Box as="span" color="accent">
+          {" "}
+          JS and Beyond
+        </Box>
       </Heading>
     </ChakraLink>
   );
