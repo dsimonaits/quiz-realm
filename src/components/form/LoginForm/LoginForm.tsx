@@ -11,6 +11,8 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
+import { InputStyles, FormControlStyles } from "./styles";
+import ScaleFadeComponent from "../../UI/ScaleFade/ScaleFade";
 
 interface FormValues {
   email: string;
@@ -28,70 +30,67 @@ const schema = Yup.object().shape({
 
 const LoginForm: FC = () => {
   return (
-    <Box
-      width={["280px", "400px", "400px"]}
-      p="20px"
-      border="2px solid"
-      borderColor="accent"
-    >
-      <Formik
-        validationSchema={schema}
-        initialValues={{ email: "", password: "" }}
-        onSubmit={(values, { setSubmitting }) => {
-          setSubmitting(false);
+    <ScaleFadeComponent>
+      <Box width={["280px", "400px", "400px"]} p="20px">
+        <Formik
+          validationSchema={schema}
+          initialValues={{ email: "", password: "" }}
+          onSubmit={(values, { setSubmitting }) => {
+            setSubmitting(false);
 
-          UserStore.login(values);
-        }}
-      >
-        {(props) => (
-          <Form>
-            <Field name="email">
-              {({ field, form }: FieldProps<string, FormValues>) => (
-                <FormControl
-                  _notLast={{ marginBottom: "10px" }}
-                  isInvalid={!!(form.errors.email && form.touched.email)}
-                >
-                  <FormLabel>First name</FormLabel>
-                  <Input
-                    focusBorderColor="accent"
-                    {...field}
-                    placeholder="email"
-                  />
-                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="password">
-              {({ field, form }: FieldProps<string, FormValues>) => (
-                <FormControl
-                  isInvalid={!!(form.errors?.password && form.touched.password)}
-                >
-                  <FormLabel>First name</FormLabel>
-                  <Input
-                    focusBorderColor="accent"
-                    {...field}
-                    placeholder="password"
-                  />
-                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Button
-              mt={4}
-              mx="auto"
-              display="block"
-              color="primary"
-              bg="accent"
-              _hover={{ color: "secondary" }}
-              isLoading={props.isSubmitting}
-              type="submit"
-            >
-              Submit
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+            UserStore.login(values);
+          }}
+        >
+          {(props) => (
+            <Form>
+              <Field name="email">
+                {({ field, form }: FieldProps<string, FormValues>) => (
+                  <FormControl
+                    isInvalid={!!(form.errors.email && form.touched.email)}
+                    {...FormControlStyles}
+                  >
+                    <FormLabel m="0">Email</FormLabel>
+                    <Input {...InputStyles} {...field} placeholder="email" />
+                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="password">
+                {({ field, form }: FieldProps<string, FormValues>) => (
+                  <FormControl
+                    isInvalid={
+                      !!(form.errors?.password && form.touched.password)
+                    }
+                    {...FormControlStyles}
+                  >
+                    <FormLabel m="0">Password</FormLabel>
+                    <Input
+                      type="password"
+                      {...InputStyles}
+                      {...field}
+                      placeholder="password"
+                    />
+                    <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Button
+                mt={4}
+                mx="auto"
+                display="block"
+                color="primary"
+                bg="accent"
+                _hover={{ color: "secondary" }}
+                isLoading={props.isSubmitting}
+                type="submit"
+              >
+                Login
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </Box>
+    </ScaleFadeComponent>
   );
 };
 
