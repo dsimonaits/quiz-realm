@@ -13,10 +13,15 @@ import {
 } from "@chakra-ui/react";
 import { InputStyles, FormControlStyles } from "./styles";
 import ScaleFadeComponent from "../../UI/ScaleFade/ScaleFade";
+import CustomButton from "../../UI/Button/Button";
 
 interface FormValues {
   email: string;
   password: string;
+}
+
+interface ILogin {
+  children: React.ReactNode;
 }
 
 const schema = Yup.object().shape({
@@ -28,7 +33,7 @@ const schema = Yup.object().shape({
     .min(8, "Password must be at least 8 characters"),
 });
 
-const LoginForm: FC = () => {
+const LoginForm: FC<ILogin> = ({ children }) => {
   return (
     <ScaleFadeComponent>
       <Box width={["280px", "400px", "400px"]} p="20px">
@@ -49,8 +54,12 @@ const LoginForm: FC = () => {
                     isInvalid={!!(form.errors.email && form.touched.email)}
                     {...FormControlStyles}
                   >
-                    <FormLabel m="0">Email</FormLabel>
-                    <Input {...InputStyles} {...field} placeholder="email" />
+                    <Input
+                      {...InputStyles}
+                      {...field}
+                      placeholder="email"
+                      autoComplete="email"
+                    />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                   </FormControl>
                 )}
@@ -63,29 +72,18 @@ const LoginForm: FC = () => {
                     }
                     {...FormControlStyles}
                   >
-                    <FormLabel m="0">Password</FormLabel>
                     <Input
                       type="password"
                       {...InputStyles}
                       {...field}
                       placeholder="password"
+                      autoComplete="password"
                     />
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
-              <Button
-                mt={4}
-                mx="auto"
-                display="block"
-                color="primary"
-                bg="accent"
-                _hover={{ color: "secondary" }}
-                isLoading={props.isSubmitting}
-                type="submit"
-              >
-                Login
-              </Button>
+              {children}
             </Form>
           )}
         </Formik>

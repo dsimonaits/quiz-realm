@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import Section from "../components/Layouts/Section/Section";
 import LoginForm from "../components/form/LoginForm/LoginForm";
-import {
-  Box,
-  Container,
-  HStack,
-  Heading,
-  Image,
-  Link,
-  Text,
-} from "@chakra-ui/react";
+import { Box, HStack, Heading, Image, VStack } from "@chakra-ui/react";
 import RegistrationForm from "../components/form/RegForm/RegForm";
-import welcomeHat from "../images/Hands Graduate.svg";
+import GraduateSmall from "../images/HandsGraduate.svg";
+import GraduateBig from "../images/HandsGraduateBig.png";
+import MainContainer from "../components/Layouts/Container/Container";
+import CustomButton from "../components/UI/Button/Button";
 
 const AuthPage = () => {
   const [formType, setFormType] = useState<"Login" | "Register">("Login");
@@ -20,44 +15,94 @@ const AuthPage = () => {
     setFormType(formType === "Login" ? "Register" : "Login");
   };
 
+  // const onSubmitHandler = () => {};
+
   return (
-    <Section>
-      <Container
-        display="flex"
-        flexDirection="column"
-        height="100%"
-        justifyContent="center"
-        alignItems="center"
-        mx="auto"
+    <Section style={{ py: "60px" }}>
+      <MainContainer
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "80vh",
+        }}
       >
-        <HStack position="relative" mb={["20px", "20px", "20px"]}>
-          <Heading as="h1" fontSize={[40, 40, 40]}>
-            Quiz
-            <Box as="span" color="accent">
-              Realm
-            </Box>
-          </Heading>
+        <HStack display="flex" width="inherit">
+          <VStack flex="1">
+            <HStack
+              position="relative"
+              justify="center"
+              width={["250px", "250px", "250px"]}
+              mb={["20px", "20px", "20px"]}
+            >
+              <Heading as="h1" fontSize={[40, 40, 40]}>
+                Quiz
+                <Box as="span" color="accent">
+                  Realm
+                </Box>
+              </Heading>
+              <Box
+                position="absolute"
+                top={["-12px", "-12px", "-12px"]}
+                left={["-5px", "-5px", "-5px"]}
+              >
+                <Image src={GraduateSmall} height="40px" />
+              </Box>
+            </HStack>
+            {formType === "Login" ? (
+              <LoginForm>
+                <HStack mt="20px" gap="20px" justify="center">
+                  <CustomButton
+                    style={{
+                      boxShadow: "0px 5px 0px 0px",
+                    }}
+                    attributes={{ type: "submit" }}
+                  >
+                    Login
+                  </CustomButton>
+                  <CustomButton
+                    style={{ as: "div" }}
+                    onClickHandler={toggleFormType}
+                  >
+                    Register
+                  </CustomButton>
+                </HStack>
+              </LoginForm>
+            ) : (
+              <RegistrationForm>
+                <HStack gap="20px" mt="20px" justify="center">
+                  <CustomButton
+                    style={{ as: "div" }}
+                    onClickHandler={toggleFormType}
+                  >
+                    Login
+                  </CustomButton>
+                  <CustomButton
+                    style={{
+                      boxShadow: "0px 5px 0px 0px",
+                    }}
+                    attributes={{ type: "submit" }}
+                  >
+                    Register
+                  </CustomButton>
+                </HStack>
+              </RegistrationForm>
+            )}
+          </VStack>
           <Box
-            position="absolute"
-            top={["-10px", "-10px", "-10px"]}
-            left={["-20px", "-20px", "-20px"]}
+            display={["none", "none", "flex"]}
+            justifyContent="center"
+            alignItems="center"
+            px="20px"
+            flex="1"
+            backgroundColor="background"
+            h="100vh"
           >
-            <Image src={welcomeHat} height="40px" />
+            <Image src={GraduateBig} width={["300px", "300px", "300px"]} />
           </Box>
         </HStack>
-
-        <>
-          {formType === "Login" ? <LoginForm /> : <RegistrationForm />}
-          <Text mt={4}>
-            {formType === "Login"
-              ? "Need to register? "
-              : "Already have an account? "}
-            <Link color="accent" onClick={toggleFormType}>
-              {formType === "Login" ? "Register here" : "Login here"}
-            </Link>
-          </Text>
-        </>
-      </Container>
+      </MainContainer>
     </Section>
   );
 };

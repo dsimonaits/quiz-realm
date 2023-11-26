@@ -84,6 +84,7 @@ class UserStore {
       user: observable,
       userProgress: observable,
       isAuthenticated: observable,
+      isLoading: observable,
       setIsLoading: action,
       setAuthenticated: action,
       setPlayedGames: action,
@@ -104,6 +105,7 @@ class UserStore {
     try {
       this.setIsLoading(true);
       const response = await api.get(`/api/v1/user-progress/id/${id}`);
+      this.userProgress = response.data;
     } catch (error: AxiosError | any) {
       console.error("Error fetching user progress:", error.message);
     } finally {
@@ -116,8 +118,9 @@ class UserStore {
       this.setIsLoading(true);
       const response = await api.get("/api/v1/users/whoami");
 
-      this.user = response.data;
+      this.user = response.data.user;
       this.setAuthenticated(true);
+      this.fetchUserProgress(response.data.user.id);
     } catch (error: AxiosError | any) {
       console.error("Error during receiving current user:", error.message);
     } finally {
@@ -130,16 +133,57 @@ class UserStore {
       this.setIsLoading(true);
       const response = await api.post("/api/v1/users/login", body);
 
-      this.user = response.data;
+      this.user = response.data.user;
 
       const token = response.data.token;
       localStorage.setItem("token", token);
       this.setAuthenticated(true);
+      this.fetchUserProgress(response.data.user.id);
+      console.log(this.userProgress);
+    } catch (error: AxiosError | any) {
+      console.log(error);
+      Toastify({
+        text: `${error.response.data.errorMessage}`,
+        className: "info",
+        duration: 4000,
+        destination: "https://github.com/apvarun/toastify-js",
+
+        gravity: "top", // `top` or `bottom`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+
+        style: {
+          zIndex: "999",
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          width: "250px",
+          padding: "10px",
+          borderRadius: "5px",
+          color: "white",
+          background: "var(--secondaryColor)",
+        },
+      }).showToast();
+    } finally {
+      this.setIsLoading(false);
+    }
+  }
+  async register(body: Credentials) {
+    let response;
+    try {
+      this.setIsLoading(true);
+      response = await api.post("/api/v1/users", body);
+
+      this.user = response.data.user;
+
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      this.setAuthenticated(true);
+      this.fetchUserProgress(response.data.user.id);
     } catch (error: AxiosError | any) {
       Toastify({
-        text: "Login failed, wrong email or password",
+        text: `${error.response.data.errorMessage}`,
         className: "info",
-        duration: 3000,
+        duration: 4000,
         destination: "https://github.com/apvarun/toastify-js",
 
         gravity: "top", // `top` or `bottom`

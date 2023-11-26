@@ -3,9 +3,10 @@ import { FC, ReactNode } from "react";
 
 interface ButtonProps {
   children: ReactNode;
-  onClickHandler: () => void;
+  onClickHandler?: () => void;
   style?: BoxProps;
   className?: string;
+  attributes?: object;
 }
 
 const CustomButton: FC<ButtonProps> = ({
@@ -13,10 +14,14 @@ const CustomButton: FC<ButtonProps> = ({
   onClickHandler,
   style,
   className,
+  attributes,
 }) => {
   return (
     <Box
       as="button"
+      display="flex"
+      alignItems="center"
+      cursor="pointer"
       maxWidth="200px"
       h="32px"
       px="20px"
@@ -25,6 +30,7 @@ const CustomButton: FC<ButtonProps> = ({
       border="1px solid"
       borderColor="accent"
       color="accent"
+      transition="all 250ms ease-in"
       _hover={{
         bg: "accent",
         color: "secondary",
@@ -36,9 +42,9 @@ const CustomButton: FC<ButtonProps> = ({
       _focus={{
         boxShadow: "0 0 1px 2px accent",
       }}
-      transition="var(--transition)"
-      onClick={() => onClickHandler()}
+      onClick={() => (onClickHandler ? onClickHandler() : null)}
       {...style}
+      {...attributes}
       className={className}
     >
       {children}

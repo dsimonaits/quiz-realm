@@ -2,16 +2,10 @@
 import React, { FC } from "react";
 import { Form, Formik, Field, FieldProps } from "formik";
 import * as Yup from "yup";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { Box, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import ScaleFadeComponent from "../../UI/ScaleFade/ScaleFade";
 import { InputStyles, FormControlStyles } from "./styles";
+import UserStore from "../../../store/UserStore";
 
 interface FormValues {
   username: string;
@@ -22,6 +16,10 @@ interface FormValues {
   password: string;
   confirm_password: string;
   age?: number;
+}
+
+interface IReg {
+  children: React.ReactNode;
 }
 
 const registrationSchema = Yup.object().shape({
@@ -49,7 +47,7 @@ const registrationSchema = Yup.object().shape({
   age: Yup.number().optional().typeError("Must be a number"),
 });
 
-const RegistrationForm: FC = () => {
+const RegistrationForm: FC<IReg> = ({ children }) => {
   return (
     <ScaleFadeComponent>
       <Box width={["280px", "400px", "400px"]} p="20px">
@@ -59,13 +57,15 @@ const RegistrationForm: FC = () => {
             username: "",
             first_name: "",
             last_name: "",
-            age: undefined,
+            age: "",
             email: "",
             password: "",
             confirm_password: "",
           }}
-          onSubmit={(values) => {
-            alert(JSON.stringify(values));
+          onSubmit={(values, { setSubmitting }) => {
+            setSubmitting(false);
+
+            UserStore.register(values);
           }}
         >
           {(props) => (
@@ -78,8 +78,12 @@ const RegistrationForm: FC = () => {
                       !!(form.errors.username && form.touched.username)
                     }
                   >
-                    <FormLabel>Username</FormLabel>
-                    <Input {...InputStyles} {...field} placeholder="username" />
+                    <Input
+                      {...InputStyles}
+                      {...field}
+                      placeholder="username"
+                      autoComplete="username"
+                    />
                     <FormErrorMessage>{form.errors.username}</FormErrorMessage>
                   </FormControl>
                 )}
@@ -92,11 +96,11 @@ const RegistrationForm: FC = () => {
                       !!(form.errors.first_name && form.touched.first_name)
                     }
                   >
-                    <FormLabel>First Name</FormLabel>
                     <Input
                       {...InputStyles}
                       {...field}
                       placeholder="first name"
+                      autoComplete="given-name"
                     />
                     <FormErrorMessage>
                       {form.errors.first_name}
@@ -112,11 +116,11 @@ const RegistrationForm: FC = () => {
                       !!(form.errors.last_name && form.touched.last_name)
                     }
                   >
-                    <FormLabel>Last Name</FormLabel>
                     <Input
                       {...InputStyles}
                       {...field}
                       placeholder="last name"
+                      autoComplete="family-name"
                     />
                     <FormErrorMessage>{form.errors.last_name}</FormErrorMessage>
                   </FormControl>
@@ -128,8 +132,12 @@ const RegistrationForm: FC = () => {
                     {...FormControlStyles}
                     isInvalid={!!(form.errors.age && form.touched.age)}
                   >
-                    <FormLabel>Age</FormLabel>
-                    <Input {...InputStyles} {...field} placeholder="age" />
+                    <Input
+                      {...InputStyles}
+                      {...field}
+                      placeholder="age"
+                      autoComplete="age"
+                    />
                     <FormErrorMessage>{form.errors.age}</FormErrorMessage>
                   </FormControl>
                 )}
@@ -140,8 +148,12 @@ const RegistrationForm: FC = () => {
                     {...FormControlStyles}
                     isInvalid={!!(form.errors.email && form.touched.email)}
                   >
-                    <FormLabel>Email</FormLabel>
-                    <Input {...InputStyles} {...field} placeholder="email" />
+                    <Input
+                      {...InputStyles}
+                      {...field}
+                      placeholder="email"
+                      autoComplete="email"
+                    />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                   </FormControl>
                 )}
@@ -154,12 +166,12 @@ const RegistrationForm: FC = () => {
                       !!(form.errors.password && form.touched.password)
                     }
                   >
-                    <FormLabel>Password</FormLabel>
                     <Input
                       type="password"
                       {...InputStyles}
                       {...field}
                       placeholder="password"
+                      autoComplete="password"
                     />
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </FormControl>
@@ -176,12 +188,12 @@ const RegistrationForm: FC = () => {
                       )
                     }
                   >
-                    <FormLabel>Confirm Password</FormLabel>
                     <Input
                       type="password"
                       {...InputStyles}
                       {...field}
                       placeholder="confirm password"
+                      autoComplete="password"
                     />
                     <FormErrorMessage>
                       {form.errors.confirm_password}
@@ -189,18 +201,7 @@ const RegistrationForm: FC = () => {
                   </FormControl>
                 )}
               </Field>
-              <Button
-                mt={4}
-                mx="auto"
-                display="block"
-                color="primary"
-                bg="accent"
-                _hover={{ color: "secondary" }}
-                isLoading={props.isSubmitting}
-                type="submit"
-              >
-                Register
-              </Button>
+              {children}
             </Form>
           )}
         </Formik>
