@@ -9,6 +9,7 @@ import AuthPage from "./Pages/AuthPage";
 import PublicRoute from "./routes/PublicRoute";
 import UserStore from "./store/UserStore";
 import { observer } from "mobx-react-lite";
+import DashboardPage from "./Pages/DashboardPage";
 const MainLayout = lazy(
   () => import("./components/Layouts/MainLayout/MainLayout")
 );
@@ -54,6 +55,7 @@ const App = observer(() => {
               <Route index element={<HomePage />} />
               <Route path="how-it-works" element={<HowItWorks />} />
               <Route path="about" element={<About />} />
+              <Route path="dashboard" element={<DashboardPage />} />
 
               <Route path="*" element={<HomePage />} />
             </Route>
