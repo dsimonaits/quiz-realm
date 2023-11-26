@@ -3,17 +3,9 @@ import React, { FC } from "react";
 import UserStore from "../../../store/UserStore";
 import { Form, Formik, Field, FieldProps } from "formik";
 import * as Yup from "yup";
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-} from "@chakra-ui/react";
+import { Box, FormControl, FormErrorMessage, Input } from "@chakra-ui/react";
 import { InputStyles, FormControlStyles } from "./styles";
 import ScaleFadeComponent from "../../UI/ScaleFade/ScaleFade";
-import CustomButton from "../../UI/Button/Button";
 
 interface FormValues {
   email: string;
@@ -46,7 +38,7 @@ const LoginForm: FC<ILogin> = ({ children }) => {
             UserStore.login(values);
           }}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field name="email">
                 {({ field, form }: FieldProps<string, FormValues>) => (
