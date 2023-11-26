@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Section from "../components/Layouts/Section/Section";
 import LoginForm from "../components/form/LoginForm/LoginForm";
 import { Box, HStack, Heading, Image, VStack } from "@chakra-ui/react";
