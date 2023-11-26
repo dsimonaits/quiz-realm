@@ -68,7 +68,7 @@ const RegistrationForm: FC<IReg> = ({ children }) => {
             UserStore.register(values);
           }}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field name="username">
                 {({ field, form }: FieldProps<string, FormValues>) => (
