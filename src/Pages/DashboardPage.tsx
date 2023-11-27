@@ -18,9 +18,13 @@ const DashboardPage = () => {
   const userProgress: IProgress = UserStore.userProgress;
   const { username } = UserStore.user;
 
-  const GoodFaultRatio = Math.floor(
-    (userProgress.total_correct_answers * 100) / userProgress.questions_answered
-  );
+  const GoodFaultRatio =
+    userProgress.questions_answered === 0
+      ? 0
+      : Math.floor(
+          (userProgress.total_correct_answers * 100) /
+            userProgress.questions_answered
+        );
 
   const userProgressCards = [
     {
