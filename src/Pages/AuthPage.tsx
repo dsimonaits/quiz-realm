@@ -25,7 +25,7 @@ const AuthPage = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          height: "80vh",
+          height: "60vh",
         }}
       >
         <HStack display="flex" width="inherit">
@@ -67,7 +67,7 @@ const AuthPage = () => {
                     Login
                   </CustomButton>
                   <CustomButton
-                    style={{ as: "div", width: "110px" }}
+                    style={{ as: "div", width: "110px", color: "background" }}
                     onClickHandler={toggleFormType}
                   >
                     Register
@@ -78,7 +78,7 @@ const AuthPage = () => {
               <RegistrationForm>
                 <HStack gap="20px" mt="20px" justify="center">
                   <CustomButton
-                    style={{ as: "div", width: "110px" }}
+                    style={{ as: "div", width: "110px", color: "background" }}
                     onClickHandler={toggleFormType}
                   >
                     Login
