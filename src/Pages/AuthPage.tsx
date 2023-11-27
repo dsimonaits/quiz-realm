@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Section from "../components/Layouts/Section/Section";
 import LoginForm from "../components/form/LoginForm/LoginForm";
-import { Box, HStack, Heading, Image, VStack } from "@chakra-ui/react";
+import { Box, HStack, Heading, Image, VStack, Text } from "@chakra-ui/react";
 import RegistrationForm from "../components/form/RegForm/RegForm";
 import GraduateSmall from "../images/HandsGraduate.svg";
 import GraduateBig from "../images/HandsGraduateBig.png";
@@ -50,19 +50,24 @@ const AuthPage = () => {
                 <Image src={GraduateSmall} height="40px" />
               </Box>
             </HStack>
+            <Heading as="h2" fontSize={[20, 20, 20]}>
+              {formType === "Login" ? "Welcome back" : "Welcome new user"}
+            </Heading>
+            <Text fontSize={[15, 15, 15]}>Please {formType}</Text>
             {formType === "Login" ? (
               <LoginForm>
                 <HStack mt="20px" gap="20px" justify="center">
                   <CustomButton
                     style={{
                       boxShadow: "0px 5px 0px 0px",
+                      width: "110px",
                     }}
                     attributes={{ type: "submit" }}
                   >
                     Login
                   </CustomButton>
                   <CustomButton
-                    style={{ as: "div" }}
+                    style={{ as: "div", width: "110px" }}
                     onClickHandler={toggleFormType}
                   >
                     Register
@@ -73,7 +78,7 @@ const AuthPage = () => {
               <RegistrationForm>
                 <HStack gap="20px" mt="20px" justify="center">
                   <CustomButton
-                    style={{ as: "div" }}
+                    style={{ as: "div", width: "110px" }}
                     onClickHandler={toggleFormType}
                   >
                     Login
@@ -81,6 +86,7 @@ const AuthPage = () => {
                   <CustomButton
                     style={{
                       boxShadow: "0px 5px 0px 0px",
+                      width: "110px",
                     }}
                     attributes={{ type: "submit" }}
                   >
