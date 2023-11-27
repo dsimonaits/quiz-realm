@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { makeAutoObservable, observable, action } from "mobx";
 import api from "../service/api";
-import Toastify from "toastify-js";
+import calculateLevel from "../utils/levelCalculator";
+import Toast from "../components/UI/Toastify/Toast";
 
 interface Credentials {
   email: string;
@@ -15,14 +16,14 @@ interface IResult {
 }
 
 interface IUser {
-  age: number | null;
-  email: string | null;
-  first_name: string | null;
-  id: number | null;
-  last_name: string | null;
-  role: string | null;
-  token: string | null;
-  username: string | null;
+  age: number;
+  email: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  role: string;
+  token: string;
+  username: string;
 }
 
 interface AxiosError {
@@ -38,13 +39,13 @@ interface AxiosError {
   config?: any;
 }
 
-interface IProgress {
-  totalGamesPlayed: number;
-  totalQuestionsAnsweredGames: number;
-  totalGoodAnswers: number;
-  totalBadAnswers: number;
-  currentLevel: number;
-  averageScore: number;
+export interface IProgress {
+  quizzes_played: number;
+  total_correct_answers: number;
+  total_incorrect_answers: number;
+  questions_answered: number;
+  questions_to_next_level: number;
+  current_level: number;
 }
 
 class UserStore {
@@ -60,23 +61,23 @@ class UserStore {
   isLoading = false;
 
   user: IUser = {
-    age: null,
-    email: null,
-    first_name: null,
-    id: null,
-    last_name: null,
-    role: null,
-    token: null,
-    username: null,
+    age: 0,
+    email: "",
+    first_name: "null",
+    id: 0,
+    last_name: "null",
+    role: "null",
+    token: "",
+    username: "null",
   };
 
   userProgress: IProgress = {
-    totalGamesPlayed: 0,
-    totalQuestionsAnsweredGames: 0,
-    totalGoodAnswers: 0,
-    totalBadAnswers: 0,
-    currentLevel: 0,
-    averageScore: 0,
+    quizzes_played: 0,
+    total_correct_answers: 0,
+    total_incorrect_answers: 0,
+    questions_answered: 0,
+    questions_to_next_level: 10,
+    current_level: 1,
   };
 
   constructor() {
@@ -105,9 +106,23 @@ class UserStore {
     try {
       this.setIsLoading(true);
       const response = await api.get(`/api/v1/user-progress/id/${id}`);
-      this.userProgress = response.data;
+      const { id: progressId, user_id, ...userProgress } = response.data;
+
+      this.userProgress = userProgress;
     } catch (error: AxiosError | any) {
-      console.error("Error fetching user progress:", error.message);
+      Toast(error.response.data.errorMessage);
+    } finally {
+      this.setIsLoading(false);
+    }
+  }
+
+  async updateUserProgress(id: number, body: IProgress) {
+    try {
+      this.setIsLoading(true);
+      const response = await api.patch(`/api/v1/user-progress/id/${id}`, body);
+      console.log(response.data);
+    } catch (error: AxiosError | any) {
+      Toast(error.response.data.errorMessage);
     } finally {
       this.setIsLoading(false);
     }
@@ -122,7 +137,7 @@ class UserStore {
       this.setAuthenticated(true);
       this.fetchUserProgress(response.data.user.id);
     } catch (error: AxiosError | any) {
-      console.error("Error during receiving current user:", error.message);
+      Toast(error.response.data.errorMessage);
     } finally {
       this.setIsLoading(false);
     }
@@ -140,27 +155,7 @@ class UserStore {
       this.setAuthenticated(true);
       this.fetchUserProgress(response.data.user.id);
     } catch (error: AxiosError | any) {
-      Toastify({
-        text: `${error.response.data.errorMessage}`,
-        className: "info",
-        duration: 4000,
-        destination: "https://github.com/apvarun/toastify-js",
-
-        gravity: "top", // `top` or `bottom`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
-
-        style: {
-          zIndex: "999",
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          width: "250px",
-          padding: "10px",
-          borderRadius: "5px",
-          color: "white",
-          background: "var(--secondaryColor)",
-        },
-      }).showToast();
+      Toast(error.response.data.errorMessage);
     } finally {
       this.setIsLoading(false);
     }
@@ -178,27 +173,7 @@ class UserStore {
       this.setAuthenticated(true);
       this.fetchUserProgress(response.data.user.id);
     } catch (error: AxiosError | any) {
-      Toastify({
-        text: `${error.response.data.errorMessage}`,
-        className: "info",
-        duration: 4000,
-        destination: "https://github.com/apvarun/toastify-js",
-
-        gravity: "top", // `top` or `bottom`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
-
-        style: {
-          zIndex: "999",
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          width: "250px",
-          padding: "10px",
-          borderRadius: "5px",
-          color: "white",
-          background: "var(--secondaryColor)",
-        },
-      }).showToast();
+      Toast(error.response.data.errorMessage);
       console.error("Error during login:", error.message);
     } finally {
       this.setIsLoading(false);
@@ -214,26 +189,49 @@ class UserStore {
     localStorage.removeItem("token");
     // Reset user progress
     this.userProgress = {
-      totalGamesPlayed: 0,
-      totalQuestionsAnsweredGames: 0,
-      totalGoodAnswers: 0,
-      totalBadAnswers: 0,
-      currentLevel: 0,
-      averageScore: 0,
+      quizzes_played: 0,
+      total_correct_answers: 0,
+      total_incorrect_answers: 0,
+      current_level: 1,
+      questions_answered: 0,
+      questions_to_next_level: 10,
     };
   }
 
   setPlayedGames() {
-    this.userProgress.totalGamesPlayed += 1;
+    this.userProgress.total_correct_answers += 1;
   }
 
   setUserResult(result: IResult) {
     if (result) {
-      this.userProgress.totalGoodAnswers += result.good;
-      this.userProgress.totalBadAnswers += result.fault;
+      this.userProgress.quizzes_played += 1;
+      this.userProgress.total_correct_answers += result.good;
+      this.userProgress.total_incorrect_answers += result.fault;
       const totalAnswers = result.good + result.fault;
-      this.userProgress.totalQuestionsAnsweredGames += totalAnswers;
+      this.userProgress.questions_answered += totalAnswers;
+
+      const lvl = calculateLevel(
+        this.userProgress.total_correct_answers,
+        this.userProgress.questions_to_next_level
+      );
+
+      this.userProgress.current_level =
+        this.userProgress.current_level > lvl
+          ? this.userProgress.current_level
+          : lvl
+          ? (this.userProgress.questions_to_next_level +=
+              this.userProgress.questions_to_next_level)
+          : this.userProgress.questions_to_next_level;
+
+      this.userProgress.current_level < lvl
+        ? (this.userProgress.questions_to_next_level +=
+            this.userProgress.questions_to_next_level)
+        : this.userProgress.questions_to_next_level;
+
+      this.updateUserProgress(this.user.id, this.userProgress);
     }
+
+    console.log(this.userProgress);
   }
 }
 
