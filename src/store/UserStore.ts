@@ -3,7 +3,7 @@
 import { makeAutoObservable, observable, action } from "mobx";
 import api from "../service/api";
 import calculateLevel from "../utils/levelCalculator";
-import Toast from "../components/UI/Toastify/Toast";
+import Toast from "../components/UI/Toastify/Toastify";
 
 interface Credentials {
   email: string;
