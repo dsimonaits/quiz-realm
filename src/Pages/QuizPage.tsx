@@ -51,7 +51,7 @@ const QuizPage = observer(() => {
   const handleComplete = () => {
     UserStore.setUserResult(result);
     QuizStore.resetStore();
-    navigate("/");
+    navigate("/dashboard");
   };
 
   const handleExitQuiz = () => {
