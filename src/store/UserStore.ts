@@ -212,16 +212,14 @@ class UserStore {
         this.userProgress.total_correct_answers,
         this.userProgress.questions_to_next_level
       );
+      console.log(lvl);
 
       this.userProgress.current_level =
         this.userProgress.current_level > lvl
           ? this.userProgress.current_level
-          : lvl
-          ? (this.userProgress.questions_to_next_level +=
-              this.userProgress.questions_to_next_level)
-          : this.userProgress.questions_to_next_level;
+          : lvl;
 
-      this.userProgress.current_level < lvl
+      this.userProgress.current_level <= lvl
         ? (this.userProgress.questions_to_next_level +=
             this.userProgress.questions_to_next_level)
         : this.userProgress.questions_to_next_level;
