@@ -139,9 +139,7 @@ class UserStore {
       localStorage.setItem("token", token);
       this.setAuthenticated(true);
       this.fetchUserProgress(response.data.user.id);
-      console.log(this.userProgress);
     } catch (error: AxiosError | any) {
-      console.log(error);
       Toastify({
         text: `${error.response.data.errorMessage}`,
         className: "info",
