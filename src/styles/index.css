@@ -6,15 +6,13 @@
   --chakra-fontSizes-lg: "18px";
   --transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  --secondaryColor: #fcc822;
+  --primary: black;
+  --secondary: white;
+  --accent: #fcc822;
   --reactColor: #61dafb;
   --nodeColor: #68a063;
   --wrongColor: #dc143c;
   --correctColor: #008080;
-}
-
-* {
-  transition: all 250ms ease-in;
 }
 
 .fade-out {
