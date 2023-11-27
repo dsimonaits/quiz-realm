@@ -20,6 +20,7 @@ const CustomButton: FC<ButtonProps> = ({
     <Box
       as="button"
       display="flex"
+      justifyContent="center"
       alignItems="center"
       cursor="pointer"
       maxWidth="200px"
