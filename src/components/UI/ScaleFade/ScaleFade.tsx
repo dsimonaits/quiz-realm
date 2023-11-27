@@ -10,7 +10,7 @@ const ScaleFadeComponent: FC<IScale> = ({ children }) => {
     <ScaleFade
       in={true}
       style={{ position: "relative" }}
-      transition={{ exit: { delay: 1 }, enter: { duration: 0.5 } }}
+      transition={{ exit: { delay: 1 }, enter: { duration: 0.2 } }}
     >
       {children}
     </ScaleFade>
