@@ -15,7 +15,6 @@ interface FormValues {
   role: string;
   password: string;
   confirm_password: string;
-  age?: number;
 }
 
 interface IReg {
@@ -44,7 +43,6 @@ const registrationSchema = Yup.object().shape({
   confirm_password: Yup.string()
     .required("Confirm password is required")
     .oneOf([Yup.ref("password")], "Passwords must match"),
-  age: Yup.number().optional().typeError("Must be a number"),
 });
 
 const RegistrationForm: FC<IReg> = ({ children }) => {
@@ -57,7 +55,6 @@ const RegistrationForm: FC<IReg> = ({ children }) => {
             username: "",
             first_name: "",
             last_name: "",
-            age: "",
             email: "",
             password: "",
             confirm_password: "",
@@ -123,22 +120,6 @@ const RegistrationForm: FC<IReg> = ({ children }) => {
                       autoComplete="family-name"
                     />
                     <FormErrorMessage>{form.errors.last_name}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="age">
-                {({ field, form }: FieldProps<string, FormValues>) => (
-                  <FormControl
-                    {...FormControlStyles}
-                    isInvalid={!!(form.errors.age && form.touched.age)}
-                  >
-                    <Input
-                      {...InputStyles}
-                      {...field}
-                      placeholder="age"
-                      autoComplete="age"
-                    />
-                    <FormErrorMessage>{form.errors.age}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
