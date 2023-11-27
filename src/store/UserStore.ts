@@ -16,7 +16,6 @@ interface IResult {
 }
 
 interface IUser {
-  age: number;
   email: string;
   first_name: string;
   id: number;
@@ -61,7 +60,6 @@ class UserStore {
   isLoading = false;
 
   user: IUser = {
-    age: 0,
     email: "",
     first_name: "null",
     id: 0,
