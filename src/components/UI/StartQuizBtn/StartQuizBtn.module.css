@@ -48,7 +48,7 @@
   top: -3px;
   background: linear-gradient(
     45deg,
-    var(--secondaryColor),
+    var(--accent),
     var(--reactColor),
     var(--nodeColor)
   );
