@@ -15,6 +15,6 @@ export const FormControlStyles = {
   border: "2px solid",
   borderColor: "background",
   _focusWithin: {
-    shadow: "inset 10px 0px 0px 0px  var(--secondaryColor)",
+    shadow: "inset 10px 0px 0px 0px  var(--accent)",
   },
 };
