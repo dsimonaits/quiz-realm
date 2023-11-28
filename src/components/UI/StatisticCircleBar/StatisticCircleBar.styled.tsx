@@ -20,7 +20,7 @@ const AnimatedRatio = styled.div<RatioProps>`
   opacity: 0;
   animation: animate 0.1s linear forwards;
   transform: rotate(${(props) => props.$deg}deg);
-  animation-delay: ${(props) => props.$index / 80}s;
+  animation-delay: ${(props) => props.$index / 40}s;
 
   @keyframes animate {
     to {
