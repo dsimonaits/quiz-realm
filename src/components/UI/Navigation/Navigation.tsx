@@ -24,9 +24,11 @@ const Navigation: FC<NavProps> = ({ links, isMenu = false }) => {
             </ChakraLink>
           ))
         : links.map((link: ILink) => (
-            <MenuItem key={link.name}>
+            <MenuItem display="block" p="0" key={link.name}>
               <ChakraLink
+                p="6px 12px 6px 12px"
                 as={ReactRouterLink}
+                display="block"
                 to={link.path}
                 _activeLink={{ color: "accent", fontWeight: "bold" }}
                 _hover={{ color: "accent" }}

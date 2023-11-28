@@ -1,6 +1,14 @@
 import Section from "../components/Layouts/Section/Section";
 import MainContainer from "../components/Layouts/Container/Container";
-import { Box, HStack, Heading, List, ListItem, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Heading,
+  List,
+  ListItem,
+  VStack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import UserStore from "../store/UserStore";
 import { IProgress } from "../store/UserStore";
 import ProgressCard from "../components/UI/ProgressCard/ProgressCard";
@@ -13,10 +21,19 @@ import { FaUserGraduate } from "react-icons/fa";
 import UserCard from "../components/UI/UserCard/UserCard";
 import StatisticCircleBar from "../components/UI/StatisticCircleBar/StatisticCircleBar";
 import ScaleFadeComponent from "../components/UI/ScaleFade/ScaleFade";
+import QuizModal from "../components/UI/Modal/Modal";
+import EditUserForm from "../components/form/EditUserForm/EditUserForm";
+import { observer } from "mobx-react-lite";
 
-const DashboardPage = () => {
+const DashboardPage = observer(() => {
   const userProgress: IProgress = UserStore.userProgress;
-  const { username } = UserStore.user;
+  const User = UserStore.user;
+
+  const editProfileModalDisclosure = useDisclosure();
+
+  const editUserHandle = () => {
+    editProfileModalDisclosure.onOpen();
+  };
 
   const GoodFaultRatio =
     userProgress.questions_answered === 0
@@ -55,10 +72,11 @@ const DashboardPage = () => {
             <Box>
               <UserCard
                 icon={<FaUserGraduate />}
-                userName={username}
+                user={User}
                 level={userProgress.current_level}
                 score={userProgress.total_correct_answers}
                 scoreToNextLevel={userProgress.questions_to_next_level}
+                onClick={editUserHandle}
               />
             </Box>
             <Box>
@@ -93,8 +111,15 @@ const DashboardPage = () => {
           </VStack>
         </MainContainer>
       </Section>
+      <QuizModal
+        styles={{ display: "flex", justifyContent: "center" }}
+        disclosure={editProfileModalDisclosure}
+        modalTitle="Edit profile"
+      >
+        <EditUserForm />
+      </QuizModal>
     </ScaleFadeComponent>
   );
-};
+});
 
 export default DashboardPage;

@@ -7,7 +7,7 @@ interface IStatistic {
   ratio: number;
 }
 
-const StatisticCircleBar: FC<IStatistic> = ({ ratio }) => {
+const StatisticCircleBar: FC<IStatistic> = React.memo(({ ratio }) => {
   const segments = Array.from({ length: 100 }, (_, index) => index + 1);
 
   return (
@@ -55,6 +55,6 @@ const StatisticCircleBar: FC<IStatistic> = ({ ratio }) => {
       </Flex>
     </VStack>
   );
-};
+});
 
 export default StatisticCircleBar;

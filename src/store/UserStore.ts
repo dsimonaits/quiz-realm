@@ -15,7 +15,7 @@ interface IResult {
   fault: number;
 }
 
-interface IUser {
+export interface IUser {
   email: string;
   first_name: string;
   id: number;
@@ -159,10 +159,9 @@ class UserStore {
     }
   }
   async register(body: Credentials) {
-    let response;
     try {
       this.setIsLoading(true);
-      response = await api.post("/api/v1/users", body);
+      const response = await api.post("/api/v1/users", body);
 
       this.user = response.data.user;
 
@@ -172,7 +171,30 @@ class UserStore {
       this.fetchUserProgress(response.data.user.id);
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
-      console.error("Error during login:", error.message);
+      console.error("Error during registration", error.message);
+    } finally {
+      this.setIsLoading(false);
+    }
+  }
+  async updateUserProfile(body: Credentials) {
+    try {
+      this.setIsLoading(true);
+      const id = this.user.id;
+
+      const nonEmptyValues = Object.fromEntries(
+        Object.entries(body).filter(([_, value]) => value !== "")
+      );
+
+      const response = await api.patch(
+        `/api/v1/users/id/${id}`,
+        nonEmptyValues
+      );
+
+      this.user = { ...this.user, ...response.data };
+      console.log(response);
+    } catch (error: AxiosError | any) {
+      Toast(error.response.data.errorMessage);
+      console.error("Error during update", error.message);
     } finally {
       this.setIsLoading(false);
     }
@@ -212,14 +234,10 @@ class UserStore {
         this.userProgress.total_correct_answers,
         this.userProgress.questions_to_next_level
       );
-      console.log(lvl);
 
-      this.userProgress.current_level =
-        this.userProgress.current_level > lvl
-          ? this.userProgress.current_level
-          : lvl;
+      this.userProgress.current_level = this.userProgress.current_level + lvl;
 
-      this.userProgress.current_level <= lvl
+      lvl === 1
         ? (this.userProgress.questions_to_next_level +=
             this.userProgress.questions_to_next_level)
         : this.userProgress.questions_to_next_level;

@@ -1,3 +1,7 @@
+import React, { FC } from "react";
+import { FaAnglesDown, FaAnglesUp } from "react-icons/fa6";
+import { IoPerson as FirstName } from "react-icons/io5";
+import { MdFamilyRestroom as Surname, MdEmail as Email } from "react-icons/md";
 import {
   Heading,
   Image,
@@ -6,25 +10,34 @@ import {
   HStack,
   Flex,
   Box,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  ListItem,
+  List,
 } from "@chakra-ui/react";
-import React, { FC } from "react";
+import { IUser } from "../../../store/UserStore";
+import CustomButton from "../Button/Button";
 
 interface IUserCard {
   image?: string;
   icon?: React.ReactElement;
-  userName: string;
+  user: IUser;
   level: number;
   score: number;
   scoreToNextLevel?: number;
+  onClick: () => void;
 }
 
 const UserCard: FC<IUserCard> = ({
   image,
   icon,
-  userName,
+  user,
   level,
   score,
   scoreToNextLevel,
+  onClick,
 }) => {
   return (
     <VStack
@@ -60,7 +73,7 @@ const UserCard: FC<IUserCard> = ({
           )}
         </Flex>
         <Heading as="h3" fontSize={[20]}>
-          {userName}
+          {user.username}
         </Heading>
       </HStack>
 
@@ -83,6 +96,38 @@ const UserCard: FC<IUserCard> = ({
           </Text>
         </HStack>
       </HStack>
+      <Accordion allowMultiple>
+        <AccordionItem>
+          {({ isExpanded }) => (
+            <>
+              <AccordionButton justifyContent="center">
+                {isExpanded ? <FaAnglesUp /> : <FaAnglesDown />}
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                <List display="flex" flexDirection="column" gap="10px">
+                  <ListItem display="flex" alignItems="center" gap="10px">
+                    <FirstName />
+                    <Text>{user.first_name}</Text>
+                  </ListItem>
+                  <ListItem display="flex" alignItems="center" gap="10px">
+                    <Surname />
+                    <Text>{user.last_name}</Text>
+                  </ListItem>
+                  <ListItem display="flex" alignItems="center" gap="10px">
+                    <Email />
+                    <Text>{user.email}</Text>
+                  </ListItem>
+                  <ListItem display="flex" alignItems="center" gap="10px">
+                    <CustomButton onClickHandler={onClick}>
+                      Edit profile
+                    </CustomButton>
+                  </ListItem>
+                </List>
+              </AccordionPanel>
+            </>
+          )}
+        </AccordionItem>
+      </Accordion>
     </VStack>
   );
 };
