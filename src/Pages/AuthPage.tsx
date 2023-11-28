@@ -15,8 +15,6 @@ const AuthPage = () => {
     setFormType(formType === "Login" ? "Register" : "Login");
   };
 
-  // const onSubmitHandler = () => {};
-
   return (
     <Section style={{ py: "60px" }}>
       <MainContainer

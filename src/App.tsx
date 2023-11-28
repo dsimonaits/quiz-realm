@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import Themes from "./styles/theme/styles";
 import Loader from "./components/UI/Loader/Loader";
@@ -10,6 +10,7 @@ import PublicRoute from "./routes/PublicRoute";
 import UserStore from "./store/UserStore";
 import { observer } from "mobx-react-lite";
 import DashboardPage from "./Pages/DashboardPage";
+import ConnectingToDB from "./components/UI/ConnectingToDB/ConnectingToDB";
 const MainLayout = lazy(
   () => import("./components/Layouts/MainLayout/MainLayout")
 );
@@ -20,8 +21,24 @@ const About = lazy(() => import("./Pages/AboutPage"));
 
 const App = observer(() => {
   const { theme } = useTheme();
+  const [connectingToDB, setConnectingToDB] = useState(false);
 
   const { isAuthenticated, isLoading } = UserStore;
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      isLoading && setConnectingToDB(true);
+    }, 5000);
+
+    if (!isLoading) {
+      clearTimeout(timeoutId);
+      setConnectingToDB(false);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [isLoading]);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -31,9 +48,12 @@ const App = observer(() => {
 
   return (
     <ChakraProvider theme={Themes[theme]}>
-      {isLoading ? (
-        <Loader />
+      {isLoading && connectingToDB ? (
+        <ConnectingToDB />
       ) : (
+        isLoading && <Loader />
+      )}
+      {!isLoading && !connectingToDB ? (
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route
@@ -62,7 +82,7 @@ const App = observer(() => {
             <Route path="/quiz-page" element={<QuizPage />} />
           </Routes>
         </Suspense>
-      )}
+      ) : null}
     </ChakraProvider>
   );
 });

@@ -55,7 +55,6 @@ const StartLearning: FC<Learning> = ({ children }) => {
         />
       ),
     },
-    // Add more steps as needed
   ];
 
   const currentStepData = steps[currentStep];

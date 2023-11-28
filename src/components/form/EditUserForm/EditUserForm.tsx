@@ -45,7 +45,6 @@ const updateUserSchema = Yup.object().shape({
       }
       return true;
     }),
-  // .oneOf([Yup.ref("password")], "Passwords must match"),
 });
 
 const EditUserForm: FC = () => {

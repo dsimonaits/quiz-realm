@@ -7,8 +7,8 @@ const Toast = (message: string) => {
     duration: 4000,
     destination: "https://github.com/apvarun/toastify-js",
 
-    gravity: "top", // `top` or `bottom`
-    stopOnFocus: true, // Prevents dismissing of toast on hover
+    gravity: "top",
+    stopOnFocus: true,
 
     style: {
       zIndex: "999",

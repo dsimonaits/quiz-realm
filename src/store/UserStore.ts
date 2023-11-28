@@ -200,13 +200,12 @@ class UserStore {
   }
 
   logout() {
-    // Remove the token from Axios headers
     delete api.defaults.headers.common["Authorization"];
-    // Set the authentication status to false
+
     this.setAuthenticated(false);
 
     localStorage.removeItem("token");
-    // Reset user progress
+
     this.userProgress = {
       quizzes_played: 0,
       total_correct_answers: 0,

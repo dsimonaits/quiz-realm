@@ -7,12 +7,18 @@ export const MainTheme = extendTheme({
   },
 
   colors: {
-    primary: "#000000", // black
+    primary: "#000000",
     secondary: "#FFFFFF",
     accent: "#fcc822", // JS yellow
     background: "#d1d1d1",
     wrongColor: "#dc143c",
     correctColor: "#008080",
+    Quiz: {
+      100: "#fcc822",
+      200: "#fcc822",
+      500: "#fcc822",
+      600: "#fcc822",
+    },
   },
   fonts: {
     heading: "Poppins, sans-serif",
@@ -53,7 +59,7 @@ export const MongoDB = extendTheme(
     colors: {
       primary: "#000000",
       secondary: "#FFFFFF",
-      accent: "#4DB33D", // Node green
+      accent: "#4DB33D", // Mongo green
       background: "#d1d1d1",
       wrongColor: "#dc143c",
       correctColor: "#008080",
@@ -66,7 +72,7 @@ export const Mongoose = extendTheme(
     colors: {
       primary: "#000000",
       secondary: "#FFFFFF",
-      accent: "#ff005d", // Node green
+      accent: "#ff005d", // Mongoose red
       background: "#d1d1d1",
       wrongColor: "#dc143c",
       correctColor: "#008080",
