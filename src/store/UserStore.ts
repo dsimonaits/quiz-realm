@@ -191,7 +191,6 @@ class UserStore {
       );
 
       this.user = { ...this.user, ...response.data };
-      console.log(response);
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
       console.error("Error during update", error.message);
@@ -244,8 +243,6 @@ class UserStore {
 
       this.updateUserProgress(this.user.id, this.userProgress);
     }
-
-    console.log(this.userProgress);
   }
 }
 

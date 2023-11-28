@@ -35,7 +35,7 @@ const Header = () => {
         <MainContainer>
           <Flex justifyContent="space-between" alignItems="center">
             <Logo />
-            <Hide breakpoint="(max-width: 768px)">
+            <Hide breakpoint="(max-width: 900px)">
               <HStack spacing="30px">
                 <Navigation links={Links} />
                 <CustomButton onClickHandler={handleLogout}>
@@ -43,7 +43,7 @@ const Header = () => {
                 </CustomButton>
               </HStack>
             </Hide>
-            <Show breakpoint="(max-width: 768px)">
+            <Show breakpoint="(max-width: 900px)">
               <Menu>
                 <MenuButton
                   as={IconButton}

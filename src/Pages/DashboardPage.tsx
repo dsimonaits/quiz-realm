@@ -35,13 +35,9 @@ const DashboardPage = observer(() => {
     editProfileModalDisclosure.onOpen();
   };
 
-  const GoodFaultRatio =
-    userProgress.questions_answered === 0
-      ? 0
-      : Math.floor(
-          (userProgress.total_correct_answers * 100) /
-            userProgress.questions_answered
-        );
+  //
+
+  const GoodFaultRatio = 80;
 
   const userProgressCards = [
     {

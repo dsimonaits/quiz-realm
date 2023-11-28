@@ -8,7 +8,13 @@ interface IStatistic {
 }
 
 const StatisticCircleBar: FC<IStatistic> = React.memo(({ ratio }) => {
-  const segments = Array.from({ length: 100 }, (_, index) => index + 1);
+  const segmentsCount = 50;
+  const completedSegments = Math.floor((ratio / 100) * segmentsCount);
+
+  const segments = Array.from({ length: segmentsCount }, (_, index) => ({
+    angle: (360 / segmentsCount) * (index + 1),
+    color: index < completedSegments ? "var(--primary)" : "var(--secondary)",
+  }));
 
   return (
     <VStack
@@ -49,8 +55,14 @@ const StatisticCircleBar: FC<IStatistic> = React.memo(({ ratio }) => {
           </HStack>
         </VStack>
 
-        {segments.map((_, index) => (
-          <Ratio key={index} $index={index} $ratio={ratio}></Ratio>
+        {segments.map((segment, index) => (
+          <Ratio
+            key={index}
+            $index={index}
+            $ratio={ratio}
+            $deg={segment.angle}
+            $color={segment.color}
+          ></Ratio>
         ))}
       </Flex>
     </VStack>
