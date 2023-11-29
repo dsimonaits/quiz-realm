@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { FC } from "react";
 import Welcome from "../components/Layouts/Welcome/Welcome";
 import Section from "../components/Layouts/Section/Section";
