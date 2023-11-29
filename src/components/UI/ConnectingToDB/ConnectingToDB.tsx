@@ -53,13 +53,17 @@ const ConnectingToDB = () => {
   return (
     <Box
       as="section"
-      position="absolute"
-      width="100vw"
-      height="80vh"
-      background="secondary"
-      top="-50%"
-      left="-50%"
-      transform="translate(50%, 50%)"
+      position="fixed"
+      display="flex"
+      pt="200px"
+      justifyContent="center"
+      top="50%"
+      left="50%"
+      transform="translate(-50%, -50%)"
+      width="100%"
+      height="100%"
+      background="white"
+      zIndex="999"
     >
       <MainContainer style={{ width: ["200px", "400px", "600px"] }}>
         <Heading as="h1" fontSize={[15, 20, 25]} textAlign="center">

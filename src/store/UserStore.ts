@@ -5,6 +5,7 @@ import api from "../service/api";
 import calculateLevel from "../utils/levelCalculator";
 import Toast from "../components/UI/Toastify/Toastify";
 
+//Types and interfaces
 interface Credentials {
   email: string;
   password: string;
@@ -47,6 +48,7 @@ export interface IProgress {
   current_level: number;
 }
 
+//store
 class UserStore {
   static instance: UserStore | null = null;
 
@@ -88,10 +90,13 @@ class UserStore {
       setAuthenticated: action,
       setPlayedGames: action,
       setUserResult: action,
-      fetchUserProgress: action,
+      setUser: action,
+      updateUser: action,
+      setUserProgress: action,
     });
   }
 
+  //actions
   setIsLoading(status: boolean) {
     this.isLoading = status;
   }
@@ -100,17 +105,76 @@ class UserStore {
     this.isAuthenticated = status;
   }
 
-  async fetchUserProgress(id: number) {
+  setUser = (user: IUser) => {
+    this.user = user;
+  };
+
+  updateUser = (updatedUser: IUser) => {
+    this.user = { ...this.user, ...updatedUser };
+  };
+
+  setUserProgress = (progress: IProgress) => {
+    this.userProgress = progress;
+  };
+
+  setPlayedGames() {
+    this.userProgress.total_correct_answers += 1;
+  }
+
+  resetUserProgress = () => {
+    this.userProgress = {
+      quizzes_played: 0,
+      total_correct_answers: 0,
+      total_incorrect_answers: 0,
+      current_level: 1,
+      questions_answered: 0,
+      questions_to_next_level: 10,
+    };
+  };
+
+  setUserResult(result: IResult) {
+    console.log("Setting user result ", result);
+    if (result) {
+      this.userProgress.quizzes_played += 1;
+      this.userProgress.total_correct_answers += result.good;
+      this.userProgress.total_incorrect_answers += result.fault;
+      const totalAnswers = result.good + result.fault;
+      this.userProgress.questions_answered += totalAnswers;
+
+      const lvl = calculateLevel(
+        this.userProgress.total_correct_answers,
+        this.userProgress.questions_to_next_level
+      );
+
+      this.userProgress.current_level = this.userProgress.current_level + lvl;
+
+      lvl === 1
+        ? (this.userProgress.questions_to_next_level +=
+            this.userProgress.questions_to_next_level)
+        : this.userProgress.questions_to_next_level;
+
+      this.updateUserProgress(this.user.id, this.userProgress);
+
+      console.log("Updated user result");
+    }
+  }
+
+  //operations
+  async fetchUserProgress() {
+    console.log("Fetching user progress ", this.userProgress);
     try {
       this.setIsLoading(true);
-      const response = await api.get(`/api/v1/user-progress/id/${id}`);
+      const response = await api.get(
+        `/api/v1/user-progress/id/${this.user.id}`
+      );
       const { id: progressId, user_id, ...userProgress } = response.data;
-
-      this.userProgress = userProgress;
+      this.setUserProgress(userProgress);
+      console.log("User progress ", this.userProgress);
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
     } finally {
       this.setIsLoading(false);
+      console.log("Fetching over");
     }
   }
 
@@ -118,7 +182,7 @@ class UserStore {
     try {
       this.setIsLoading(true);
       const response = await api.patch(`/api/v1/user-progress/id/${id}`, body);
-      console.log(response.data);
+      this.setUserProgress(response.data.userProgress);
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
     } finally {
@@ -131,9 +195,9 @@ class UserStore {
       this.setIsLoading(true);
       const response = await api.get("/api/v1/users/whoami");
 
-      this.user = response.data.user;
+      this.setUser(response.data.user);
       this.setAuthenticated(true);
-      this.fetchUserProgress(response.data.user.id);
+      this.fetchUserProgress();
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
     } finally {
@@ -146,12 +210,12 @@ class UserStore {
       this.setIsLoading(true);
       const response = await api.post("/api/v1/users/login", body);
 
-      this.user = response.data.user;
+      this.setUser(response.data.user);
 
       const token = response.data.token;
       localStorage.setItem("token", token);
       this.setAuthenticated(true);
-      this.fetchUserProgress(response.data.user.id);
+      this.fetchUserProgress();
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
     } finally {
@@ -163,12 +227,12 @@ class UserStore {
       this.setIsLoading(true);
       const response = await api.post("/api/v1/users", body);
 
-      this.user = response.data.user;
+      this.setUser(response.data.user);
 
       const token = response.data.token;
       localStorage.setItem("token", token);
       this.setAuthenticated(true);
-      this.fetchUserProgress(response.data.user.id);
+      this.fetchUserProgress();
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
       console.error("Error during registration", error.message);
@@ -190,7 +254,7 @@ class UserStore {
         nonEmptyValues
       );
 
-      this.user = { ...this.user, ...response.data };
+      this.updateUser(response.data);
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
       console.error("Error during update", error.message);
@@ -206,42 +270,7 @@ class UserStore {
 
     localStorage.removeItem("token");
 
-    this.userProgress = {
-      quizzes_played: 0,
-      total_correct_answers: 0,
-      total_incorrect_answers: 0,
-      current_level: 1,
-      questions_answered: 0,
-      questions_to_next_level: 10,
-    };
-  }
-
-  setPlayedGames() {
-    this.userProgress.total_correct_answers += 1;
-  }
-
-  setUserResult(result: IResult) {
-    if (result) {
-      this.userProgress.quizzes_played += 1;
-      this.userProgress.total_correct_answers += result.good;
-      this.userProgress.total_incorrect_answers += result.fault;
-      const totalAnswers = result.good + result.fault;
-      this.userProgress.questions_answered += totalAnswers;
-
-      const lvl = calculateLevel(
-        this.userProgress.total_correct_answers,
-        this.userProgress.questions_to_next_level
-      );
-
-      this.userProgress.current_level = this.userProgress.current_level + lvl;
-
-      lvl === 1
-        ? (this.userProgress.questions_to_next_level +=
-            this.userProgress.questions_to_next_level)
-        : this.userProgress.questions_to_next_level;
-
-      this.updateUserProgress(this.user.id, this.userProgress);
-    }
+    this.resetUserProgress();
   }
 }
 

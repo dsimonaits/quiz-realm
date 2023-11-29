@@ -23,7 +23,9 @@ const App = observer(() => {
   const { theme } = useTheme();
   const [connectingToDB, setConnectingToDB] = useState(false);
 
-  const { isAuthenticated, isLoading } = UserStore;
+  const { isLoading } = UserStore;
+
+  const token = localStorage.getItem("token") ? true : false;
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -41,48 +43,43 @@ const App = observer(() => {
   }, [isLoading]);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (token) {
       UserStore.currentUser();
     }
-  }, []);
+  }, [token]);
 
   return (
     <ChakraProvider theme={Themes[theme]}>
-      {isLoading && connectingToDB ? (
-        <ConnectingToDB />
-      ) : (
-        isLoading && <Loader />
-      )}
-      {!isLoading && !connectingToDB ? (
-        <Suspense fallback={<Loader />}>
-          <Routes>
-            <Route
-              path="/auth"
-              element={
-                <PublicRoute isAuth={isAuthenticated} redirectTo="/">
-                  <AuthPage />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <PrivateRoute isAuth={isAuthenticated} redirectTo="/auth">
-                  <MainLayout />
-                </PrivateRoute>
-              }
-            >
-              <Route index element={<HomePage />} />
-              <Route path="how-it-works" element={<HowItWorks />} />
-              <Route path="about" element={<About />} />
-              <Route path="dashboard" element={<DashboardPage />} />
+      {connectingToDB ? <ConnectingToDB /> : null}
+      {isLoading ? <Loader /> : null}
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route
+            path="/auth"
+            element={
+              <PublicRoute isAuth={token} redirectTo="/">
+                <AuthPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute isAuth={token} redirectTo="/auth">
+                <MainLayout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<HomePage />} />
+            <Route path="how-it-works" element={<HowItWorks />} />
+            <Route path="about" element={<About />} />
+            <Route path="dashboard" element={<DashboardPage />} />
 
-              <Route path="*" element={<HomePage />} />
-            </Route>
-            <Route path="/quiz-page" element={<QuizPage />} />
-          </Routes>
-        </Suspense>
-      ) : null}
+            <Route path="*" element={<HomePage />} />
+          </Route>
+          <Route path="/quiz-page" element={<QuizPage />} />
+        </Routes>
+      </Suspense>
     </ChakraProvider>
   );
 });

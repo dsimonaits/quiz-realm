@@ -8,6 +8,7 @@ import CustomButton from "../../UI/Button/Button";
 import StyledCustomRadios from "../../UI/Radio/StyledCustomRadios";
 import Toast from "../../UI/Toast/Toast";
 import { Categories } from "../../../types/types";
+import UserStore from "../../../store/UserStore";
 
 type Learning = {
   children: ReactNode;
@@ -83,23 +84,23 @@ const StartLearning: FC<Learning> = ({ children }) => {
       quizStoreInstance.setTopics(selectedTopics);
       quizStoreInstance.setStartQuiz();
       quizPageModalDisclosure.onClose();
+      UserStore.fetchUserProgress();
     } else {
       setCurrentStep(currentStep + 1);
     }
   };
 
+  const onStartLearning = async () => {
+    await QuizStore.getAllQuestions();
+    setCurrentStep(0);
+    setSelectedCategory("JavaScript");
+    setSelectedTopics([]);
+    quizPageModalDisclosure.onOpen();
+  };
+
   return (
     <>
-      <QuizButton
-        onClickHandler={() => {
-          setCurrentStep(0);
-          setSelectedCategory("JavaScript");
-          setSelectedTopics([]);
-          quizPageModalDisclosure.onOpen();
-        }}
-      >
-        {children}
-      </QuizButton>
+      <QuizButton onClickHandler={onStartLearning}>{children}</QuizButton>
       <QuizModal
         disclosure={quizPageModalDisclosure}
         modalTitle={currentStepData.title}

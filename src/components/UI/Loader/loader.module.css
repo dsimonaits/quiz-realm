@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999; /* Ensure it's on top of other content */
+  z-index: 998; /* Ensure it's on top of other content */
 }
 
 .loader {

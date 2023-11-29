@@ -4,6 +4,7 @@ import { makeAutoObservable, observable, action } from "mobx";
 import { IQuiz, Categories } from "../types/types";
 import api from "../service/api";
 import Toast from "../components/UI/Toastify/Toastify";
+import UserStore from "./UserStore";
 
 interface AxiosError {
   response?: {
@@ -44,6 +45,7 @@ class Store {
       selectedAnswer: observable,
       getAllQuestions: action,
       setStartQuiz: action,
+      setQuizzesData: action,
       setCategory: action,
       getAllCategories: action,
       setTopics: action,
@@ -58,15 +60,20 @@ class Store {
     this.startQuiz = !this.startQuiz;
   }
 
+  setQuizzesData = (data: IQuiz[]) => {
+    this.QuizzesData = data;
+  };
+
   async getAllQuestions() {
     try {
+      UserStore.setIsLoading(true);
       const { data } = await api.get("/api/v1/questions/");
 
-      this.QuizzesData = data.questions;
-
-      console.log(this.QuizzesData);
+      this.setQuizzesData(data.questions);
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
+    } finally {
+      UserStore.setIsLoading(false);
     }
   }
 
