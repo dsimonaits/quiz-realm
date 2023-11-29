@@ -22,8 +22,10 @@ const QuizResult: FC<IQuizResult> = ({ result, btnHandle }) => {
     <>
       <VStack
         justify="center"
+        align="center"
         mx="auto"
         maxWidth={["300px", "400px", "500px"]}
+        height="80vh"
         p="20px"
       >
         <Box position="relative">
@@ -37,21 +39,24 @@ const QuizResult: FC<IQuizResult> = ({ result, btnHandle }) => {
             left="50%"
             transform="translate(-50%, -50%)"
           >
-            <Heading as="h1" fontSize={[20, 30, 30]}>
+            <Heading as="h1" fontSize={[20, 30, 30]} color="secondary">
               You score
             </Heading>
-            <Text color="secondary">
-              Good:{" "}
-              <Box as="span" color="#32CD32">
-                {result.good}
-              </Box>
-            </Text>
-            <Text color="secondary">
-              Fault:{" "}
-              <Box as="span" color="#CD5C5C">
-                {result.fault}
-              </Box>
-            </Text>
+            <Box color="secondary" fontSize={25}>
+              {" "}
+              <Text>
+                Good:{" "}
+                <Box as="span" color="primary">
+                  {result.good}
+                </Box>
+              </Text>
+              <Text>
+                Fault:{" "}
+                <Box as="span" color="primary">
+                  {result.fault}
+                </Box>
+              </Text>
+            </Box>
           </Flex>
         </Box>
 
