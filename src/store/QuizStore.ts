@@ -1,6 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { makeAutoObservable, observable, action } from "mobx";
 import { IQuiz, Categories } from "../types/types";
-import { QuizData } from "../MockQuizData";
+import api from "../service/api";
+import Toast from "../components/UI/Toastify/Toastify";
+
+interface AxiosError {
+  response?: {
+    data?: any;
+    status?: number;
+    statusText?: string;
+    headers?: any;
+    config?: any;
+  };
+  request?: any;
+  message?: string;
+  config?: any;
+}
 
 class Store {
   static instance: Store | null = null;
@@ -12,7 +28,7 @@ class Store {
     return this.instance;
   }
 
-  QuizzesData: IQuiz[] = [...QuizData];
+  QuizzesData: IQuiz[] = [];
   StartQuizData: IQuiz[] = [];
   startQuiz: true | false = false;
   selectedTopics: string[] = [];
@@ -26,6 +42,7 @@ class Store {
       selectedCategory: observable,
       selectedTopics: observable,
       selectedAnswer: observable,
+      getAllQuestions: action,
       setStartQuiz: action,
       setCategory: action,
       getAllCategories: action,
@@ -41,9 +58,21 @@ class Store {
     this.startQuiz = !this.startQuiz;
   }
 
+  async getAllQuestions() {
+    try {
+      const { data } = await api.get("/api/v1/questions/");
+
+      this.QuizzesData = data.questions;
+
+      console.log(this.QuizzesData);
+    } catch (error: AxiosError | any) {
+      Toast(error.response.data.errorMessage);
+    }
+  }
+
   getAllCategories() {
     const categories: Categories[] = [
-      ...new Set(QuizData.map((quiz) => quiz.category)),
+      ...new Set(this.QuizzesData.map((quiz) => quiz.category)),
     ];
     return categories;
   }
