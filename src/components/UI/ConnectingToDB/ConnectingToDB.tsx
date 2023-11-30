@@ -63,6 +63,7 @@ const ConnectingToDB = () => {
       width="100%"
       height="100%"
       background="white"
+      pointerEvents="none"
       zIndex="999"
     >
       <MainContainer style={{ width: ["200px", "400px", "600px"] }}>
