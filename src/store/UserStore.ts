@@ -133,7 +133,6 @@ class UserStore {
   };
 
   setUserResult(result: IResult) {
-    console.log("Setting user result ", result);
     if (result) {
       this.userProgress.quizzes_played += 1;
       this.userProgress.total_correct_answers += result.good;
@@ -154,14 +153,11 @@ class UserStore {
         : this.userProgress.questions_to_next_level;
 
       this.updateUserProgress(this.user.id, this.userProgress);
-
-      console.log("Updated user result");
     }
   }
 
   //operations
   async fetchUserProgress() {
-    console.log("Fetching user progress ", this.userProgress);
     try {
       this.setIsLoading(true);
       const response = await api.get(
@@ -169,12 +165,10 @@ class UserStore {
       );
       const { id: progressId, user_id, ...userProgress } = response.data;
       this.setUserProgress(userProgress);
-      console.log("User progress ", this.userProgress);
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
     } finally {
       this.setIsLoading(false);
-      console.log("Fetching over");
     }
   }
 
@@ -196,6 +190,10 @@ class UserStore {
       const response = await api.get("/api/v1/users/whoami");
 
       this.setUser(response.data.user);
+
+      const token = response.data.token;
+
+      localStorage.setItem("token", token);
       this.setAuthenticated(true);
       this.fetchUserProgress();
     } catch (error: AxiosError | any) {
