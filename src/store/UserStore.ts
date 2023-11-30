@@ -200,6 +200,7 @@ class UserStore {
       this.fetchUserProgress();
     } catch (error: AxiosError | any) {
       Toast(error.response.data.errorMessage);
+      localStorage.removeItem("token");
     } finally {
       this.setIsLoading(false);
     }
