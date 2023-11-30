@@ -23,7 +23,7 @@ const App = observer(() => {
   const { theme } = useTheme();
   const [connectingToDB, setConnectingToDB] = useState(false);
 
-  const { isLoading } = UserStore;
+  const { isLoading, isAuthenticated } = UserStore;
 
   const token = localStorage.getItem("token") ? true : false;
 
@@ -57,7 +57,7 @@ const App = observer(() => {
           <Route
             path="/auth"
             element={
-              <PublicRoute isAuth={token} redirectTo="/">
+              <PublicRoute isAuth={token && isAuthenticated} redirectTo="/">
                 <AuthPage />
               </PublicRoute>
             }
